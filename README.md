@@ -1,38 +1,63 @@
 # PsySight (心理委员俺不得劲)
 
-**更新时间**: 2026-01-13
-**项目状态**: 开发中
+**版本**: v4.0 (提案对应版本) | **状态**: 核心功能已跑通 | **更新时间**: 2026-01-14
 
 ## 1. 项目概述
-PsySight 是一个基于 Next.js 和 Flask 构建的心理健康辅助工具。它通过 AI 聊天、心理量表测评、人脸表情监测以及绘画投射分析，为用户提供多维度的心理状态评估。
+
+**PsySight** 是一个专为大学生群体设计的**智能心理健康助理系统**。针对传统校内咨询预约难、门槛高以及纸质量表枯燥乏味的问题，我们利用 AI 大模型与计算机视觉技术，提供一个全天候在线、温暖共情的心理支持平台。
 
 > **⚠️ 重要免责声明**: 
-> 本工具仅供心理支持与筛查参考，其生成的任何报告和建议均不构成医疗诊断或专业心理治疗建议。如有严重心理困扰，请务必寻求专业医疗机构的帮助。
+> 本系统仅提供心理健康筛查、情绪支持与自助建议，**不具备医疗诊断功能**。系统生成的报告仅供参考，如有严重心理危机（如自伤/自杀倾向），请务必寻求专业医生或急救热线的帮助。
 
-## 2. 核心功能
-- **智能分诊聊天**: 基于 Gemini 3 Flash 的 AI 助手，提供情绪安抚并推荐相关心理量表。
-- **多模态测评**: 在进行标准心理量表（如 PHQ-9）测试时，通过 `face-api.js` 在客户端实时监测表情。
-- **AI 综合报告**: 整合得分、聊天背景及测评时的情绪数据，生成个性化的 Markdown 报告。
-- **绘画分析**: 提供绘图板，利用视觉 AI 对用户画作进行“房树人”心理投射分析。
+## 2. 核心功能模块
 
-## 3. 技术栈
-- **前端**: Next.js 14 (App Router), TypeScript, Tailwind CSS, shadcn/ui
-- **后端**: Flask, SQLAlchemy (MySQL), Gemini API SDK
-- **算法**: `face-api.js`
+### 💬 模块一：智能对话与分诊 (Chat & Triage)
+- **温暖陪伴**: 基于 Gemini 3 Flash 的 AI 助手，以共情、非评判的态度倾听用户困扰。
+- **智能推荐**: 自动分析对话内容（如“失眠”、“焦虑”），精准推荐对应的专业心理量表。
+- **UI 体验**: 采用仿 ChatGPT 的沉浸式全屏对话界面。
 
-## 4. 快速开始 (开发环境)
+### 📹 模块二：多模态量表评测 (Multimodal Assessment)
+- **动态量表**: 支持 PHQ-9 (抑郁)、GAD-7 (焦虑)、AIS (失眠) 等标准量表。
+- **情绪监测**: 利用 `face-api.js` 在客户端实时捕捉面部情绪（Happy, Sad, Neutral 等），辅助判断用户答题时的真实状态。
+- **隐私保护**: 摄像头数据仅在本地/内存处理，不进行持久化存储。
 
-### 后端设置
-1. 进入 `backend` 目录。
-2. 创建虚拟环境: `python -m venv venv`。
-3. 安装依赖: `pip install -r requirements.txt` (待生成)。
-4. 配置 `.env` 文件。
-5. 运行迁移或种子脚本: `python seed.py`。
+### 📊 模块三：AI 综合报告 (Report)
+- **多维分析**: 结合“量表得分”与“测试期间平均情绪分布”，生成个性化的心理分析报告。
+- **行动建议**: 提供睡眠卫生、运动助眠、正念冥想等具体可执行的生活建议。
 
-### 前端设置
-1. 进入 `frontend` 目录。
-2. 安装依赖: `npm install`。
-3. 启动开发服务器: `npm run dev`。
+### 🎨 模块四：创意画板 (Canvas - 开发中)
+- **房树人投射**: 提供在线绘图板，计划利用视觉大模型分析用户画作中的心理投射（暂未实装 Vision 模型）。
+
+## 3. 已集成量表库
+
+1. **PHQ-9 抑郁症筛查量表** (ID: 1)
+2. **GAD-7 焦虑症筛查量表** (ID: 2)
+3. **AIS 阿森斯失眠量表** (ID: 3)
+
+## 4. 技术栈
+
+- **前端**: Next.js 14 (App Router), TypeScript, Tailwind CSS, face-api.js
+- **后端**: Flask, SQLAlchemy (SQLite/MySQL), Google Gemini API
+- **部署**: 前后端分离架构
+
+## 5. 快速开始 (本地开发)
+
+### 后端 (Backend)
+```bash
+cd backend
+python -m venv venv
+# Windows: venv\Scripts\activate | Mac/Linux: source venv/bin/activate
+pip install -r requirements.txt
+python seed.py  # 初始化数据库并填充量表
+python app.py   # 启动服务 (端口 5000)
+```
+
+### 前端 (Frontend)
+```bash
+cd frontend
+npm install
+npm run dev     # 启动服务 (端口 3000)
+```
 
 ---
 © 2026 PsySight Team. Course Project.
