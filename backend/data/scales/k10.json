@@ -1,0 +1,17 @@
+{
+  "title": "K10 凯斯勒心理困扰量表",
+  "description": "在过去的4周里，你经历以下情况的频率如何？",
+  "questions": [
+    {"id": 1, "text": "你会感到精疲力竭，没精打采，以至于没有什么理由能让你高兴起来吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 2, "text": "你会感到非常紧张吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 3, "text": "你会感到非常紧张，以至于没有什么能让你平静下来吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 4, "text": "你会感到无望吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 5, "text": "你会感到坐立不安或不能安宁吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 6, "text": "你会感到坐立不安，以至于不能安静地坐着吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 7, "text": "你会感到忧郁吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 8, "text": "你会感到每做一件事都很费力吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 9, "text": "你会感到非常忧郁，以至于没有什么能让你高兴起来吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]},
+    {"id": 10, "text": "你会感到自己无用吗？", "options": [{"label": "从不", "score": 1}, {"label": "偶尔", "score": 2}, {"label": "有时", "score": 3}, {"label": "经常", "score": 4}, {"label": "总是", "score": 5}]}
+  ],
+  "scoring_rules": "总分 10-19: 心理困扰程度低; 20-24: 心理困扰程度较低; 25-29: 心理困扰程度较高; 30-50: 心理困扰程度高。"
+}

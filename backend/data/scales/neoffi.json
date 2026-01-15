@@ -1,0 +1,13 @@
+{
+  "title": "NEO-FFI 大五人格简版 (60题)",
+  "description": "请根据你的实际情况，在过去两周中的表现进行选择。0=非常不同意，4=非常同意。",
+  "questions": [
+    {"id": 1, "text": "我不是一个爱发愁的人。(N1-R)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 2, "text": "我喜欢身边有很多人。(E1)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "我不喜欢把时间浪费在白日梦上。(O1-R)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 4, "text": "我试图对每个人都表现出礼貌。(A1)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 5, "text": "我把自己的东西保持得很整洁。(C1)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 6, "text": "我常常感到低人一等。(N2)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]}
+  ],
+  "scoring_rules": "NEO-FFI计分：分为神经质(N)、外向性(E)、开放性(O)、宜人性(A)、尽责性(C)五个维度。每个维度包含12个项目。包含反向计分。"
+}

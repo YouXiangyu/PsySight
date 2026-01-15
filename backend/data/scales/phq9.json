@@ -1,0 +1,16 @@
+{
+  "title": "PHQ-9 抑郁症筛查量表",
+  "description": "过去两周内，您有多少时间受到以下问题的困扰？",
+  "questions": [
+    {"id": 1, "text": "做事提不起劲，或没有乐趣", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 2, "text": "感到心情低落、沮丧或绝望", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 3, "text": "入睡困难、睡得不稳或睡得太多", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 4, "text": "感到疲倦或没有精力", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 5, "text": "胃口不好或吃得太多", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 6, "text": "觉得自己很糟——或觉得自己很失败，或让自己、家人失望", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 7, "text": "对事物专注有困难，例如看报纸或看电视时", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 8, "text": "动作或说话速度缓慢到别人已经察觉？或正好相反——烦躁或坐立不安、动来动去的情况远比平常多", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 9, "text": "有不如死掉或用某种方式伤害自己的念头", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]}
+  ],
+  "scoring_rules": "0-4: 无抑郁; 5-9: 轻度; 10-14: 中度; 15-19: 中重度; 20-27: 重度。"
+}

@@ -1,0 +1,13 @@
+{
+  "title": "LOT-R 生活定向测验修订版",
+  "description": "请根据你对以下陈述的同意程度进行选择。0=非常不同意，4=非常同意。",
+  "questions": [
+    {"id": 1, "text": "在不确定的时期，我通常期待最好的结果。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 2, "text": "对我来说，如果有什么事可能出错，它就一定会出错。", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 3, "text": "我对自己的未来感到乐观。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "我很少指望好事发生在我身上。", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 5, "text": "总的来说，我期待发生在我身上的好事多过坏事。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 6, "text": "我很少指望事情会按我的意愿发展。", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]}
+  ],
+  "scoring_rules": "LOT-R计分：总分为6个核心项目得分之和。包含反向计分题项。分数越高，乐观程度越高。"
+}

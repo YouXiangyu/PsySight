@@ -1,0 +1,27 @@
+{
+  "title": "SRQ-20 症状自评问卷",
+  "description": "请根据你过去一个月的情况，选择‘是’或‘否’。",
+  "questions": [
+    {"id": 1, "text": "你是否经常感到头痛？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 2, "text": "你是否食欲不振？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 3, "text": "你是否睡眠不好？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 4, "text": "你是否容易受惊吓？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 5, "text": "你是否手抖？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 6, "text": "你是否感到紧张、不安或担心？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 7, "text": "你是否消化不良？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 8, "text": "你是否思维不清？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 9, "text": "你是否感到不愉快？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 10, "text": "你是否比平时哭得多？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 11, "text": "你是否发现很难从日常活动中得到乐趣？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 12, "text": "你是否很难做决定？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 13, "text": "你的日常工作是否受影响？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 14, "text": "你是否不能在生活中发挥应有的作用？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 15, "text": "你是否对生活失去兴趣？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 16, "text": "你是否觉得自已是个无用的人？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 17, "text": "你是否产生过结束自已生命的念头？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 18, "text": "你是否总是感到疲劳？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 19, "text": "你的胃部是否有不适感？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]},
+    {"id": 20, "text": "你是否容易感到疲劳？", "options": [{"label": "是", "score": 1}, {"label": "否", "score": 0}]}
+  ],
+  "scoring_rules": "SRQ-20计分：总分为“是”的项目数。一般以7-8分为筛查阳性的界限值。"
+}

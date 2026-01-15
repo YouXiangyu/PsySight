@@ -1,0 +1,14 @@
+{
+  "title": "GAD-7 焦虑症筛查量表",
+  "description": "过去两周内，您有多少时间受到以下问题的困扰？",
+  "questions": [
+    {"id": 1, "text": "感到紧张、焦虑或急躁", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 2, "text": "无法停止或控制忧虑", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 3, "text": "对各种各样的事情忧虑太多", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 4, "text": "很难放松下来", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 5, "text": "由于不安而无法静坐", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 6, "text": "变得容易烦躁或急躁", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
+    {"id": 7, "text": "感到害怕，就像有什么可怕的事会发生", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]}
+  ],
+  "scoring_rules": "0-4: 无焦虑; 5-9: 轻度焦虑; 10-14: 中度焦虑; 15-21: 重度焦虑。"
+}

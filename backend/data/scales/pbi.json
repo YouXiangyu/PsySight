@@ -1,0 +1,12 @@
+{
+  "title": "PBI 父母邦定问卷",
+  "description": "请回忆你16岁以前与父母相处的情况进行选择。0=非常不符合，3=非常符合。",
+  "questions": [
+    {"id": 1, "text": "对我说话语气温和。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}]},
+    {"id": 2, "text": "帮助我做我想做的事。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}]},
+    {"id": 3, "text": "让我感到她(他)并不想要我。", "options": [{"label": "0", "score": 3}, {"label": "1", "score": 2}, {"label": "2", "score": 1}, {"label": "3", "score": 0}]},
+    {"id": 4, "text": "对我非常关爱。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}]},
+    {"id": 5, "text": "对我有很多要求。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}]}
+  ],
+  "scoring_rules": "PBI计分：分为关爱(Care)和保护(Protection)两个维度。每个维度分值越高，表示该项特征越显著。包含反向计分。"
+}

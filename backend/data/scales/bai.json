@@ -1,0 +1,28 @@
+{
+  "title": "BAI 贝克焦虑量表",
+  "description": "下面是21种焦虑症状，请指出在过去一周（包括今天）中，您被这些症状困扰的程度。0=完全没有，1=轻度，2=中度，3=严重。",
+  "questions": [
+    {"id": 1, "text": "麻木或刺痛", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 2, "text": "感到发热", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 3, "text": "腿部动摇", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 4, "text": "不能放松", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 5, "text": "害怕发生不幸的事", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 6, "text": "头晕或昏晕", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 7, "text": "心悸或心跳加快", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 8, "text": "不稳感", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 9, "text": "惊恐或恐惧", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 10, "text": "神经过敏", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 11, "text": "窒息感", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 12, "text": "手颤", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 13, "text": "摇晃", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 14, "text": "害怕失去控制", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 15, "text": "呼吸困难", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 16, "text": "死掉的恐惧", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 17, "text": "受惊", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 18, "text": "消化道不适", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 19, "text": "昏厥", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 20, "text": "脸红", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]},
+    {"id": 21, "text": "出汗(不是由热引起)", "options": [{"label": "完全没有", "score": 0}, {"label": "轻度", "score": 1}, {"label": "中度", "score": 2}, {"label": "严重", "score": 3}]}
+  ],
+  "scoring_rules": "BAI评分：总分 0-7: 无显著焦虑; 8-15: 轻度焦虑; 16-25: 中度焦虑; 26-63: 重度焦虑。"
+}

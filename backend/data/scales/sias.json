@@ -1,0 +1,27 @@
+{
+  "title": "SIAS 社交互动焦虑量表",
+  "description": "请根据你对自己的一般看法选择最符合的一项。0=一点也不，4=非常符合。",
+  "questions": [
+    {"id": 1, "text": "当我在社交互动中时，我常感到紧张。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 2, "text": "与人交谈时，我很难找到话题。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "我常担心自己在社交场合显得很笨拙。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "我很容易与人交谈。(反向计分)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 5, "text": "在小组中说话时，我感到很放松。(反向计分)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 6, "text": "我常担心人们会发现我没什么好说的。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 7, "text": "与不认识的人交谈时，我会感到不自在。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 8, "text": "我常感到自己在社交互动中是被边缘化的。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 9, "text": "我觉得自己能很好地应对各种社交情境。(反向计分)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 10, "text": "我常担心自己在社交场合的表现会受到他人的评价。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 11, "text": "与异性交谈时，我常感到极其不自在。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 12, "text": "即使是简短的交谈，我也会感到非常焦虑。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 13, "text": "我常觉得自己在谈话中格格不入。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 14, "text": "我不常担心在社交互动中会出丑。(反向计分)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 15, "text": "我常感到自己在谈话中无法引起他人的兴趣。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 16, "text": "我常觉得自己没有什么有趣的话可说。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 17, "text": "在必须开始一段对话时，我会感到极其焦虑。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 18, "text": "我常感到自己在谈话中表现得非常无聊。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 19, "text": "与社会地位比我高的人交谈时，我常感到由于紧张而无法思考。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 20, "text": "我常担心人们会因为我的社交能力差而拒绝我。", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]}
+  ],
+  "scoring_rules": "SIAS计分：总分为20道题得分之和。包含反向计分题项。分数越高，社交互动焦虑水平越高。"
+}

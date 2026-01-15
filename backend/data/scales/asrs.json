@@ -1,0 +1,25 @@
+{
+  "title": "ASRS 成人 ADHD 自评量表",
+  "description": "请根据过去 6 个月的情况，选择最符合你实际感受的一项。0=从不，4=非常频繁。",
+  "questions": [
+    {"id": 1, "text": "在完成一项工程的最后细节时，你有多频繁地感到困难？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 2, "text": "当你在进行一项需要组织的任务时，你有多频繁地感到困难？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "你有多频繁地忘记约会或应做的事情？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "当有人直接对你说话时，你有多频繁地感到难以听进去？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 5, "text": "当你在家里或工作中必须坐很长时间时，你有多频繁地感到手脚闲不住或在座位上扭动？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 6, "text": "你有多频繁地感到自己像被马达驱动一样过于活跃？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 7, "text": "在完成细节工作时，你有多频繁地出现错误？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 8, "text": "在进行乏味或重复性的工作时，你有多频繁地难以保持注意力？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 9, "text": "即使在有人直接对你说话时，你有多频繁地感到思维游离？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 10, "text": "你有多频繁地丢失或难以找到东西？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 11, "text": "你有多频繁地被周围的噪音或活动分心？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 12, "text": "在会议或其他你应该坐好的场合，你有多频繁地离开座位？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 13, "text": "你有多频繁地感到内心焦躁不安或不能安静？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 14, "text": "当你有一点空闲时间时，你有多频繁地感到难以安静地放松？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 15, "text": "在社交场合，你有多频繁地发现自己说话过多？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 16, "text": "在别人还没说完话时，你有多频繁地发现自己在替别人说完？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 17, "text": "在需要轮流等待的场合，你有多频繁地感到难以等待？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 18, "text": "你有多频繁地打断别人的谈话或活动？", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]}
+  ],
+  "scoring_rules": "ASRS计分：由两部分组成。第一部分（1-6题）是筛查的核心。如果在前6题中有4项或更多项得分在‘频繁’或‘非常频繁’（取决于具体题目，通常是2-4分），则极有可能是 ADHD。"
+}

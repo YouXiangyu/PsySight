@@ -1,0 +1,24 @@
+{
+  "title": "HAMD-17 汉密尔顿抑郁量表 (自评版)",
+  "description": "请根据你过去一周的情况，选择最符合你实际感受的一项。本量表为专业访谈量表的自评参考版。",
+  "questions": [
+    {"id": 1, "text": "抑郁情绪", "options": [{"label": "无", "score": 0}, {"label": "只在查问时才有", "score": 1}, {"label": "在谈话中自发地表达", "score": 2}, {"label": "表情、姿态、声音和哭泣等外部表现显示", "score": 3}, {"label": "表现极为严重，甚至出现言语和非言语的极度痛苦", "score": 4}]},
+    {"id": 2, "text": "有罪感", "options": [{"label": "无", "score": 0}, {"label": "责备自己，觉得连累别人", "score": 1}, {"label": "认为自已有罪，或反复思索过去的过失", "score": 2}, {"label": "认为目前的病是惩罚", "score": 3}, {"label": "听见指责或谩骂的声音，或见到恐吓的影像", "score": 4}]},
+    {"id": 3, "text": "自杀意念", "options": [{"label": "无", "score": 0}, {"label": "觉得活着没意思", "score": 1}, {"label": "希望死掉或有自杀的念头", "score": 2}, {"label": "有自杀计划或行为", "score": 3}, {"label": "有严重的自杀企图", "score": 4}]},
+    {"id": 4, "text": "入睡困难", "options": [{"label": "无", "score": 0}, {"label": "主诉入睡困难，上床半小时不能入睡", "score": 1}, {"label": "每晚均入睡困难", "score": 2}]},
+    {"id": 5, "text": "睡眠不深", "options": [{"label": "无", "score": 0}, {"label": "主诉多梦，睡眠浅", "score": 1}, {"label": "每晚均有多次苏醒", "score": 2}]},
+    {"id": 6, "text": "早醒", "options": [{"label": "无", "score": 0}, {"label": "主诉比平时早醒1小时左右", "score": 1}, {"label": "比平时早醒2小时以上", "score": 2}]},
+    {"id": 7, "text": "工作和兴趣", "options": [{"label": "无", "score": 0}, {"label": "主诉工作、兴趣和效率减退", "score": 1}, {"label": "对工作和兴趣丧失，甚至日常生活也需督促", "score": 2}, {"label": "工作时间显著减少，效率显著下降", "score": 3}, {"label": "不能工作", "score": 4}]},
+    {"id": 8, "text": "迟缓", "options": [{"label": "无", "score": 0}, {"label": "思维和谈话轻微迟缓", "score": 1}, {"label": "谈话和思维明显迟缓", "score": 2}, {"label": "谈话困难", "score": 3}, {"label": "完全木僵", "score": 4}]},
+    {"id": 9, "text": "激越", "options": [{"label": "无", "score": 0}, {"label": "焦虑感增加，表现为坐立不安", "score": 1}, {"label": "绞手、咬指甲等行为表现", "score": 2}, {"label": "不能静坐，走来走去", "score": 3}, {"label": "大声叫喊", "score": 4}]},
+    {"id": 10, "text": "精神性焦虑", "options": [{"label": "无", "score": 0}, {"label": "轻微紧张感", "score": 1}, {"label": "担忧，预感不幸", "score": 2}, {"label": "恐惧性表情和言语", "score": 3}, {"label": "极度恐惧", "score": 4}]},
+    {"id": 11, "text": "躯体性焦虑", "options": [{"label": "无", "score": 0}, {"label": "有轻微躯体症状(如口干、多汗等)", "score": 1}, {"label": "中度躯体症状", "score": 2}, {"label": "重度躯体症状(如呼吸困难等)", "score": 3}, {"label": "完全丧失功能", "score": 4}]},
+    {"id": 12, "text": "胃肠道症状", "options": [{"label": "无", "score": 0}, {"label": "食欲减退，需鼓励才进食", "score": 1}, {"label": "进食极少", "score": 2}]},
+    {"id": 13, "text": "全身症状", "options": [{"label": "无", "score": 0}, {"label": "感到沉重、疲劳", "score": 1}, {"label": "显著乏力", "score": 2}]},
+    {"id": 14, "text": "性症状", "options": [{"label": "无", "score": 0}, {"label": "轻微减退", "score": 1}, {"label": "显著减退", "score": 2}]},
+    {"id": 15, "text": "疑病", "options": [{"label": "无", "score": 0}, {"label": "过分关注身体", "score": 1}, {"label": "对健康有疑虑", "score": 2}, {"label": "确信自己患有重病", "score": 3}, {"label": "出现疑病妄想", "score": 4}]},
+    {"id": 16, "text": "体重减轻", "options": [{"label": "无", "score": 0}, {"label": "体重减轻半公斤以上", "score": 1}, {"label": "体重减轻一公斤以上", "score": 2}]},
+    {"id": 17, "text": "自知力", "options": [{"label": "知道自己有病", "score": 0}, {"label": "知道自己有病，但不承认原因", "score": 1}, {"label": "完全否认自己有病", "score": 2}]}
+  ],
+  "scoring_rules": "HAMD-17计分：总分<7正常，7-17可能有抑郁，17-24确定有抑郁，>24严重抑郁。"
+}

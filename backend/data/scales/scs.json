@@ -1,0 +1,33 @@
+{
+  "title": "SCS 自我慈悲量表",
+  "description": "请根据你的一般反应选择最符合的一项。1=几乎从不，5=几乎总是。",
+  "questions": [
+    {"id": 1, "text": "当我觉得痛苦时，我会试图对自己温柔一点。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 2, "text": "我常对自己不够好的地方感到极其自责。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 3, "text": "当事情不如意时，我倾向于认为这是每个人都会遇到的。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 4, "text": "当我觉得痛苦时，我倾向于沉溺于其中而无法自拔。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 5, "text": "当我觉得自己失败时，我会提醒自己每个人都有失败的时候。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 6, "text": "我试图以理解的态度对待自己的缺点。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 7, "text": "当我觉得痛苦时，我会感到很孤单，好像只有我一个人在承受。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 8, "text": "当我不顺利时，我倾向于觉得自己很没用。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 9, "text": "我试着以平衡的态度对待那些令我烦恼的事情。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 10, "text": "当我失败时，我会觉得自己和其他人是隔绝的。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 11, "text": "我经常对自己说：‘你应该比现在做得更好。’", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 12, "text": "当我非常痛苦时，我倾向于放大痛苦的感觉。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 13, "text": "我常记起失败是人类体验的一部分。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 14, "text": "我试图客观地看待我正在经历的痛苦。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 15, "text": "当我觉得自己失败时，我会变得对自己很刻薄。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 16, "text": "我试图对自己展示关怀，就像对待好朋友一样。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 17, "text": "我试图对那些我感到痛苦的事情保持觉察，而不试图去对抗它们。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 18, "text": "当事情不如意时，我容易把自己锁在自己的痛苦里。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 19, "text": "我发现自己在经历痛苦时，比平时更爱批评自己。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 20, "text": "我能以同情的态度看待自己的错误。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 21, "text": "我觉得自己是人类共同体的一部分。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 22, "text": "我常感到自己在困难面前无能为力。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 23, "text": "我试图接受我无法改变的事情。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 24, "text": "我对自己抱有同情心。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 25, "text": "我试图在痛苦中寻找意义。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 26, "text": "我能对自己保持温柔。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]}
+  ],
+  "scoring_rules": "SCS计分：总分为26个项目得分之和。包含六个子量表：自我友善(1, 6, 11, 16, 21)、自我评判(2, 7, 12, 17, 22 - 反向)、普遍人性(3, 8, 13, 18, 23)、孤立感(4, 9, 14, 19, 24 - 反向)、正念(5, 10, 15, 20, 25)、过度认同(26 - 反向)。分值越高，自我慈悲水平越高。"
+}

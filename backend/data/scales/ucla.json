@@ -1,0 +1,27 @@
+{
+  "title": "UCLA 孤独感量表 (第三版)",
+  "description": "请根据你对自己的一般看法选择最符合的一项。1=从不，4=一直。",
+  "questions": [
+    {"id": 1, "text": "你常感到与周围的人意气相投吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 2, "text": "你常感到缺乏伙伴吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "你常感到没人可以信赖吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "你常感到孤独吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 5, "text": "你常感到自己是某一群人中的一部分吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 6, "text": "你常感到与周围的人有很多共同点吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 7, "text": "你常感到自己不再与任何人亲近了吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 8, "text": "你常感到你的兴趣和想法与周围的人不一样吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 9, "text": "你常感到想要与人亲近吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 10, "text": "你常感到没人真正了解你吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 11, "text": "你常感到自己被他人隔绝了吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 12, "text": "你常感到当你愿意时你就能找到伙伴吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 13, "text": "你常感到有人真正了解你吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 14, "text": "你常感到被他人孤立了吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 15, "text": "你常感到可以找人说说话吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 16, "text": "你常感到有人可以真正依靠吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]},
+    {"id": 17, "text": "你常感到不快乐吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 18, "text": "你常感到被他人忽视了吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 19, "text": "你常感到人们只是在你周围，但并不真正和你在一起吗？", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 20, "text": "你常感到有人可以找他谈谈吗？", "options": [{"label": "1", "score": 4}, {"label": "2", "score": 3}, {"label": "3", "score": 2}, {"label": "4", "score": 1}]}
+  ],
+  "scoring_rules": "UCLA孤独感量表计分：总分为20道题得分之和。分值越高，孤独感越强。包含反向计分题项。"
+}
