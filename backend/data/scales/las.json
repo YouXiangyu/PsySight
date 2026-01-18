@@ -1,0 +1,13 @@
+{
+  "title": "LAS 爱情态度量表 (简版)",
+  "description": "请根据你对爱情的看法和经历进行选择。1=非常不同意，5=非常同意。",
+  "questions": [
+    {"id": 1, "text": "我的恋人与我之间在肉体上的相互吸引是非常重要的。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 2, "text": "我试图使我的恋人对我的爱有一点点的不确定。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 3, "text": "在选择恋人之前，我首先要考虑他（她）将来在生活中的发展前景。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 4, "text": "我宁愿自己受苦，也不愿让我的恋人受苦。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 5, "text": "我和我的恋人最理想的爱是长期共同努力生长出来的。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 6, "text": "如果我发现我的恋人正要和其他人建立爱情关系，我很难保持镇静。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]}
+  ],
+  "scoring_rules": "LAS计分：分为六种爱情风格：浪漫型 (Eros)、游戏型 (Ludus)、实用型 (Pragma)、奉献型 (Agape)、伙伴型 (Storge)、占有型 (Mania)。"
+}

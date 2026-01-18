@@ -1,0 +1,25 @@
+{
+  "title": "AAS 成人依恋量表",
+  "description": "请根据你与他人的相处情况，选择最符合你真实感受的一项。1=完全不符合，5=完全符合。",
+  "questions": [
+    {"id": 1, "text": "我发现要依赖别人很容易。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 2, "text": "我发现要完全信赖别人很困难。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 3, "text": "我并不担心被别人抛弃。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 4, "text": "我发现别人并不像我希望的那样想和我亲近。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 5, "text": "我很担心别人并不真正爱我。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 6, "text": "我发现和别人亲近使我感到不舒服。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 7, "text": "我发现当我和别人变得太亲近时，我会感到不舒服。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 8, "text": "我担心我会被别人抛弃。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 9, "text": "我发现别人并不想和我像我希望的那样亲近。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 10, "text": "当我寻求别人的帮助时，我会感到不舒服。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 11, "text": "我发现很难去完全信赖别人。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 12, "text": "我发现我能很容易地依赖别人。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 13, "text": "我并不担心别人会离开我。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 14, "text": "我发现和别人亲近并不难。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 15, "text": "我担心别人并不真正爱我。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 16, "text": "当别人和我在情感上太亲近时，我会感到不舒服。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 17, "text": "我发现很难去完全依赖别人。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 18, "text": "我发现别人并不想和我像我希望的那样亲近。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]}
+  ],
+  "scoring_rules": "AAS计分：亲近维度（1,6,8,12,13,17）、依赖维度（2,5,7,14,16,18）、焦虑维度（3,4,9,10,11,15）。注意包含反向计分。最终将得分分为：安全型、先占型（焦虑）、恐惧型（回避）、拒绝型。"
+}

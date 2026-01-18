@@ -1,0 +1,17 @@
+{
+  "title": "Y-BOCS 耶鲁-布朗强迫症量表",
+  "description": "请根据你过去一周的情况，选择最符合你实际感受的一项。0=无，4=极端。",
+  "questions": [
+    {"id": 1, "text": "强迫思维占据的时间", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 2, "text": "强迫思维对生活的影响", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "强迫思维引起的痛苦", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "对强迫思维的反抗程度", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 5, "text": "对强迫思维的控制程度", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 6, "text": "强迫行为占据的时间", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 7, "text": "强迫行为对生活的影响", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 8, "text": "强迫行为引起的痛苦", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 9, "text": "对强迫行为的反抗程度", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 10, "text": "对强迫行为的控制程度", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]}
+  ],
+  "scoring_rules": "Y-BOCS计分：总分0-40。0-7分: 亚临床; 8-15分: 轻度; 16-23分: 中度; 24-31分: 重度; 32-40分: 极重度。"
+}

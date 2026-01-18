@@ -1,0 +1,12 @@
+{
+  "title": "DISC 行为风格测评",
+  "description": "请根据你最自然的状态，在每组词语中选出最符合你的一项。注意：本测评旨在了解你的行为风格倾向。",
+  "questions": [
+    {"id": 1, "text": "你更倾向于：", "options": [{"label": "有决断力的、目标导向", "score": 1, "type": "D"}, {"label": "热情的、善于说服的", "score": 1, "type": "I"}, {"label": "耐心的、稳定的", "score": 1, "type": "S"}, {"label": "准确的、注重逻辑的", "score": 1, "type": "C"}]},
+    {"id": 2, "text": "当面对压力时，你：", "options": [{"label": "变得强硬且急躁", "score": 1, "type": "D"}, {"label": "变得多话且寻求关注", "score": 1, "type": "I"}, {"label": "变得退缩且犹豫不决", "score": 1, "type": "S"}, {"label": "变得吹毛求疵且防备心强", "score": 1, "type": "C"}]},
+    {"id": 3, "text": "在团队中，你更看重：", "options": [{"label": "效率和结果", "score": 1, "type": "D"}, {"label": "人际互动和认可", "score": 1, "type": "I"}, {"label": "和谐和稳定", "score": 1, "type": "S"}, {"label": "质量和规范", "score": 1, "type": "C"}]},
+    {"id": 4, "text": "你的决策方式通常是：", "options": [{"label": "迅速且果敢", "score": 1, "type": "D"}, {"label": "基于直觉和感受", "score": 1, "type": "I"}, {"label": "考虑大家的意见后再定", "score": 1, "type": "S"}, {"label": "基于大量的数据分析", "score": 1, "type": "C"}]},
+    {"id": 5, "text": "别人眼中的你：", "options": [{"label": "好胜心强、控制欲强", "score": 1, "type": "D"}, {"label": "友好开朗、善于社交", "score": 1, "type": "I"}, {"label": "谦和有礼、值得信赖", "score": 1, "type": "S"}, {"label": "严谨务实、遵守规则", "score": 1, "type": "C"}]}
+  ],
+  "scoring_rules": "DISC计分：统计 D/I/S/C 各类型的得分总和。D: 支配型, I: 影响型, S: 稳健型, C: 服从型。得分最高项即为主要行为风格。"
+}

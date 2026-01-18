@@ -1,0 +1,23 @@
+{
+  "title": "NPI-16 自恋人格量表",
+  "description": "请在每一组选项中选择最符合你的一项。",
+  "questions": [
+    {"id": 1, "text": "你认为：", "options": [{"label": "我喜欢掌控局面。", "score": 1}, {"label": "我不介意由别人掌控局面。", "score": 0}]},
+    {"id": 2, "text": "你认为：", "options": [{"label": "我是一个非凡的人。", "score": 1}, {"label": "我是一个普通的人。", "score": 0}]},
+    {"id": 3, "text": "你认为：", "options": [{"label": "如果我统治世界，世界会变得更好。", "score": 1}, {"label": "统治世界这种想法让我感到恐惧。", "score": 0}]},
+    {"id": 4, "text": "你认为：", "options": [{"label": "我有某种特殊的才干。", "score": 1}, {"label": "我并不比别人更特殊。", "score": 0}]},
+    {"id": 5, "text": "你认为：", "options": [{"label": "我知道我很棒，因为每个人都这么说。", "score": 1}, {"label": "当我被称赞时，我有时会感到不好意思。", "score": 0}]},
+    {"id": 6, "text": "你认为：", "options": [{"label": "我喜欢在人群中受到关注。", "score": 1}, {"label": "我不喜欢在人群中太显眼。", "score": 0}]},
+    {"id": 7, "text": "你认为：", "options": [{"label": "我是一个天生的领导者。", "score": 1}, {"label": "我不太擅长领导别人。", "score": 0}]},
+    {"id": 8, "text": "你认为：", "options": [{"label": "我可以随心所欲地左右别人。", "score": 1}, {"label": "我不喜欢左右别人。", "score": 0}]},
+    {"id": 9, "text": "你认为：", "options": [{"label": "我总是知道自己在做什么。", "score": 1}, {"label": "我有时不确定自己在做什么。", "score": 0}]},
+    {"id": 10, "text": "你认为：", "options": [{"label": "我喜欢向别人展示我的身体。", "score": 1}, {"label": "我不喜欢炫耀我的身体。", "score": 0}]},
+    {"id": 11, "text": "你认为：", "options": [{"label": "我喜欢照镜子。", "score": 1}, {"label": "我并不特别喜欢照镜子。", "score": 0}]},
+    {"id": 12, "text": "你认为：", "options": [{"label": "我喜欢成为关注的中心。", "score": 1}, {"label": "我喜欢在幕后工作。", "score": 0}]},
+    {"id": 13, "text": "你认为：", "options": [{"label": "我比大多数人更出色。", "score": 1}, {"label": "我并不比别人更出色。", "score": 0}]},
+    {"id": 14, "text": "你认为：", "options": [{"label": "我会让别人相信我说的任何话。", "score": 1}, {"label": "人们并不总是相信我说的每一句话。", "score": 0}]},
+    {"id": 15, "text": "你认为：", "options": [{"label": "我对自己很满意。", "score": 1}, {"label": "我并不总是对自己很满意。", "score": 0}]},
+    {"id": 16, "text": "你认为：", "options": [{"label": "我希望有一天有人能写我的传记。", "score": 1}, {"label": "我不希望别人写我的生活故事。", "score": 0}]}
+  ],
+  "scoring_rules": "NPI-16计分：总分为16个项目中选择自恋项的数量。分数越高，自恋倾向越明显。"
+}

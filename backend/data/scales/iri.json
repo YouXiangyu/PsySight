@@ -1,0 +1,15 @@
+{
+  "title": "IRI 人际反应指针 (共情量表)",
+  "description": "请根据你对自己的一般看法选择最符合的一项。0=不符合，4=非常符合。",
+  "questions": [
+    {"id": 1, "text": "我时常通过做白日梦来打发时间。(幻想)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 2, "text": "对于那些比我更不幸的人，我经常感到同情和关怀。(共情关注)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "在试图了解一个人之前，我会尝试站在他（她）的角度看问题。(观点采择)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "当处于紧张的情绪状态时，我会感到极其不自在。(个人痛苦)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 5, "text": "当我看到别人处于困境中时，我并不感到难过。(共情关注 - 反向)", "options": [{"label": "0", "score": 4}, {"label": "1", "score": 3}, {"label": "2", "score": 2}, {"label": "3", "score": 1}, {"label": "4", "score": 0}]},
+    {"id": 6, "text": "我有时会把自己想象成小说中的主角。(幻想)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 7, "text": "如果我在谈话中不同意某人的观点，我会尝试了解他（她）为什么这么想。(观点采择)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 8, "text": "当事情变糟时，我很难保持镇静。(个人痛苦)", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]}
+  ],
+  "scoring_rules": "IRI计分：包含观点采择、幻想、共情关注和个人痛苦四个维度。每个维度分值越高，表示该维度的共情特征越明显。"
+}

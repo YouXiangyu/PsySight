@@ -1,0 +1,29 @@
+{
+  "title": "IES-R 事件影响量表修订版",
+  "description": "以下是人们在经历创伤性事件后常见的反应。请根据你在过去7天内受这些反应困扰的程度进行选择。0=完全没有，4=非常频繁。",
+  "questions": [
+    {"id": 1, "text": "任何与那件事有关的东西都会使我产生当时的感觉", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 2, "text": "我难以保持睡眠", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 3, "text": "其他事情会使我想到那件事", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 4, "text": "我感到烦躁和易怒", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 5, "text": "当我想起那件事或被提醒时，我会尽量避免让自己不愉快", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 6, "text": "我会在没想它的时候，脑子里却突然闪现出那件事", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 7, "text": "我感到那件事好象不是真的，或者好象没有发生过", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 8, "text": "我尽量不去想那件事，以此来避开它", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 9, "text": "关于那件事的影像突然在脑子里闪现出来", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 10, "text": "我很容易受惊吓", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 11, "text": "我试图不去想它", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 12, "text": "我意识到我仍然对它有很多情感，但我还没有去处理它们", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 13, "text": "我的感觉好象有些麻木了", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 14, "text": "我发现自己在行动或感觉上好象回到了那件事发生的时候", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 15, "text": "我难以入睡", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 16, "text": "强烈的情感波动涌向我", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 17, "text": "我试图从记忆中抹掉它", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 18, "text": "我难以集中注意力", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 19, "text": "想起它来会产生身体反应，如：出汗、心慌、恶心等", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 20, "text": "我有关于那件事的梦", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 21, "text": "我感到警惕并随时准备行动", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]},
+    {"id": 22, "text": "我试图不去谈论它", "options": [{"label": "0", "score": 0}, {"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}]}
+  ],
+  "scoring_rules": "IES-R计分：总分0-88。由侵入(I)、回避(A)、高唤醒(H)三个子量表组成。分值越高，创伤后反应越强烈。"
+}

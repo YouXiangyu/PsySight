@@ -1,0 +1,27 @@
+{
+  "title": "PANAS 正负性情绪量表",
+  "description": "以下是描述不同情感和情绪的词语。请阅读每一项，并指出在过去一周内你体验到这些情绪的程度。1=非常轻微或根本没有，5=极度。",
+  "questions": [
+    {"id": 1, "text": "感兴趣的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 2, "text": "痛苦的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 3, "text": "激动的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 4, "text": "心烦的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 5, "text": "有力的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 6, "text": "内疚的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 7, "text": "恐惧的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 8, "text": "敌意的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 9, "text": "热情的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 10, "text": "自豪的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 11, "text": "易怒的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 12, "text": "警觉的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 13, "text": "受鼓舞的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 14, "text": "羞愧的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 15, "text": "坚定的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 16, "text": "专注的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 17, "text": "坐立不安的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 18, "text": "活跃的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 19, "text": "害怕的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 20, "text": "害怕的", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]}
+  ],
+  "scoring_rules": "PANAS计分：正性情绪(PA)由1, 3, 5, 9, 10, 12, 13, 15, 16, 18项组成；负性情绪(NA)由2, 4, 6, 7, 8, 11, 14, 17, 19, 20项组成。各维度分值越高，表示该情绪体验越强烈。"
+}

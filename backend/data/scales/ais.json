@@ -1,0 +1,15 @@
+{
+  "title": "AIS 阿森斯失眠量表",
+  "description": "请评价在过去的一个月内，如果您每星期至少出现3次下述情况，请选择最符合您情况的选项。",
+  "questions": [
+    {"id": 1, "text": "入睡时间（关灯后至入睡所需的时间）", "options": [{"label": "没问题", "score": 0}, {"label": "稍微延迟", "score": 1}, {"label": "显著延迟", "score": 2}, {"label": "延迟或没睡着", "score": 3}]},
+    {"id": 2, "text": "夜间苏醒", "options": [{"label": "没问题", "score": 0}, {"label": "轻微影响", "score": 1}, {"label": "显著影响", "score": 2}, {"label": "严重影响或没睡着", "score": 3}]},
+    {"id": 3, "text": "比期望的时间早醒", "options": [{"label": "没问题", "score": 0}, {"label": "轻微提早", "score": 1}, {"label": "显著提早", "score": 2}, {"label": "严重提早或没睡着", "score": 3}]},
+    {"id": 4, "text": "总睡眠时间", "options": [{"label": "足够", "score": 0}, {"label": "轻微不足", "score": 1}, {"label": "显著不足", "score": 2}, {"label": "严重不足或没睡着", "score": 3}]},
+    {"id": 5, "text": "总睡眠质量（无论睡了多久）", "options": [{"label": "满意", "score": 0}, {"label": "轻微不满", "score": 1}, {"label": "显著不满", "score": 2}, {"label": "极度不满", "score": 3}]},
+    {"id": 6, "text": "白天情绪", "options": [{"label": "正常", "score": 0}, {"label": "轻微低落", "score": 1}, {"label": "显著低落", "score": 2}, {"label": "严重低落", "score": 3}]},
+    {"id": 7, "text": "白天身体功能（体力和脑力）", "options": [{"label": "正常", "score": 0}, {"label": "轻微影响", "score": 1}, {"label": "显著影响", "score": 2}, {"label": "严重影响", "score": 3}]},
+    {"id": 8, "text": "白天嗜睡程度", "options": [{"label": "无嗜睡", "score": 0}, {"label": "轻微嗜睡", "score": 1}, {"label": "显著嗜睡", "score": 2}, {"label": "严重嗜睡", "score": 3}]}
+  ],
+  "scoring_rules": "总分 < 4: 无失眠障碍; 4-6: 可疑失眠; > 6: 失眠。"
+}

@@ -1,0 +1,22 @@
+{
+  "title": "IAS 交往焦虑量表",
+  "description": "请根据你对自己的一般看法选择最符合的一项。1=完全不符合，5=完全符合。",
+  "questions": [
+    {"id": 1, "text": "即使在非正式的聚会上，我也常感到紧张。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 2, "text": "与异性交谈时，我感到很放松。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 3, "text": "在必须对别人表现出应有的礼貌时，我常感到不自在。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 4, "text": "我在社交场合常感到不知所措。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 5, "text": "与陌生人交谈时，我感到很容易。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 6, "text": "在社交场合，我常感到缺乏自信。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 7, "text": "与社会地位比我高的人说话时，我感到很自在。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 8, "text": "在不得不向别人介绍自己时，我感到很尴尬。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 9, "text": "即使我准备得很好，在众人面前说话时我也常感到非常紧张。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 10, "text": "在大型聚会上，我常感到很愉快。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 11, "text": "如果我在一个小组里不得不做自我介绍，我会感到很不自在。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 12, "text": "我在社交场合很少感到紧张。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 13, "text": "即使与我很熟悉的人交谈时，我有时也会感到紧张。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 14, "text": "即使在重要的场合，我也能保持镇静。", "options": [{"label": "1", "score": 5}, {"label": "2", "score": 4}, {"label": "3", "score": 3}, {"label": "4", "score": 2}, {"label": "5", "score": 1}]},
+    {"id": 15, "text": "如果在一个聚会上，我不得不去认识一些我不认识的人，我会感到很不自在。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]}
+  ],
+  "scoring_rules": "IAS计分：总分为15道题得分之和。包含反向计分题项。分数越高，社交焦虑水平越高。"
+}

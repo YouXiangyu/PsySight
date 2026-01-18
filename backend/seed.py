@@ -1,58 +1,74 @@
 import os
-from flask import Flask
-from models import db
 import json
+from flask import Flask
+from models import db, Scale
+from config import Config
 
 def create_app():
     app = Flask(__name__)
-    # 数据库连接配置 (MySQL)
-    # 请确保您已经创建了名为 'psysight' 的数据库
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'mysql+pymysql://root:password@localhost/psysight')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
+    app.config.from_object(Config)
     db.init_app(app)
     return app
 
 def seed_data():
     app = create_app()
     with app.app_context():
-        # 创建表
+        # 创建数据库表
         db.create_all()
         
-        from models import Scale
-        
-        # 1. PHQ-9 抑郁症筛查量表
-        phq9 = Scale(
-            title="PHQ-9 抑郁症筛查量表",
-            description="过去两周内，您有多少时间受到以下问题的困扰？",
-            questions=[
-                {"id": 1, "text": "做事提不起劲，或没有乐趣", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
-                {"id": 2, "text": "感到心情低落、沮丧或绝望", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
-                {"id": 3, "text": "入睡困难、睡得不稳或睡得太多", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
-                # ... 为简洁起见，这里省略其他题目，实际项目中应补全
-            ],
-            scoring_rules="0-4: 无抑郁; 5-9: 轻度; 10-14: 中度; 15-19: 中重度; 20-27: 重度。"
-        )
+        # 定义量表数据目录
+        scales_dir = os.path.join(os.path.dirname(__file__), 'data', 'scales')
+        if not os.path.exists(scales_dir):
+            print(f"Warning: Directory {scales_dir} does not exist.")
+            return
 
-        # 2. GAD-7 焦虑症筛查量表
-        gad7 = Scale(
-            title="GAD-7 焦虑症筛查量表",
-            description="过去两周内，您有多少时间受到以下问题的困扰？",
-            questions=[
-                {"id": 1, "text": "感到紧张、焦虑或急躁", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
-                {"id": 2, "text": "无法停止或控制忧虑", "options": [{"label": "完全没有", "score": 0}, {"label": "有几天", "score": 1}, {"label": "一半以上的天数", "score": 2}, {"label": "几乎天天", "score": 3}]},
-            ],
-            scoring_rules="0-4: 无焦虑; 5-9: 轻度焦虑; 10-14: 中度焦虑; 15-21: 重度焦虑。"
-        )
+        added_count = 0
+        updated_count = 0
 
-        # 检查是否已存在，不存在则添加
-        if not Scale.query.filter_by(title="PHQ-9 抑郁症筛查量表").first():
-            db.session.add(phq9)
-        if not Scale.query.filter_by(title="GAD-7 焦虑症筛查量表").first():
-            db.session.add(gad7)
-            
+        # 遍历目录下的所有 JSON 文件
+        for filename in os.listdir(scales_dir):
+            if filename.endswith('.json'):
+                file_path = os.path.join(scales_dir, filename)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        scale_data = json.load(f)
+                        
+                    title = scale_data.get('title')
+                    if not title:
+                        print(f"Skip {filename}: No title found.")
+                        continue
+
+                    # 检查量表是否已存在
+                    existing_scale = Scale.query.filter_by(title=title).first()
+                    
+                    if existing_scale:
+                        # 如果已存在，更新内容（可选）
+                        existing_scale.description = scale_data.get('description')
+                        existing_scale.questions = scale_data.get('questions')
+                        existing_scale.scoring_rules = scale_data.get('scoring_rules')
+                        updated_count += 1
+                    else:
+                        # 如果不存在，创建新记录
+                        new_scale = Scale(
+                            title=title,
+                            description=scale_data.get('description'),
+                            questions=scale_data.get('questions'),
+                            scoring_rules=scale_data.get('scoring_rules')
+                        )
+                        db.session.add(new_scale)
+                        added_count += 1
+                except Exception as e:
+                    print(f"Error loading {filename}: {str(e)}")
+
         db.session.commit()
-        print("数据库初始化并填充成功！")
+        
+        print(f"Seed process completed!")
+        print(f"Added: {added_count} new scales.")
+        print(f"Updated: {updated_count} existing scales.")
+        
+        # 打印数据库位置
+        db_path = app.config.get('SQLALCHEMY_DATABASE_URI', '').replace('sqlite:///', '')
+        print(f"Database Location: {os.path.abspath(db_path) if 'sqlite' in str(app.config.get('SQLALCHEMY_DATABASE_URI')) else 'Remote DB'}")
 
 if __name__ == '__main__':
     seed_data()

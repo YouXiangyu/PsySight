@@ -1,0 +1,27 @@
+{
+  "title": "Clance 冒充者综合症量表 (IS)",
+  "description": "请根据你的真实感受选择最符合的一项。1=从不，5=总是。",
+  "questions": [
+    {"id": 1, "text": "我常有这样的印象：我获得的成就完全是因为运气好。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 2, "text": "我有时觉得，我给别人的印象比我真实的才干要好。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 3, "text": "如果我避免被别人评价，我会感到更安全。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 4, "text": "我常担心，那些对我期望很高的人会发现我没那么出色。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 5, "text": "我有时觉得自己在职场或学业上是个冒牌货。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 6, "text": "我常觉得我获得的奖项或赞扬是误给的。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 7, "text": "我很难接受别人对我的赞美。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 8, "text": "当我成功完成某件事时，我会怀疑自己下次是否还能做成。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 9, "text": "我常拿自己的成就与他人相比，并觉得他人比我更聪明。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 10, "text": "我担心如果我失败了，别人会意识到我一直都在伪装自己很能干。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 11, "text": "我觉得我还没能达到自己设定的那些‘非凡’标准。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 12, "text": "我常觉得自己并没有别人认为的那么聪明。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 13, "text": "我常感到焦虑，担心自己会把事情搞砸。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 14, "text": "如果我得到晋升或表彰，我会觉得那是因为我的社交技巧而非硬实力。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 15, "text": "我常感到有压力，要去维持某种成功的假象。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 16, "text": "当有人指出我的错误时，我常感到极其羞愧。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 17, "text": "我常觉得自己并没有付出真正的努力就获得了成功。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 18, "text": "我觉得我的每一个小失误都会暴露我的真实水平。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 19, "text": "我常觉得，如果不是因为环境因素，我不会有现在的成就。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]},
+    {"id": 20, "text": "我常担心人们最终会发现我并没有他们认为的那么出色。", "options": [{"label": "1", "score": 1}, {"label": "2", "score": 2}, {"label": "3", "score": 3}, {"label": "4", "score": 4}, {"label": "5", "score": 5}]}
+  ],
+  "scoring_rules": "IS计分：总分40以下: 冒充者倾向较轻; 41-60: 中度; 61-80: 显著; 80分以上: 极其严重。"
+}
