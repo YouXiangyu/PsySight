@@ -64,7 +64,7 @@ export default function FaceMonitor({ onEmotionUpdate }: FaceMonitorProps) {
           ).withFaceExpressions();
 
           if (detections) {
-            const exps = detections.expressions as Record<string, number>;
+            const exps = detections.expressions as unknown as Record<string, number>;
             onEmotionUpdate(exps);
             
             // 找出最显著的情绪用于 UI 展示
