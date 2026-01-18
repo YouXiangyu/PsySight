@@ -216,5 +216,5 @@ if __name__ == '__main__':
         db.create_all()
     print("🚀 PsySight 后端启动中...")
     print("   AI 模型: 小米 Mimo v2 Flash (Anthropic 兼容)")
-    print("   端口: 5000")
-    app.run(debug=True, port=5000)
+    print("   端口: 8004")
+    app.run(debug=True, port=8004, host='0.0.0.0', threaded=True)
