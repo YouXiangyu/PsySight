@@ -14,9 +14,49 @@ CORS(app)
 
 db.init_app(app)
 
-# ========== 小米 Mimo API 配置 (Anthropic 兼容协议) ==========
-MIMO_API_KEY = "sk-crryec67twraqwq7fg0qej82o25yqaozitpt4xng47qk75qb"
-MIMO_BASE_URL = "https://api.xiaomimimo.com/anthropic/v1/messages"
+# ========== AI 接口配置 ==========
+def call_ai(system_prompt: str, user_message: str) -> str:
+    """
+    统一 AI 调用入口，目前默认使用 DeepSeek V3
+    """
+    return call_deepseek_ai(system_prompt, user_message)
+
+def call_deepseek_ai(system_prompt: str, user_message: str) -> str:
+    """
+    调用 DeepSeek API (OpenAI 兼容协议)
+    """
+    headers = {
+        "Authorization": f"Bearer {app.config['DEEPSEEK_API_KEY']}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "model": app.config['DEEPSEEK_MODEL'],
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 2048
+    }
+
+    try:
+        print(f"📡 正在请求 DeepSeek AI ({app.config['DEEPSEEK_MODEL']})...")
+        url = f"{app.config['DEEPSEEK_BASE_URL']}/chat/completions"
+        response = requests.post(url, headers=headers, json=payload, timeout=60)
+        response.raise_for_status()
+        
+        result = response.json()
+        content = result['choices'][0]['message']['content']
+        print(f"🤖 DeepSeek 响应成功 (长度: {len(content)} 字符)")
+        return content
+    except Exception as e:
+        print(f"❌ DeepSeek API 请求错误: {str(e)}")
+        if hasattr(e, 'response') and e.response is not None:
+            print(f"   错误详情: {e.response.text}")
+        # 如果 DeepSeek 出错，尝试备选模型 Mimo (可选)
+        # return call_mimo_ai(system_prompt, user_message)
+        raise e
 
 def call_mimo_ai(system_prompt: str, user_message: str) -> str:
     """
@@ -58,19 +98,48 @@ def call_mimo_ai(system_prompt: str, user_message: str) -> str:
         raise e
 
 # ========== 系统提示词 ==========
-TRIAGE_SYSTEM_PROMPT = """你是一个名为 PsySight 的心理健康助手。
-你的目标是：
-1. 以温暖、共情的语气与用户交流。
-2. 听取他们的困扰（如失眠、焦虑、抑郁等）。
-3. 如果用户描述的情况匹配以下量表，请**务必**推荐该量表：
-   - PHQ-9 抑郁症筛查量表 (ID: 1) - 适用于情绪低落、没兴趣、疲倦、想不开等。
-   - GAD-7 焦虑症筛查量表 (ID: 2) - 适用于紧张、担忧、无法放松、惊恐等。
-   - AIS 阿森斯失眠量表 (ID: 3) - 适用于入睡困难、早醒、睡眠质量差、白天没精神等睡眠问题。
+TRIAGE_SYSTEM_PROMPT = """你是一个名为 PsySight 的专业心理健康助手。
+你拥有一个包含 46 个专业量表的库，你的目标是：
+1. 以温暖、共情、非评判的语气与用户交流，让他们感到被听见和被理解。
+2. 敏锐捕捉用户描述中的关键词（如：失眠、社交恐惧、工作压力、性格迷茫、童年阴影等）。
+3. 必须从以下量表库中选择最匹配的一个推荐给用户：
+
+[情绪与压力类]
+- PHQ-9 抑郁症筛查 (ID: 1): 适用于情绪低落、兴趣丧失、疲劳感。
+- GAD-7 焦虑症筛查 (ID: 2): 适用于过度担忧、紧张不安、无法放松。
+- DASS-21 情绪自评 (ID: 18): 综合评估抑郁、焦虑和压力水平。
+- SCL-90 症状自评 (ID: 39): 综合性的心理健康体检，涵盖强迫、偏执等 9 个维度。
+- PSS-10 压力感知 (ID: 8): 评估近期生活压力的承受程度。
+
+[睡眠障碍类]
+- AIS 阿森斯失眠量表 (ID: 3): 快速判断失眠程度。
+- PSQI 匹兹堡睡眠质量 (ID: 38): 更详细的睡眠习惯分析。
+
+[人格与自我类]
+- MBTI 人格测试 (ID: 6 或 31): 适合性格探索、职业规划。
+- BigFive 大五人格 (ID: 14): 学术界最认可的人格模型。
+- 九型人格 (ID: 21): 深度自我认知和动机分析。
+- SES 尊严/自尊量表 (ID: 9): 评估自信心和自我价值感。
+
+[人际与情感类]
+- UCLA 孤独感量表 (ID: 44): 适用于感到孤独、无法融入集体的情况。
+- ECR 亲密关系体验 (ID: 20): 评估恋爱/伴侣中的依恋风格（安全、焦虑、回避型）。
+- SIAS 社交焦虑 (ID: 41): 适用于害怕社交、人群恐惧。
+- PBI 父母养育方式 (ID: 36): 探索童年经历和原生家庭影响。
+
+[特殊心理筛查]
+- ASRS 成人 ADHD (ID: 11): 适用于注意力不集中、多动、拖延严重。
+- Y-BOCS 强迫症量表 (ID: 46): 适用于反复检查、强迫思维。
+- PCL-5 PTSD 筛查 (ID: 37): 适用于经历重大创伤后的应激反应。
+- MDQ 双相情感障碍 (ID: 32): 评估情绪的高低起伏波动。
 
 你的回复必须是一个纯 JSON 对象（不要包含 markdown 代码块标记），格式如下：
-{"reply": "你对用户的安慰和回复", "recommended_scale_id": 1或2或3或null, "recommended_scale_title": "量表名称"或null}
+{"reply": "你对用户的安慰、共情和回复", "recommended_scale_id": 对应ID或null, "recommended_scale_title": "量表名称"或null}
 
-注意：如果用户提到睡眠不好、睡不着，请务必推荐 ID 为 3 的 AIS 量表，不要说“没有特定量表”。"""
+注意：
+- 即使推荐了量表，回复的 "reply" 部分也应保持人性化，不要像个机器人。
+- 如果用户只是闲聊，没有明显困扰，可以推荐 MBTI (ID: 6) 作为趣味开始。
+- 如果提到严重的自杀倾向，请在 reply 中加入危机干预提示。"""
 
 REPORT_SYSTEM_PROMPT = """你是一个专业的心理健康助手。请根据用户提供的测评数据生成一份温暖、专业的心理支持报告。
 
@@ -91,7 +160,7 @@ def chat():
     print(f"📩 收到用户消息: {user_message}")
     
     try:
-        ai_response = call_mimo_ai(TRIAGE_SYSTEM_PROMPT, user_message)
+        ai_response = call_ai(TRIAGE_SYSTEM_PROMPT, user_message)
         
         # 清理可能存在的 Markdown 代码块标记
         json_str = ai_response.strip()
@@ -146,7 +215,7 @@ def submit():
 测试期间主导情绪：{dominant_emotion} (置信度: {emotion_weight:.2%})
 """
         
-        ai_report = call_mimo_ai(REPORT_SYSTEM_PROMPT, user_data)
+        ai_report = call_ai(REPORT_SYSTEM_PROMPT, user_data)
         
         record = AssessmentRecord(
             user_id=user_id,
@@ -215,6 +284,6 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     print("🚀 PsySight 后端启动中...")
-    print("   AI 模型: 小米 Mimo v2 Flash (Anthropic 兼容)")
+    print(f"   AI 模型: DeepSeek V3 ({app.config.get('DEEPSEEK_MODEL')})")
     print("   端口: 8004")
     app.run(debug=True, port=8004, host='0.0.0.0', threaded=True)
