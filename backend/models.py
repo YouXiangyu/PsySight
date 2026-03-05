@@ -6,20 +6,56 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    # 课程项目使用简单哈希存储
-    password_hash = db.Column(db.String(128))
+    email = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    username = db.Column(db.String(80), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(20), default="user")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login_at = db.Column(db.DateTime)
 
 class Scale(db.Model):
     __tablename__ = 'scales'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False) # 例如 "PHQ-9"
+    code = db.Column(db.String(50), unique=True, nullable=False, index=True)  # 例如 "phq9"
+    title = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), default="综合")
+    estimated_minutes = db.Column(db.Integer, default=5)
     description = db.Column(db.Text)
-    # 存储题目为 JSON 结构
-    # 结构示例: [{"id": 1, "text": "...", "options": [{"label": "是", "score": 1}]}]
     questions = db.Column(db.JSON, nullable=False)
-    scoring_rules = db.Column(db.Text) # AI 分析时的评分上下文
+    scoring_rules = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class ConversationSession(db.Model):
+    __tablename__ = 'conversation_sessions'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    title = db.Column(db.String(120), nullable=False, default="新对话")
+    is_anonymous = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class ConversationMessage(db.Model):
+    __tablename__ = 'conversation_messages'
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.Integer, db.ForeignKey('conversation_sessions.id'), nullable=False, index=True)
+    role = db.Column(db.String(20), nullable=False)  # user / assistant
+    content = db.Column(db.Text, nullable=False)
+    recommended_scale_code = db.Column(db.String(50))
+    recommended_scale_title = db.Column(db.String(100))
+    crisis_flag = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class MessageFeedback(db.Model):
+    __tablename__ = 'message_feedbacks'
+    id = db.Column(db.Integer, primary_key=True)
+    message_id = db.Column(db.Integer, db.ForeignKey('conversation_messages.id'), nullable=False, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    feedback = db.Column(db.String(10), nullable=False)  # up / down
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class AssessmentRecord(db.Model):
     __tablename__ = 'assessment_records'
@@ -27,10 +63,28 @@ class AssessmentRecord(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     scale_id = db.Column(db.Integer, db.ForeignKey('scales.id'))
     total_score = db.Column(db.Integer)
-    # JSON 存储用户的具体选项: {"q1": 1, "q2": 3}
+    severity_level = db.Column(db.String(30))
     user_answers = db.Column(db.JSON)
-    # JSON 存储情绪统计: {"happy": 0.1, "sad": 0.8, "neutral": 0.1}
-    emotion_log = db.Column(db.JSON) 
-    # 由 Gemini 生成的最终 Markdown 报告
+    emotion_log = db.Column(db.JSON)
+    emotion_consent = db.Column(db.Boolean, default=False)
     ai_report = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class CrisisEvent(db.Model):
+    __tablename__ = 'crisis_events'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    session_id = db.Column(db.Integer, db.ForeignKey('conversation_sessions.id'))
+    trigger_text = db.Column(db.Text, nullable=False)
+    matched_keywords = db.Column(db.JSON, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class ExportAudit(db.Model):
+    __tablename__ = 'export_audits'
+    id = db.Column(db.Integer, primary_key=True)
+    export_format = db.Column(db.String(10), nullable=False)  # json/csv
+    record_count = db.Column(db.Integer, nullable=False, default=0)
+    source_ip = db.Column(db.String(64))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

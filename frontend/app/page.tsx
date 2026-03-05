@@ -1,49 +1,74 @@
+'use client';
+
 import ChatWindow from '@/components/ChatWindow';
 import Link from 'next/link';
-import { PenTool, Activity } from 'lucide-react';
+import { getStatsSummary } from '@/lib/api';
+import { Activity, PenTool, Scale } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [stats, setStats] = useState<{ based_on_n: number; cards: Array<{ label: string; value: string }> } | null>(
+    null
+  );
+
+  useEffect(() => {
+    getStatsSummary()
+      .then(setStats)
+      .catch(() => setStats(null));
+  }, []);
+
   return (
-    <div className="flex h-screen bg-white">
-      {/* 侧边栏 (PC端显示) */}
-      <div className="hidden md:flex w-[260px] flex-col bg-[#000000] text-gray-100 p-3 border-r border-gray-800 flex-shrink-0">
-        <Link href="/" className="flex items-center gap-2 px-3 py-4 mb-2 hover:bg-gray-900 rounded-lg transition-colors">
-          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-            <span className="text-black font-bold text-lg">P</span>
-          </div>
-          <h1 className="text-lg font-medium">PsySight</h1>
-        </Link>
-        
-        <button className="flex items-center gap-3 px-3 py-3 mb-6 rounded-md border border-gray-700 hover:bg-gray-800 transition text-sm text-left text-white">
-          <span className="text-lg">+</span> 
-          <span>开启新对话</span>
-        </button>
-
-        <div className="flex-1 overflow-y-auto">
-          <div className="text-xs font-medium text-gray-500 mb-2 px-3">功能导航</div>
-          <Link href="/canvas" className="flex items-center gap-3 px-3 py-3 rounded-md hover:bg-gray-900 cursor-pointer text-sm text-gray-300 transition-colors">
-            <PenTool size={16} />
-            <span>绘画投射分析</span>
-          </Link>
-          <div className="flex items-center gap-3 px-3 py-3 rounded-md hover:bg-gray-900 cursor-pointer text-sm text-gray-300 transition-colors">
-            <Activity size={16} />
-            <span>心理量表库</span>
-          </div>
-        </div>
-
-        <div className="mt-auto pt-4 border-t border-gray-800">
-          <div className="flex items-center gap-3 px-2 py-3 rounded-md hover:bg-gray-900 cursor-pointer text-sm">
-            <div className="w-8 h-8 rounded bg-green-600 flex items-center justify-center text-white font-bold text-xs">US</div>
-            <div className="flex-1">
-              <div className="font-medium text-gray-200">User</div>
+    <div className="h-screen bg-[#eef2f7] flex flex-col">
+      <header className="border-b border-slate-200 bg-white/95 backdrop-blur-sm px-4 py-3">
+        <div className="mx-auto max-w-6xl flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+              P
+            </div>
+            <div>
+              <h1 className="text-sm font-semibold text-slate-800">PsySight</h1>
+              <p className="text-xs text-slate-400">大学生智能心理支持系统</p>
             </div>
           </div>
+          <nav className="flex items-center gap-2 text-sm">
+            <Link href="/scales" className="rounded-md px-3 py-1.5 hover:bg-slate-100 text-slate-600 flex items-center gap-1">
+              <Scale size={14} />
+              量表库
+            </Link>
+            <Link href="/canvas" className="rounded-md px-3 py-1.5 hover:bg-slate-100 text-slate-600 flex items-center gap-1">
+              <PenTool size={14} />
+              绘画投射
+            </Link>
+            <Link href="/auth" className="rounded-md px-3 py-1.5 bg-indigo-600 text-white hover:bg-indigo-700">
+              登录 / 注册
+            </Link>
+          </nav>
         </div>
-      </div>
+      </header>
 
-      {/* 主内容区 */}
-      <main className="flex-1 flex flex-col h-full relative bg-white">
-        <ChatWindow />
+      {stats && (
+        <section className="px-4 pt-3">
+          <div className="mx-auto max-w-6xl rounded-xl border border-slate-200 bg-white p-3">
+            <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+              <Activity size={14} />
+              基于 {stats.based_on_n} 位用户的匿名统计
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              {stats.cards.map((card) => (
+                <div key={card.label} className="rounded-lg bg-slate-50 p-3">
+                  <p className="text-xs text-slate-500">{card.label}</p>
+                  <p className="text-xl font-semibold text-indigo-700">{card.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <main className="flex-1 min-h-0 px-4 pb-4 pt-3">
+        <div className="mx-auto max-w-6xl h-full rounded-2xl border border-slate-200 bg-white overflow-hidden">
+          <ChatWindow />
+        </div>
       </main>
     </div>
   );

@@ -2,27 +2,25 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import api from '@/lib/api';
-import { ShieldCheck, FileText, Calendar, User, ArrowLeft, Download } from 'lucide-react';
+import { getReport, getStatsSummary } from '@/lib/api';
+import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download, Activity } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ReportPage() {
   const { id } = useParams();
   const [record, setRecord] = useState<any>(null);
+  const [stats, setStats] = useState<{ based_on_n: number; cards: Array<{ label: string; value: string }> } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 这里我们假设后端有一个获取单个记录的接口，或者通过 ID 模拟
-    // 实际项目中可以添加 GET /api/records/<id>
-    // 暂时用 Mock 或从数据库逻辑推断
     const fetchReport = async () => {
       try {
-        // 实际上后端目前没写这个 GET 接口，我们为了演示先从后端 models 结构推断获取方式
-        // 正常开发中需要后端配合
-        const response = await api.get(`/report/${id}`);
-        setRecord(response.data);
+        const response = await getReport(Number(id));
+        setRecord(response);
+        const summary = await getStatsSummary();
+        setStats(summary);
       } catch (e) {
-        console.error("Report fetch failed");
+        console.error('Report fetch failed');
       } finally {
         setLoading(false);
       }
@@ -61,7 +59,10 @@ export default function ReportPage() {
               <span className="font-bold tracking-wider uppercase text-sm opacity-80">PsySight Assessment Report</span>
             </div>
             <h1 className="text-3xl font-bold mb-2">心理健康评估报告</h1>
-            <p className="opacity-80 text-sm">此报告由 Gemini 3 Flash AI 引擎根据您的测评数据深度生成。</p>
+            <p className="opacity-80 text-sm">此报告由 DeepSeek R1 根据你的测评结果与情绪数据生成。</p>
+            <p className="mt-3 text-sm bg-white/15 inline-block rounded-lg px-3 py-1">
+              完成测评已经很勇敢了，你正在认真照顾自己。
+            </p>
           </div>
 
           {/* 信息条 */}
@@ -77,23 +78,79 @@ export default function ReportPage() {
               <Calendar size={16} className="text-slate-400" />
               <div className="text-xs">
                 <p className="text-slate-400">完成时间</p>
-                <p className="font-bold text-slate-700">{new Date().toLocaleDateString()}</p>
+                <p className="font-bold text-slate-700">
+                  {record?.created_at ? new Date(record.created_at).toLocaleDateString() : new Date().toLocaleDateString()}
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <FileText size={16} className="text-slate-400" />
               <div className="text-xs">
                 <p className="text-slate-400">评估类型</p>
-                <p className="font-bold text-indigo-600">AI 多模态综合分析</p>
+                <p className="font-bold text-indigo-600">{record?.scale?.title || 'AI 多模态综合分析'}</p>
               </div>
             </div>
           </div>
 
           {/* 正文内容 */}
           <div className="p-8 md:p-12">
+            {!!record?.urgent_recommendation && (
+              <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-4">
+                <div className="flex items-center gap-2 text-rose-700 font-semibold">
+                  <ShieldAlert size={16} />
+                  专业求助优先建议
+                </div>
+                <p className="mt-2 text-sm text-rose-700">{record.urgent_recommendation}</p>
+                <p className="mt-2 text-xs text-rose-600">可优先联系学校心理咨询中心或当地危机干预热线。</p>
+              </div>
+            )}
+
+            <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <p className="text-xs text-slate-500">总分</p>
+                <p className="text-2xl font-semibold text-slate-800">{record?.total_score ?? '-'}</p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <p className="text-xs text-slate-500">严重程度</p>
+                <p className="text-2xl font-semibold text-indigo-700">{record?.severity_level || '待评估'}</p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <p className="text-xs text-slate-500">情绪采集</p>
+                <p className="text-2xl font-semibold text-slate-800">{record?.emotion_consent ? '已同意' : '未开启'}</p>
+              </div>
+            </div>
+            {!!record?.score_explanation && (
+              <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-800">
+                <p className="font-semibold">分值解释</p>
+                <p className="mt-1">{record.score_explanation}</p>
+              </div>
+            )}
+
+            {record?.emotion_consent && record?.emotion_log && Object.keys(record.emotion_log).length > 0 && (
+              <div className="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="text-sm font-semibold text-slate-700 mb-2">答题期间情绪分布</h3>
+                <div className="space-y-2">
+                  {Object.entries(record.emotion_log).map(([key, value]) => {
+                    const pct = Math.round(Number(value) * 100);
+                    return (
+                      <div key={key} className="space-y-1">
+                        <div className="flex items-center justify-between text-xs text-slate-500">
+                          <span>{key}</span>
+                          <span>{pct}%</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-white border border-slate-200 overflow-hidden">
+                          <div className="h-full bg-indigo-500" style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {record ? (
-              <article className="prose prose-slate max-w-none">
-                <div className="whitespace-pre-wrap text-slate-700 leading-relaxed">
+              <article className="max-w-none">
+                <div className="whitespace-pre-wrap text-slate-700 leading-relaxed text-sm md:text-base">
                   {record.ai_report}
                 </div>
               </article>
@@ -112,6 +169,23 @@ export default function ReportPage() {
                 </p>
               </div>
             </div>
+
+            {stats && (
+              <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                  <Activity size={14} />
+                  基于 {stats.based_on_n} 位用户的匿名统计
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                  {stats.cards.map((card) => (
+                    <div key={card.label} className="rounded-lg bg-white p-3 border border-slate-200">
+                      <p className="text-xs text-slate-500">{card.label}</p>
+                      <p className="text-xl font-semibold text-indigo-700">{card.value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
