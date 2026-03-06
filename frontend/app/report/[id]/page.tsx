@@ -2,15 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getReport, getStatsSummary } from '@/lib/api';
-import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download, Activity } from 'lucide-react';
+import { getReport, getStatsSummary, type StatsSummary } from '@/lib/api';
+import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download } from 'lucide-react';
 import Link from 'next/link';
+import StatsBoard from '@/components/StatsBoard';
 
 export default function ReportPage() {
   const { id } = useParams();
   const [record, setRecord] = useState<any>(null);
-  const [stats, setStats] = useState<{ based_on_n: number; cards: Array<{ label: string; value: string }> } | null>(null);
+  const [stats, setStats] = useState<StatsSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -20,13 +22,17 @@ export default function ReportPage() {
         const summary = await getStatsSummary();
         setStats(summary);
       } catch (e) {
-        console.error('Report fetch failed');
+        setErrorMsg((e as Error).message || '报告加载失败');
       } finally {
         setLoading(false);
       }
     };
     fetchReport();
   }, [id]);
+
+  const subjectName = record?.anonymous
+    ? '匿名用户'
+    : record?.owner?.username || record?.owner?.public_name || '登录用户';
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -71,7 +77,7 @@ export default function ReportPage() {
               <User size={16} className="text-slate-400" />
               <div className="text-xs">
                 <p className="text-slate-400">测评对象</p>
-                <p className="font-bold text-slate-700">匿名用户</p>
+                <p className="font-bold text-slate-700">{subjectName}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -148,6 +154,12 @@ export default function ReportPage() {
               </div>
             )}
 
+            {!!errorMsg && (
+              <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+                {errorMsg}
+              </div>
+            )}
+
             {record ? (
               <article className="max-w-none">
                 <div className="whitespace-pre-wrap text-slate-700 leading-relaxed text-sm md:text-base">
@@ -171,19 +183,8 @@ export default function ReportPage() {
             </div>
 
             {stats && (
-              <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
-                  <Activity size={14} />
-                  基于 {stats.based_on_n} 位用户的匿名统计
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                  {stats.cards.map((card) => (
-                    <div key={card.label} className="rounded-lg bg-white p-3 border border-slate-200">
-                      <p className="text-xs text-slate-500">{card.label}</p>
-                      <p className="text-xl font-semibold text-indigo-700">{card.value}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-6">
+                <StatsBoard stats={stats} />
               </div>
             )}
           </div>

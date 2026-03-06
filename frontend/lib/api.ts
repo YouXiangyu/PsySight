@@ -20,6 +20,11 @@ export interface AuthUser {
   id: number;
   email: string;
   username: string;
+  gender?: string | null;
+  age?: number | null;
+  region?: string | null;
+  show_nickname_in_stats?: boolean;
+  public_name?: string;
 }
 
 export interface MessageItem {
@@ -38,6 +43,21 @@ export interface ChatPayload {
   message: string;
   session_id?: number | null;
   anonymous?: boolean;
+}
+
+export interface StatsSummary {
+  based_on_n: number;
+  cards: Array<{ label: string; value: string }>;
+  overview?: {
+    cards: Array<{ label: string; value: string }>;
+  };
+  demographics?: {
+    age_groups?: Array<{ label: string; value: number }>;
+    genders?: Array<{ label: string; value: number }>;
+    regions?: Array<{ label: string; value: number }>;
+    participants?: Array<{ name: string; region: string; reports: number }>;
+  };
+  wordcloud?: Array<{ text: string; weight: number }>;
 }
 
 export const chatWithAI = async (payload: ChatPayload) => {
@@ -75,6 +95,16 @@ export const logout = async () => {
 export const getMe = async () => {
   const response = await api.get('/auth/me');
   return response.data as { authenticated: boolean; user: AuthUser | null };
+};
+
+export const updateMyProfile = async (payload: {
+  gender?: string | null;
+  age?: number | null;
+  region?: string | null;
+  show_nickname_in_stats?: boolean;
+}) => {
+  const response = await api.patch('/me/profile', payload);
+  return response.data as { ok: boolean; user: AuthUser };
 };
 
 export const listConversations = async () => {
@@ -137,7 +167,29 @@ export const submitAssessment = async (payload: {
 
 export const getReport = async (id: number) => {
   const response = await api.get(`/report/${id}`);
-  return response.data;
+  return response.data as {
+    id: number;
+    scale: {
+      id: number;
+      code: string;
+      title: string;
+      category: string;
+      description: string;
+      estimated_minutes: number;
+      question_count: number;
+    } | null;
+    total_score: number;
+    severity_level: string;
+    score_explanation: string;
+    urgent_recommendation?: string | null;
+    ai_report: string;
+    emotion_log: Record<string, number>;
+    emotion_consent: boolean;
+    anonymous: boolean;
+    owner: { id: number; username: string; public_name: string } | null;
+    hidden_from_stats: boolean;
+    created_at: string;
+  };
 };
 
 export const analyzeCanvas = async (payload: {
@@ -156,9 +208,42 @@ export const getHotlines = async () => {
 
 export const getStatsSummary = async () => {
   const response = await api.get('/stats/summary');
+  return response.data as StatsSummary;
+};
+
+export const getMyReports = async (params?: { limit?: number; offset?: number }) => {
+  const query = new URLSearchParams();
+  if (params?.limit) query.set('limit', String(params.limit));
+  if (params?.offset) query.set('offset', String(params.offset));
+  const response = await api.get(`/reports/me${query.toString() ? `?${query}` : ''}`);
   return response.data as {
-    based_on_n: number;
-    cards: Array<{ label: string; value: string }>;
+    items: Array<{
+      id: number;
+      scale: {
+        id: number;
+        code: string;
+        title: string;
+        category: string;
+        description: string;
+        estimated_minutes: number;
+        question_count: number;
+      };
+      total_score: number;
+      severity_level: string;
+      score_explanation: string;
+      created_at: string;
+      hidden_from_stats: boolean;
+    }>;
+    count: number;
+  };
+};
+
+export const setReportStatsVisibility = async (id: number, hidden_from_stats: boolean) => {
+  const response = await api.patch(`/reports/${id}/stats-visibility`, { hidden_from_stats });
+  return response.data as {
+    ok: boolean;
+    record_id: number;
+    hidden_from_stats: boolean;
   };
 };
 

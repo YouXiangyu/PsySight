@@ -4,7 +4,7 @@ import io
 import json
 import re
 import time
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import requests
 from flask import Flask, Response, g, jsonify, request, session
@@ -84,6 +84,23 @@ SEVERITY_EXPLANATIONS = {
     "待评估": "当前量表暂无标准分级映射，建议结合更多信息综合判断。",
 }
 
+ANON_ALIAS_PREFIXES = [
+    "星辰",
+    "微光",
+    "溪流",
+    "晴空",
+    "晨曦",
+    "远山",
+    "青禾",
+    "松风",
+]
+
+FALLBACK_REPLY_TEMPLATES = [
+    "谢谢你愿意说出来。我注意到你提到“{snippet}”，这件事确实会让人很耗能。我们先从今天最难熬的那个时刻聊起，好吗？",
+    "你把这些感受讲出来已经很不容易了，尤其是“{snippet}”这部分。若你愿意，我们可以先找一个今晚就能做到的小动作，帮你把状态拉回一点点。",
+    "读到“{snippet}”我能感受到你在硬撑。你不是一个人，我们可以一步一步来。现在你更希望我先陪你梳理情绪，还是先给你一个具体的应对办法？",
+]
+
 
 def run_lightweight_migrations() -> None:
     inspector = inspect(db.engine)
@@ -96,6 +113,16 @@ def run_lightweight_migrations() -> None:
                 conn.execute(text("ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'user'"))
             if "last_login_at" not in cols:
                 conn.execute(text("ALTER TABLE users ADD COLUMN last_login_at DATETIME"))
+            if "gender" not in cols:
+                conn.execute(text("ALTER TABLE users ADD COLUMN gender VARCHAR(20)"))
+            if "age" not in cols:
+                conn.execute(text("ALTER TABLE users ADD COLUMN age INTEGER"))
+            if "region" not in cols:
+                conn.execute(text("ALTER TABLE users ADD COLUMN region VARCHAR(60)"))
+            if "show_nickname_in_stats" not in cols:
+                conn.execute(text("ALTER TABLE users ADD COLUMN show_nickname_in_stats BOOLEAN DEFAULT 0"))
+            if "profile_updated_at" not in cols:
+                conn.execute(text("ALTER TABLE users ADD COLUMN profile_updated_at DATETIME"))
         if "scales" in inspector.get_table_names():
             cols = {c["name"] for c in inspector.get_columns("scales")}
             if "code" not in cols:
@@ -114,6 +141,17 @@ def run_lightweight_migrations() -> None:
                 conn.execute(text("ALTER TABLE assessment_records ADD COLUMN severity_level VARCHAR(30)"))
             if "emotion_consent" not in cols:
                 conn.execute(text("ALTER TABLE assessment_records ADD COLUMN emotion_consent BOOLEAN DEFAULT 0"))
+            if "hidden_from_stats" not in cols:
+                conn.execute(text("ALTER TABLE assessment_records ADD COLUMN hidden_from_stats BOOLEAN DEFAULT 0"))
+
+            indexes = {idx["name"] for idx in inspector.get_indexes("assessment_records")}
+            if "idx_assessment_records_user_created" not in indexes:
+                conn.execute(
+                    text(
+                        "CREATE INDEX idx_assessment_records_user_created "
+                        "ON assessment_records (user_id, created_at)"
+                    )
+                )
 
 
 def bootstrap_scale_codes() -> None:
@@ -149,6 +187,20 @@ def get_current_user() -> Optional[User]:
 def is_admin_authorized(req) -> bool:
     token = req.headers.get("X-Admin-Token", "")
     return bool(app.config["ADMIN_EXPORT_TOKEN"]) and token == app.config["ADMIN_EXPORT_TOKEN"]
+
+
+def build_anonymous_alias(user_id: int) -> str:
+    prefix = ANON_ALIAS_PREFIXES[user_id % len(ANON_ALIAS_PREFIXES)]
+    suffix = (user_id * 37) % 100
+    return f"{prefix}-{suffix:02d}"
+
+
+def get_user_public_name(user: Optional[User]) -> str:
+    if not user:
+        return "匿名用户"
+    if user.show_nickname_in_stats and user.username:
+        return user.username
+    return build_anonymous_alias(user.id)
 
 
 def call_deepseek(system_prompt: str, user_prompt: str, max_tokens: int = 1200, temperature: float = 0.4) -> str:
@@ -257,10 +309,9 @@ def serialize_scale(scale: Scale) -> Dict:
 
 
 def build_default_reply(user_message: str) -> str:
-    return (
-        f"谢谢你愿意说出来。我看到你提到“{user_message[:30]}”，"
-        "这听起来确实很不容易。我们可以慢慢来，我会一直在这里陪你。"
-    )
+    snippet = user_message[:28] or "这件事"
+    template = FALLBACK_REPLY_TEMPLATES[abs(hash(user_message)) % len(FALLBACK_REPLY_TEMPLATES)]
+    return template.format(snippet=snippet)
 
 
 def build_default_report(scale: Scale, score: int, severity_level: str, emotion_log: Dict, urgent_text: Optional[str]) -> str:
@@ -283,12 +334,13 @@ def build_default_report(scale: Scale, score: int, severity_level: str, emotion_
 
 def build_triage_prompt() -> str:
     return (
-        "你是 PsySight 心理支持助手。请遵守：\n"
-        "1) 回答必须共情、具体，不要模板化空话。\n"
-        "2) 若识别到失眠/焦虑/抑郁倾向，推荐对应量表 code：ais/gad7/phq9。\n"
-        "3) 输出必须是 JSON，格式："
-        "{\"reply\":\"...\",\"recommended_scale_code\":\"phq9|gad7|ais|null\"}。\n"
-        "4) reply 必须引用用户描述中的具体点，不得只说“我理解你的感受”。"
+        "你是 PsySight 心理支持助手。请按下面要求回答：\n"
+        "1) 先给出 2-4 句自然、具体、有共情的回应，必须引用用户提到的细节，不要空泛套话。\n"
+        "2) 在回应中给出一个当下可执行的小建议（例如今晚、今天、这一刻能做的）。\n"
+        "3) 最后加一句温和追问，帮助用户继续表达。\n"
+        "4) 再判断是否推荐量表：失眠->ais，焦虑->gad7，抑郁低落->phq9，不确定则 null。\n"
+        "5) 仅输出 JSON，不要输出其他文本。JSON 格式："
+        "{\"reply\":\"...\",\"recommended_scale_code\":\"phq9|gad7|ais|null\"}。"
     )
 
 
@@ -404,7 +456,80 @@ def me():
     return jsonify(
         {
             "authenticated": True,
-            "user": {"id": user.id, "email": user.email, "username": user.username},
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "username": user.username,
+                "gender": user.gender,
+                "age": user.age,
+                "region": user.region,
+                "show_nickname_in_stats": bool(user.show_nickname_in_stats),
+                "public_name": get_user_public_name(user),
+            },
+        }
+    )
+
+
+@app.route("/api/me/profile", methods=["PATCH"])
+def update_profile():
+    user = get_current_user()
+    if not user:
+        return jsonify({"error": "请先登录"}), 401
+
+    data = request.json or {}
+    gender = data.get("gender")
+    age = data.get("age")
+    region = data.get("region")
+    show_nickname_in_stats = data.get("show_nickname_in_stats")
+
+    if gender is not None:
+        if not isinstance(gender, str):
+            return jsonify({"error": "gender 格式错误"}), 400
+        gender = gender.strip()
+        if len(gender) > 20:
+            return jsonify({"error": "gender 长度不能超过20"}), 400
+        user.gender = gender or None
+
+    if age is not None:
+        if age == "":
+            user.age = None
+        else:
+            try:
+                parsed_age = int(age)
+            except Exception:
+                return jsonify({"error": "age 必须是整数"}), 400
+            if parsed_age < 10 or parsed_age > 100:
+                return jsonify({"error": "age 需要在 10-100 之间"}), 400
+            user.age = parsed_age
+
+    if region is not None:
+        if not isinstance(region, str):
+            return jsonify({"error": "region 格式错误"}), 400
+        region = region.strip()
+        if len(region) > 60:
+            return jsonify({"error": "region 长度不能超过60"}), 400
+        user.region = region or None
+
+    if show_nickname_in_stats is not None:
+        if not isinstance(show_nickname_in_stats, bool):
+            return jsonify({"error": "show_nickname_in_stats 必须是布尔值"}), 400
+        user.show_nickname_in_stats = show_nickname_in_stats
+
+    user.profile_updated_at = datetime.utcnow()
+    db.session.commit()
+    return jsonify(
+        {
+            "ok": True,
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "username": user.username,
+                "gender": user.gender,
+                "age": user.age,
+                "region": user.region,
+                "show_nickname_in_stats": bool(user.show_nickname_in_stats),
+                "public_name": get_user_public_name(user),
+            },
         }
     )
 
@@ -544,19 +669,43 @@ def chat():
         (
             f"用户输入：{user_message}\n"
             f"历史上下文：{context_text if context_text else '无'}\n"
-            f"规则初步推荐：{rule_scale_code or 'null'}"
+            f"规则初步推荐：{rule_scale_code or 'null'}\n"
+            "请先完成自然共情回复，再给出 recommended_scale_code。"
         ),
-        max_tokens=400,
-        temperature=0.3,
+        max_tokens=520,
+        temperature=0.55,
     )
     parsed = extract_json(ai_content)
     reply = parsed.get("reply") if isinstance(parsed, dict) else None
+
+    if not reply and ai_content:
+        plain = ai_content.strip()
+        if plain.startswith("```json"):
+            plain = plain[7:]
+        if plain.startswith("```"):
+            plain = plain[3:]
+        if plain.endswith("```"):
+            plain = plain[:-3]
+        plain = plain.strip()
+        if plain and not plain.startswith("{"):
+            reply = plain
+
     if not reply:
         reply = build_default_reply(user_message)
 
     model_scale_code = parsed.get("recommended_scale_code") if isinstance(parsed, dict) else None
+    if not model_scale_code and ai_content:
+        match = re.search(
+            r'"recommended_scale_code"\s*:\s*"(phq9|gad7|ais|null|none)"',
+            ai_content,
+            flags=re.IGNORECASE,
+        )
+        if match:
+            model_scale_code = match.group(1)
     if isinstance(model_scale_code, str):
         model_scale_code = model_scale_code.lower().strip()
+    if model_scale_code not in ("phq9", "gad7", "ais", "null", "", "none", None):
+        model_scale_code = None
     if model_scale_code in ("null", "", "none"):
         model_scale_code = None
     recommended_code = model_scale_code or rule_scale_code
@@ -737,8 +886,17 @@ def submit_assessment():
 @app.route("/api/report/<int:record_id>", methods=["GET"])
 def get_report(record_id: int):
     record = AssessmentRecord.query.get_or_404(record_id)
+    current_user = get_current_user()
+    is_anonymous_record = record.user_id is None
+    if not is_anonymous_record:
+        if not current_user or current_user.id != record.user_id:
+            return jsonify({"error": "无权限查看该报告"}), 403
+
     scale = Scale.query.get(record.scale_id)
     urgent = get_urgent_recommendation(scale.code if scale else "", record.total_score or 0)
+    owner = User.query.get(record.user_id) if record.user_id else None
+    owner_name = owner.username if owner else "匿名用户"
+    owner_public_name = get_user_public_name(owner)
     return jsonify(
         {
             "id": record.id,
@@ -750,7 +908,77 @@ def get_report(record_id: int):
             "ai_report": record.ai_report,
             "emotion_log": record.emotion_log or {},
             "emotion_consent": bool(record.emotion_consent),
+            "anonymous": is_anonymous_record,
+            "owner": (
+                {
+                    "id": owner.id,
+                    "username": owner_name,
+                    "public_name": owner_public_name,
+                }
+                if owner
+                else None
+            ),
+            "hidden_from_stats": bool(record.hidden_from_stats),
             "created_at": record.created_at.isoformat(),
+        }
+    )
+
+
+@app.route("/api/reports/me", methods=["GET"])
+def my_reports():
+    user = get_current_user()
+    if not user:
+        return jsonify({"error": "请先登录"}), 401
+
+    limit = min(max(int(request.args.get("limit", 50)), 1), 100)
+    offset = max(int(request.args.get("offset", 0)), 0)
+    rows = (
+        db.session.query(AssessmentRecord, Scale)
+        .join(Scale, Scale.id == AssessmentRecord.scale_id)
+        .filter(AssessmentRecord.user_id == user.id)
+        .order_by(AssessmentRecord.created_at.desc())
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
+    items = []
+    for record, scale in rows:
+        items.append(
+            {
+                "id": record.id,
+                "scale": serialize_scale(scale),
+                "total_score": record.total_score,
+                "severity_level": record.severity_level,
+                "score_explanation": explain_severity(record.severity_level or "待评估"),
+                "created_at": record.created_at.isoformat(),
+                "hidden_from_stats": bool(record.hidden_from_stats),
+            }
+        )
+    return jsonify({"items": items, "count": len(items)})
+
+
+@app.route("/api/reports/<int:record_id>/stats-visibility", methods=["PATCH"])
+def set_report_stats_visibility(record_id: int):
+    user = get_current_user()
+    if not user:
+        return jsonify({"error": "请先登录"}), 401
+
+    record = AssessmentRecord.query.filter_by(id=record_id, user_id=user.id).first()
+    if not record:
+        return jsonify({"error": "报告不存在或无权限"}), 404
+
+    data = request.json or {}
+    hidden = data.get("hidden_from_stats")
+    if not isinstance(hidden, bool):
+        return jsonify({"error": "hidden_from_stats 必须是布尔值"}), 400
+
+    record.hidden_from_stats = hidden
+    db.session.commit()
+    return jsonify(
+        {
+            "ok": True,
+            "record_id": record.id,
+            "hidden_from_stats": bool(record.hidden_from_stats),
         }
     )
 
@@ -797,25 +1025,90 @@ def analyze_canvas():
 
 @app.route("/api/stats/summary", methods=["GET"])
 def stats_summary():
-    rows: List[Tuple[str, int, int]] = []
-    joined = (
-        db.session.query(Scale.code, AssessmentRecord.total_score, func.count(AssessmentRecord.id))
+    visible_filter = (AssessmentRecord.hidden_from_stats.is_(False)) | (AssessmentRecord.hidden_from_stats.is_(None))
+    rows = (
+        db.session.query(AssessmentRecord, Scale, User)
         .join(Scale, Scale.id == AssessmentRecord.scale_id)
-        .group_by(Scale.code, AssessmentRecord.total_score)
+        .outerjoin(User, User.id == AssessmentRecord.user_id)
+        .filter(visible_filter)
         .all()
     )
-    for code, total_score, count in joined:
-        rows.append((code, int(total_score or 0), int(count)))
 
-    total_records = sum(item[2] for item in rows)
-    by_scale = {}
-    for code, total_score, count in rows:
-        if code not in by_scale:
-            by_scale[code] = {"total": 0, "severe": 0}
-        by_scale[code]["total"] += count
+    by_scale: Dict[str, Dict[str, int]] = {}
+    age_distribution = {
+        "18岁以下": 0,
+        "18-22岁": 0,
+        "23-26岁": 0,
+        "27岁及以上": 0,
+        "未填写": 0,
+    }
+    gender_distribution: Dict[str, int] = {}
+    region_distribution: Dict[str, int] = {}
+    participant_map: Dict[int, Dict[str, object]] = {}
+    word_weights: Dict[str, int] = {}
+
+    def add_word(word: str, weight: int = 1) -> None:
+        word_weights[word] = word_weights.get(word, 0) + weight
+
+    def get_age_bucket(age: Optional[int]) -> str:
+        if age is None:
+            return "未填写"
+        if age < 18:
+            return "18岁以下"
+        if age <= 22:
+            return "18-22岁"
+        if age <= 26:
+            return "23-26岁"
+        return "27岁及以上"
+
+    for record, scale, user in rows:
+        code = (scale.code or "").lower()
+        total_score = int(record.total_score or 0)
+        by_scale.setdefault(code, {"total": 0, "severe": 0})
+        by_scale[code]["total"] += 1
         severe_threshold = 7 if code == "ais" else 10
         if total_score >= severe_threshold:
-            by_scale[code]["severe"] += count
+            by_scale[code]["severe"] += 1
+
+        if user:
+            age_label = get_age_bucket(user.age)
+            age_distribution[age_label] = age_distribution.get(age_label, 0) + 1
+
+            gender_label = (user.gender or "").strip() or "未填写"
+            gender_distribution[gender_label] = gender_distribution.get(gender_label, 0) + 1
+
+            region_label = (user.region or "").strip() or "未填写"
+            region_distribution[region_label] = region_distribution.get(region_label, 0) + 1
+
+            if user.id not in participant_map:
+                participant_map[user.id] = {
+                    "name": get_user_public_name(user),
+                    "region": region_label,
+                    "reports": 0,
+                }
+            participant_map[user.id]["reports"] = int(participant_map[user.id]["reports"]) + 1
+
+        if code == "ais":
+            add_word("睡眠")
+            if total_score >= 7:
+                add_word("失眠", 3)
+                add_word("作息紊乱", 2)
+        elif code == "gad7":
+            add_word("焦虑")
+            if total_score >= 10:
+                add_word("紧张", 2)
+                add_word("担忧", 2)
+        elif code == "phq9":
+            add_word("情绪低落")
+            if total_score >= 10:
+                add_word("抑郁风险", 3)
+                add_word("动力下降", 2)
+
+        if (record.severity_level or "") in ("中度", "中重度", "重度"):
+            add_word("需要支持", 2)
+            add_word("心理健康", 1)
+
+    total_records = len(rows)
 
     def ratio(scale_code: str) -> int:
         total = by_scale.get(scale_code, {}).get("total", 0)
@@ -829,7 +1122,33 @@ def stats_summary():
         {"label": "中高焦虑水平的同龄人", "value": f"{ratio('gad7')}%"},
         {"label": "中高抑郁风险的同龄人", "value": f"{ratio('phq9')}%"},
     ]
-    return jsonify({"based_on_n": total_records, "cards": cards})
+
+    demographics = {
+        "age_groups": [{"label": label, "value": value} for label, value in age_distribution.items()],
+        "genders": [
+            {"label": label, "value": value}
+            for label, value in sorted(gender_distribution.items(), key=lambda item: item[1], reverse=True)
+        ],
+        "regions": [
+            {"label": label, "value": value}
+            for label, value in sorted(region_distribution.items(), key=lambda item: item[1], reverse=True)[:10]
+        ],
+        "participants": sorted(participant_map.values(), key=lambda item: int(item["reports"]), reverse=True)[:12],
+    }
+    wordcloud = [
+        {"text": label, "weight": weight}
+        for label, weight in sorted(word_weights.items(), key=lambda item: item[1], reverse=True)[:24]
+    ]
+
+    return jsonify(
+        {
+            "based_on_n": total_records,
+            "cards": cards,
+            "overview": {"cards": cards},
+            "demographics": demographics,
+            "wordcloud": wordcloud,
+        }
+    )
 
 
 @app.route("/api/admin/export", methods=["GET"])

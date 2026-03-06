@@ -16,6 +16,11 @@ yarn-error.log*
 pnpm-debug.log*
 
 # =========================
+# Docs
+# =========================
+docs/
+
+# =========================
 # Frontend (Next.js)
 # =========================
 frontend/node_modules/
@@ -60,3 +65,7 @@ backend/instance/
 .env
 .env.*
 !.env.example
+
+# Backend env (keep example)
+backend/.env
+!backend/.env.example

@@ -10,6 +10,11 @@ class User(db.Model):
     username = db.Column(db.String(80), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(20), default="user")
+    gender = db.Column(db.String(20))
+    age = db.Column(db.Integer)
+    region = db.Column(db.String(60))
+    show_nickname_in_stats = db.Column(db.Boolean, default=False)
+    profile_updated_at = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_login_at = db.Column(db.DateTime)
 
@@ -67,6 +72,7 @@ class AssessmentRecord(db.Model):
     user_answers = db.Column(db.JSON)
     emotion_log = db.Column(db.JSON)
     emotion_consent = db.Column(db.Boolean, default=False)
+    hidden_from_stats = db.Column(db.Boolean, default=False)
     ai_report = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
