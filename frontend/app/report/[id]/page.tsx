@@ -1,38 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'next/navigation';
-import { getReport, getStatsSummary, type StatsSummary } from '@/lib/api';
 import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download } from 'lucide-react';
 import Link from 'next/link';
 import StatsBoard from '@/components/StatsBoard';
+import { useReportDetail } from '@/features/report/hooks/useReportDetail';
 
 export default function ReportPage() {
   const { id } = useParams();
-  const [record, setRecord] = useState<any>(null);
-  const [stats, setStats] = useState<StatsSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
-
-  useEffect(() => {
-    const fetchReport = async () => {
-      try {
-        const response = await getReport(Number(id));
-        setRecord(response);
-        const summary = await getStatsSummary();
-        setStats(summary);
-      } catch (e) {
-        setErrorMsg((e as Error).message || '报告加载失败');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReport();
-  }, [id]);
-
-  const subjectName = record?.anonymous
-    ? '匿名用户'
-    : record?.owner?.username || record?.owner?.public_name || '登录用户';
+  const { record, stats, loading, errorMsg, subjectName } = useReportDetail(Number(id));
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
