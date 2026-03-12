@@ -88,4 +88,5 @@ npm run dev     # 默认端口 8003
 - `BACKEND_URL`（Next 重写代理目标）
 
 ---
-© 2026 PsySight Team. Course Project.
+.
+© 2026  PsySight  Team.  Course  Project.
