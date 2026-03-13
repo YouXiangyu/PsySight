@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { getMe, getScaleDetail, submitAssessment } from '@/lib/api';
+import { getMe, getScaleMeta, getScaleQuestionsChunk, submitAssessment } from '@/lib/api';
 
 const getProgressKey = (scaleId: number) => `psysight_scale_progress_${scaleId}`;
+const createDelay = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+const QUESTION_CHUNK_SIZE = 10;
+const PREFETCH_THRESHOLD = 5;
 
 export function useScaleAssessment(scaleId: number | null) {
   const router = useRouter();
@@ -19,34 +22,164 @@ export function useScaleAssessment(scaleId: number | null) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showEncouragement, setShowEncouragement] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [isBootstrapping, setIsBootstrapping] = useState(false);
+  const [loadingHint, setLoadingHint] = useState('正在准备题目...');
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [questionTotal, setQuestionTotal] = useState(0);
+  const [nextOffset, setNextOffset] = useState(0);
+  const [hasMoreQuestions, setHasMoreQuestions] = useState(true);
+  const [isChunkLoading, setIsChunkLoading] = useState(false);
 
   useEffect(() => {
     if (!scaleId) return;
-    getScaleDetail(scaleId).then((res) => {
-      setScale(res);
-      const saved = localStorage.getItem(getProgressKey(scaleId));
-      if (saved) {
+
+    let cancelled = false;
+    const minLoadingMs = 800 + Math.floor(Math.random() * 1201);
+    setIsBootstrapping(true);
+    setLoadingHint('正在连接服务器...');
+    setErrorMsg('');
+    setScale(null);
+    setCurrentIdx(0);
+    setAnswers({});
+    setQuestions([]);
+    setQuestionTotal(0);
+    setNextOffset(0);
+    setHasMoreQuestions(true);
+    setIsChunkLoading(false);
+
+    const phaseTimer = window.setTimeout(() => {
+      if (!cancelled) {
+        setLoadingHint('正在加载量表题目...');
+      }
+    }, 450);
+    const phaseTimer2 = window.setTimeout(() => {
+      if (!cancelled) {
+        setLoadingHint('正在恢复你的作答进度...');
+      }
+    }, 1150);
+
+    const load = async () => {
+      const [scaleResult, meResult] = await Promise.allSettled([getScaleMeta(scaleId), getMe(), createDelay(minLoadingMs)]);
+
+      if (cancelled) return;
+
+      if (scaleResult.status === 'fulfilled') {
+        setScale(scaleResult.value);
+        const total = scaleResult.value?.question_count || 0;
+        setQuestionTotal(total);
+
+        let restoredIdx = 0;
+        let restoredAnswers: Record<string, number> = {};
+        let restoredStartedAt = Date.now();
+
+        const saved = localStorage.getItem(getProgressKey(scaleId));
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            restoredIdx = Math.max(0, Math.min(parsed.currentIdx || 0, Math.max(0, total - 1)));
+            restoredAnswers = parsed.answers || {};
+            restoredStartedAt = parsed.startedAt || Date.now();
+          } catch {
+            // 忽略损坏缓存
+            restoredStartedAt = Date.now();
+          }
+        }
+        setCurrentIdx(restoredIdx);
+        setAnswers(restoredAnswers);
+        setStartedAt(restoredStartedAt);
+
+        setIsChunkLoading(true);
+        setLoadingHint('正在加载首批题目...');
         try {
-          const parsed = JSON.parse(saved);
-          setCurrentIdx(parsed.currentIdx || 0);
-          setAnswers(parsed.answers || {});
-          setStartedAt(parsed.startedAt || Date.now());
+          let chunk = await getScaleQuestionsChunk(scaleId, 0, QUESTION_CHUNK_SIZE);
+          if (cancelled) return;
+
+          let mergedQuestions: any[] = [];
+          chunk.items.forEach((item, index) => {
+            mergedQuestions[chunk.offset + index] = item;
+          });
+          let cursor = chunk.offset + chunk.items.length;
+          let hasMore = chunk.has_more;
+
+          while (hasMore && cursor <= restoredIdx) {
+            setLoadingHint('正在继续加载你上次做到的位置...');
+            chunk = await getScaleQuestionsChunk(scaleId, cursor, QUESTION_CHUNK_SIZE);
+            if (cancelled) return;
+            chunk.items.forEach((item, index) => {
+              mergedQuestions[chunk.offset + index] = item;
+            });
+            cursor = chunk.offset + chunk.items.length;
+            hasMore = chunk.has_more;
+          }
+
+          setQuestions(mergedQuestions);
+          setNextOffset(cursor);
+          setHasMoreQuestions(hasMore);
         } catch {
-          // 忽略损坏缓存
+          setErrorMsg('题目加载失败，请返回重试');
+        } finally {
+          setIsChunkLoading(false);
         }
       } else {
-        setStartedAt(Date.now());
+        setErrorMsg('题目加载失败，请返回重试');
       }
+
+      if (meResult.status === 'fulfilled') {
+        setIsAuthenticated(meResult.value.authenticated);
+      } else {
+        setIsAuthenticated(false);
+      }
+
+      setIsBootstrapping(false);
+    };
+
+    load().catch(() => {
+      if (cancelled) return;
+      setErrorMsg('题目加载失败，请返回重试');
+      setIsBootstrapping(false);
     });
-    getMe()
-      .then((res) => setIsAuthenticated(res.authenticated))
-      .catch(() => setIsAuthenticated(false));
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(phaseTimer);
+      window.clearTimeout(phaseTimer2);
+    };
   }, [scaleId]);
 
   useEffect(() => {
     if (!scaleId || !scale) return;
     localStorage.setItem(getProgressKey(scaleId), JSON.stringify({ currentIdx, answers, startedAt }));
   }, [answers, currentIdx, scaleId, scale, startedAt]);
+
+  const loadNextQuestions = async () => {
+    if (!scaleId || !hasMoreQuestions || isChunkLoading) return;
+    setIsChunkLoading(true);
+    try {
+      const chunk = await getScaleQuestionsChunk(scaleId, nextOffset, QUESTION_CHUNK_SIZE);
+      setQuestions((prev) => {
+        const merged = [...prev];
+        chunk.items.forEach((item, index) => {
+          merged[chunk.offset + index] = item;
+        });
+        return merged;
+      });
+      setQuestionTotal(chunk.total);
+      setNextOffset(chunk.offset + chunk.items.length);
+      setHasMoreQuestions(chunk.has_more);
+    } catch {
+      setErrorMsg('加载后续题目失败，请稍后重试');
+    } finally {
+      setIsChunkLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isBootstrapping || !scale || !hasMoreQuestions || isChunkLoading) return;
+    const remainingLoaded = nextOffset - (currentIdx + 1);
+    if (remainingLoaded < PREFETCH_THRESHOLD) {
+      loadNextQuestions();
+    }
+  }, [currentIdx, hasMoreQuestions, isBootstrapping, isChunkLoading, nextOffset, scale]);
 
   const handleEmotionUpdate = (data: Record<string, number>) => {
     if (!emotionEnabled) return;
@@ -62,9 +195,11 @@ export function useScaleAssessment(scaleId: number | null) {
 
   const handleAnswer = (score: number) => {
     if (!scale || isPaused) return;
-    const qId = scale.questions[currentIdx].id;
+    const currentQuestion = questions[currentIdx];
+    if (!currentQuestion) return;
+    const qId = currentQuestion.id;
     setAnswers((prev) => ({ ...prev, [qId]: score }));
-    if (currentIdx < scale.questions.length - 1) {
+    if (currentIdx < questionTotal - 1) {
       setCurrentIdx(currentIdx + 1);
     }
   };
@@ -132,10 +267,13 @@ export function useScaleAssessment(scaleId: number | null) {
     }
   };
 
-  const currentQ = useMemo(() => (scale ? scale.questions[currentIdx] : null), [currentIdx, scale]);
-  const progress = useMemo(() => (scale ? ((currentIdx + 1) / scale.questions.length) * 100 : 0), [currentIdx, scale]);
+  const currentQ = useMemo(() => (scale ? questions[currentIdx] || null : null), [currentIdx, questions, scale]);
+  const progress = useMemo(
+    () => (scale && questionTotal > 0 ? ((currentIdx + 1) / questionTotal) * 100 : 0),
+    [currentIdx, questionTotal, scale]
+  );
   const elapsedMin = Math.max(1, Math.floor((Date.now() - startedAt) / 1000 / 60));
-  const estimatedTotalMin = scale?.estimated_minutes || (scale ? Math.max(5, Math.ceil(scale.questions.length / 2)) : 5);
+  const estimatedTotalMin = scale?.estimated_minutes || (questionTotal > 0 ? Math.max(5, Math.ceil(questionTotal / 2)) : 5);
   const remainingMin = Math.max(0, estimatedTotalMin - Math.floor((elapsedMin * (currentIdx + 1)) / Math.max(1, currentIdx + 1)));
 
   return {
@@ -148,6 +286,10 @@ export function useScaleAssessment(scaleId: number | null) {
     isPaused,
     isAuthenticated,
     isSubmitting,
+    isBootstrapping,
+    isChunkLoading,
+    loadingHint,
+    questionTotal,
     showEncouragement,
     errorMsg,
     progress,

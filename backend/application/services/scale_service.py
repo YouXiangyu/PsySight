@@ -44,21 +44,45 @@ def recommend_scale_payload(text_content: str) -> Dict:
     return {"recommended": [serialize_scale(scale)] if scale else []}
 
 
-def get_scale_by_code_payload(scale_code: str) -> Optional[Dict]:
+def get_scale_by_code_payload(scale_code: str, include_questions: bool = True) -> Optional[Dict]:
     scale = get_scale_by_code(scale_code)
     if not scale:
         return None
     payload = serialize_scale(scale)
-    payload["questions"] = scale.questions
+    if include_questions:
+        payload["questions"] = scale.questions
     payload["scoring_rules"] = scale.scoring_rules
     return payload
 
 
-def get_scale_by_id_payload(scale_id: int) -> Optional[Dict]:
+def get_scale_by_id_payload(scale_id: int, include_questions: bool = True) -> Optional[Dict]:
     scale = Scale.query.get(scale_id)
     if not scale:
         return None
     payload = serialize_scale(scale)
-    payload["questions"] = scale.questions
+    if include_questions:
+        payload["questions"] = scale.questions
     payload["scoring_rules"] = scale.scoring_rules
     return payload
+
+
+def get_scale_questions_payload(scale_id: int, offset: int, limit: int) -> Optional[Dict]:
+    scale = Scale.query.get(scale_id)
+    if not scale:
+        return None
+
+    questions = scale.questions or []
+    total = len(questions)
+    safe_offset = max(0, offset)
+    safe_limit = max(1, min(limit, 50))
+    end = min(total, safe_offset + safe_limit)
+    items = questions[safe_offset:end]
+
+    return {
+        "scale_id": scale.id,
+        "offset": safe_offset,
+        "limit": safe_limit,
+        "total": total,
+        "has_more": end < total,
+        "items": items,
+    }

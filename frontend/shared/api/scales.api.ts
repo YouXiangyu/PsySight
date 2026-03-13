@@ -5,9 +5,26 @@ export const getScaleDetail = async (id: number) => {
   return response.data;
 };
 
+export const getScaleMeta = async (id: number) => {
+  const response = await api.get(`/scales/${id}?include_questions=0`);
+  return response.data;
+};
+
 export const getScaleDetailByCode = async (code: string) => {
   const response = await api.get(`/scales/code/${code}`);
   return response.data;
+};
+
+export const getScaleQuestionsChunk = async (id: number, offset: number, limit = 10) => {
+  const response = await api.get(`/scales/${id}/questions?offset=${offset}&limit=${limit}`);
+  return response.data as {
+    scale_id: number;
+    offset: number;
+    limit: number;
+    total: number;
+    has_more: boolean;
+    items: Array<any>;
+  };
 };
 
 export const getScaleList = async (grouped = false) => {

@@ -40,7 +40,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#eef2f7] flex flex-col">
+    <div className="h-screen overflow-y-auto bg-[#eef2f7] flex flex-col">
       <AppHeader />
 
       {stats && (
@@ -51,7 +51,7 @@ export default function Home() {
         </section>
       )}
 
-      <main className="flex-1 min-h-0 px-4 pb-4 pt-3">
+      <main className="flex-1 min-h-[360px] md:min-h-[440px] px-4 pb-4 pt-3">
         <div className="mx-auto max-w-6xl h-full rounded-2xl border border-slate-200 bg-white overflow-hidden">
           <ChatWindow />
         </div>

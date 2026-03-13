@@ -22,6 +22,10 @@ export default function ScalePage() {
     isPaused,
     isAuthenticated,
     isSubmitting,
+    isBootstrapping,
+    isChunkLoading,
+    loadingHint,
+    questionTotal,
     showEncouragement,
     errorMsg,
     progress,
@@ -34,10 +38,22 @@ export default function ScalePage() {
     handleSubmit,
   } = useScaleAssessment(scaleId);
 
-  if (!scale) {
+  if (isBootstrapping || !scale) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="animate-spin" />
+      <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
+        <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+          <div className="flex items-center gap-3 text-indigo-700">
+            <Loader2 className="animate-spin" size={20} />
+            <p className="text-sm font-medium">{loadingHint}</p>
+          </div>
+          <div className="mt-5 space-y-3">
+            <div className="h-3 w-2/3 animate-pulse rounded bg-slate-200" />
+            <div className="h-24 animate-pulse rounded-xl bg-slate-100" />
+            <div className="h-24 animate-pulse rounded-xl bg-slate-100" />
+            <div className="h-10 w-40 animate-pulse rounded-lg bg-slate-200" />
+          </div>
+          <p className="mt-4 text-xs text-slate-500">若网络较慢，请稍候 1-2 秒，题目正在准备中。</p>
+        </div>
       </div>
     );
   }
@@ -48,13 +64,18 @@ export default function ScalePage() {
 
   if (!currentQ) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="animate-spin" />
+      <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
+        <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+          <div className="flex items-center gap-3 text-indigo-700">
+            <Loader2 className="animate-spin" size={20} />
+            <p className="text-sm font-medium">{isChunkLoading ? '正在加载后续题目...' : loadingHint}</p>
+          </div>
+        </div>
       </div>
     );
   }
 
-  const canSubmit = Object.keys(answers).length === scale.questions.length;
+  const canSubmit = questionTotal > 0 && Object.keys(answers).length === questionTotal;
   const canGoNext = answers[currentQ.id] !== undefined;
 
   return (
@@ -69,7 +90,7 @@ export default function ScalePage() {
 
         <AssessmentControls
           currentIdx={currentIdx}
-          total={scale.questions.length}
+          total={questionTotal}
           progress={progress}
           remainingMin={remainingMin}
           isPaused={isPaused}
@@ -84,7 +105,7 @@ export default function ScalePage() {
 
         <QuestionCard
           currentIdx={currentIdx}
-          total={scale.questions.length}
+          total={questionTotal}
           currentQ={currentQ}
           answers={answers}
           isPaused={isPaused}
