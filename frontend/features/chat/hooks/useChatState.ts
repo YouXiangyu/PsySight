@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
+  agentChat,
   chatWithAI,
   getConversationMessages,
   getMe,
@@ -27,6 +28,10 @@ export function useChatState() {
   const [saveHistory, setSaveHistory] = useState(true);
   const [crisisAlert, setCrisisAlert] = useState<CrisisAlert | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [useThinking, setUseThinking] = useState(false);
+  const [searchMode, setSearchMode] = useState<'index' | 'rag'>('index');
+  const [useAgent, setUseAgent] = useState(true);
+  const [userId, setUserId] = useState<number | null>(null);
 
   const activeSessionFromQuery = useMemo(() => {
     const value = searchParams.get('session');
@@ -72,6 +77,7 @@ export function useChatState() {
         const me = await getMe();
         setIsAuthenticated(me.authenticated);
         setUsername(me.user?.username || null);
+        setUserId(me.user?.id || null);
         setSaveHistory(me.authenticated);
         if (me.authenticated) {
           await loadConversations();
@@ -126,31 +132,58 @@ export function useChatState() {
       setIsLoading(true);
 
       try {
-        const data = await chatWithAI({
-          message: userMsg,
-          session_id: activeSessionId,
-          anonymous: !isAuthenticated || !saveHistory,
-        });
-        const assistantMsg: Message = {
-          id: data.assistant_message_id || undefined,
-          role: 'assistant',
-          content: data.reply,
-          recommended_scale: data.recommended_scale
-            ? {
-                id: data.recommended_scale.id,
-                code: data.recommended_scale.code,
-                title: data.recommended_scale.title,
-              }
-            : undefined,
-        };
-        if (data.crisis_alert?.show) {
-          setCrisisAlert(data.crisis_alert);
+        if (useAgent) {
+          const data = await agentChat({
+            message: userMsg,
+            session_id: activeSessionId,
+            user_id: userId,
+            anonymous: !isAuthenticated || !saveHistory,
+            use_thinking: useThinking,
+            search_mode: searchMode,
+          });
+          const assistantMsg: Message = {
+            id: data.assistant_message_id || undefined,
+            role: 'assistant',
+            content: data.reply,
+            recommended_scales: data.recommended_scales?.length ? data.recommended_scales : undefined,
+            model_used: data.model_used,
+            intent_detected: data.intent_detected,
+          };
+          if (data.crisis_alert?.show) {
+            setCrisisAlert(data.crisis_alert);
+          }
+          if (data.session_id && data.session_id !== activeSessionId) {
+            setActiveSessionId(data.session_id);
+            router.replace(`/?session=${data.session_id}`);
+          }
+          setMessages((prev) => [...prev, assistantMsg]);
+        } else {
+          const data = await chatWithAI({
+            message: userMsg,
+            session_id: activeSessionId,
+            anonymous: !isAuthenticated || !saveHistory,
+          });
+          const assistantMsg: Message = {
+            id: data.assistant_message_id || undefined,
+            role: 'assistant',
+            content: data.reply,
+            recommended_scale: data.recommended_scale
+              ? {
+                  id: data.recommended_scale.id,
+                  code: data.recommended_scale.code,
+                  title: data.recommended_scale.title,
+                }
+              : undefined,
+          };
+          if (data.crisis_alert?.show) {
+            setCrisisAlert(data.crisis_alert);
+          }
+          if (data.session_id && data.session_id !== activeSessionId) {
+            setActiveSessionId(data.session_id);
+            router.replace(`/?session=${data.session_id}`);
+          }
+          setMessages((prev) => [...prev, assistantMsg]);
         }
-        if (data.session_id && data.session_id !== activeSessionId) {
-          setActiveSessionId(data.session_id);
-          router.replace(`/?session=${data.session_id}`);
-        }
-        setMessages((prev) => [...prev, assistantMsg]);
         if (isAuthenticated) {
           loadConversations();
         }
@@ -167,7 +200,7 @@ export function useChatState() {
         setIsLoading(false);
       }
     },
-    [activeSessionId, isAuthenticated, isLoading, loadConversations, router, saveHistory]
+    [activeSessionId, isAuthenticated, isLoading, loadConversations, router, saveHistory, useAgent, useThinking, searchMode, userId]
   );
 
   return {
@@ -179,6 +212,12 @@ export function useChatState() {
     saveHistory,
     crisisAlert,
     isLoading,
+    useThinking,
+    searchMode,
+    useAgent,
+    setUseThinking,
+    setSearchMode,
+    setUseAgent,
     setSaveHistory,
     handleNewConversation,
     handleSelectConversation,

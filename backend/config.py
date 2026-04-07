@@ -14,6 +14,9 @@ class Config:
     # Admin export capability
     ADMIN_EXPORT_TOKEN = os.getenv("ADMIN_EXPORT_TOKEN", "")
 
+    # Internal API token for agent service communication
+    INTERNAL_API_TOKEN = os.getenv("INTERNAL_API_TOKEN", "psysight-internal-dev-token")
+
     # Database Configuration
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///psysight.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

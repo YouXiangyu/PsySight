@@ -55,6 +55,19 @@ def run_lightweight_migrations() -> None:
                 )
 
 
+        if "user_profiles" not in inspector.get_table_names():
+            conn.execute(text(
+                "CREATE TABLE user_profiles ("
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "user_id INTEGER NOT NULL UNIQUE REFERENCES users(id), "
+                "persona TEXT, "
+                "communication_style VARCHAR(30), "
+                "core_concerns JSON, "
+                "history_summary TEXT, "
+                "updated_at DATETIME)"
+            ))
+
+
 def bootstrap_scale_codes() -> None:
     alias_map = {
         "PHQ-9 抑郁症筛查量表": "phq9",

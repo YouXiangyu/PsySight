@@ -34,6 +34,26 @@ export default function ChatMessageList({ messages, isLoading, onFeedback }: Cha
             </div>
           )}
 
+          {msg.recommended_scales && msg.recommended_scales.length > 0 && (
+            <div className="mt-3 space-y-2">
+              <p className="text-xs text-indigo-700 font-medium">推荐量表</p>
+              {msg.recommended_scales.map((scale) => (
+                <div
+                  key={scale.code}
+                  className="flex items-center justify-between rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-2"
+                >
+                  <span className="text-sm text-indigo-900">{scale.title}</span>
+                  <Link
+                    href={scale.scale_id ? `/scale/${scale.scale_id}` : `/scales`}
+                    className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700"
+                  >
+                    开始测评
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
+
           {msg.role === 'assistant' && msg.id && (
             <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
               <span>这条回复有帮助吗？</span>

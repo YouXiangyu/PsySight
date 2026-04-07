@@ -10,6 +10,7 @@ from api.routes.conversation_routes import create_conversation_blueprint
 from api.routes.report_routes import create_report_blueprint
 from api.routes.safety_routes import create_safety_blueprint
 from api.routes.scale_routes import create_scale_blueprint
+from api.routes.internal_routes import create_internal_blueprint
 from api.routes.stats_admin_routes import create_stats_admin_blueprint
 from api.routes.system_routes import create_system_blueprint
 from config import Config
@@ -60,5 +61,6 @@ def create_app() -> Flask:
     app.register_blueprint(create_report_blueprint())
     app.register_blueprint(create_canvas_blueprint())
     app.register_blueprint(create_stats_admin_blueprint())
+    app.register_blueprint(create_internal_blueprint())
 
     return app

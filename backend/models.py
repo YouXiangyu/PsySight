@@ -87,6 +87,17 @@ class CrisisEvent(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class UserProfile(db.Model):
+    __tablename__ = 'user_profiles'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False, index=True)
+    persona = db.Column(db.Text)
+    communication_style = db.Column(db.String(30))
+    core_concerns = db.Column(db.JSON)
+    history_summary = db.Column(db.Text)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
 class ExportAudit(db.Model):
     __tablename__ = 'export_audits'
     id = db.Column(db.Integer, primary_key=True)

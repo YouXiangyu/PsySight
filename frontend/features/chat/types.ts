@@ -7,8 +7,15 @@ export interface Message {
     code?: string;
     title: string;
   };
+  recommended_scales?: Array<{
+    code: string;
+    title: string;
+    scale_id?: number | null;
+  }>;
   feedback?: 'up' | 'down';
   isError?: boolean;
+  model_used?: string;
+  intent_detected?: string;
 }
 
 export interface CrisisAlert {

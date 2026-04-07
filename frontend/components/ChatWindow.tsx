@@ -26,6 +26,12 @@ export default function ChatWindow() {
     saveHistory,
     crisisAlert,
     isLoading,
+    useThinking,
+    searchMode,
+    useAgent,
+    setUseThinking,
+    setSearchMode,
+    setUseAgent,
     setSaveHistory,
     handleNewConversation,
     handleSelectConversation,
@@ -72,7 +78,18 @@ export default function ChatWindow() {
         </div>
 
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#f7f8fb] via-[#f7f8fb] to-transparent pt-10 pb-4 px-4">
-          <ChatComposer input={input} onChange={setInput} onSend={handleSend} isLoading={isLoading} />
+          <ChatComposer
+            input={input}
+            onChange={setInput}
+            onSend={handleSend}
+            isLoading={isLoading}
+            useThinking={useThinking}
+            searchMode={searchMode}
+            useAgent={useAgent}
+            onToggleThinking={() => setUseThinking((prev) => !prev)}
+            onToggleSearchMode={() => setSearchMode((prev) => (prev === 'index' ? 'rag' : 'index'))}
+            onToggleAgent={() => setUseAgent((prev) => !prev)}
+          />
         </div>
       </div>
     </div>

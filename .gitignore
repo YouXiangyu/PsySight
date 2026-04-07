@@ -70,3 +70,14 @@ backend/instance/
 # Backend env (keep example)
 backend/.env
 !backend/.env.example
+
+# Agent env (keep example)
+agent/.env
+!agent/.env.example
+
+# =========================
+# Agent (FastAPI / LangGraph)
+# =========================
+agent/.venv/
+agent/venv/
+agent/agent_checkpoints.db
