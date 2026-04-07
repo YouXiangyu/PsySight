@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import json
+import logging
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+
+logger = logging.getLogger(__name__)
 
 from llm.client import get_llm
 from llm.prompts import build_empathy_prompt, build_fallback_reply
@@ -15,12 +18,8 @@ from retrieval.scale_rag import get_scale_rag
 def _should_recommend(state: PsyState) -> bool:
     if state.get("scale_locked"):
         return False
-    if state.get("recommendation_cooldown", 0) > 0:
-        return False
-    if state.get("turn_count", 0) < 2:
-        return False
     symptoms = state.get("extracted_symptoms", [])
-    return len(symptoms) >= 2
+    return len(symptoms) >= 1
 
 
 def _run_retrieval(state: PsyState, symptoms: list[str]) -> list[dict]:
@@ -63,12 +62,18 @@ async def empathy_node(state: PsyState) -> dict:
     system_prompt = build_empathy_prompt(profile_context, scale_context)
     llm = get_llm(use_thinking=state.get("use_thinking", False))
 
+    raw = ""
+    reply = ""
+    new_symptoms: list[str] = []
+    should_rec = False
+    rec_codes: list[str] = []
+
     try:
         response = await llm.ainvoke([
             SystemMessage(content=system_prompt),
             HumanMessage(content=user_text),
         ])
-        raw = response.content.strip()
+        raw = (response.content or "").strip()
 
         if raw.startswith("```"):
             raw = raw.split("```")[1]
@@ -81,8 +86,15 @@ async def empathy_node(state: PsyState) -> dict:
         new_symptoms = parsed.get("extracted_symptoms", [])
         should_rec = parsed.get("should_recommend", False)
         rec_codes = parsed.get("recommended_scale_codes", [])
-    except (json.JSONDecodeError, Exception):
-        reply = raw if raw and not raw.startswith("{") else build_fallback_reply(user_text)
+    except json.JSONDecodeError:
+        logger.warning("LLM 返回非 JSON，使用原文兜底: %s", raw[:200])
+        reply = raw if raw and not raw.strip().startswith("{") else build_fallback_reply(user_text)
+        new_symptoms = []
+        should_rec = False
+        rec_codes = []
+    except Exception as exc:
+        logger.error("LLM 调用失败，走兜底回复: %s", exc)
+        reply = build_fallback_reply(user_text)
         new_symptoms = []
         should_rec = False
         rec_codes = []
@@ -93,7 +105,6 @@ async def empathy_node(state: PsyState) -> dict:
     all_symptoms = list(set(existing_symptoms + new_symptoms))
 
     recommended_scales: list[dict] = []
-    cooldown = max(0, state.get("recommendation_cooldown", 0) - 1)
 
     if should_rec and rec_codes and not state.get("scale_locked"):
         for code in rec_codes[:3]:
@@ -104,8 +115,6 @@ async def empathy_node(state: PsyState) -> dict:
                     "title": matched["title"],
                     "scale_id": matched.get("scale_id"),
                 })
-        if recommended_scales:
-            cooldown = 5
 
     return {
         "reply": reply,
@@ -113,7 +122,6 @@ async def empathy_node(state: PsyState) -> dict:
         "extracted_symptoms": all_symptoms,
         "rag_results": rag_results,
         "recommended_scales": recommended_scales,
-        "recommendation_cooldown": cooldown,
         "turn_count": state.get("turn_count", 0) + 1,
         "last_node": "empathy",
     }

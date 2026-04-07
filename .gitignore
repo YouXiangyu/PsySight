@@ -31,7 +31,7 @@ frontend/.turbo/
 frontend/coverage/
 frontend/.vercel/
 
-# Local env files (keep example)
+# Local env files (ignore all variants: .env, .env.local, .env.development.local, …)
 frontend/.env*
 !frontend/.env.example
 
@@ -61,18 +61,18 @@ backend/instance/
 *.sqlite3
 
 # =========================
-# Environment / secrets
+# Environment / secrets (repo root)
 # =========================
 .env
 .env.*
 !.env.example
 
-# Backend env (keep example)
-backend/.env
+# Backend: all local env files (keep example only)
+backend/.env*
 !backend/.env.example
 
-# Agent env (keep example)
-agent/.env
+# Agent: all local env files (keep example only)
+agent/.env*
 !agent/.env.example
 
 # =========================

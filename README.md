@@ -124,8 +124,8 @@ npm run dev               # 默认端口 8003
 | 变量 | 说明 |
 |------|------|
 | `DEEPSEEK_API_KEY` | DeepSeek API 密钥 |
-| `DEEPSEEK_MODEL_FAST` | 快速模型（默认 deepseek-v3.2） |
-| `DEEPSEEK_MODEL_THINK` | 思考模型（默认 deepseek-v3.2-exp-think） |
+| `DEEPSEEK_MODEL_FAST` | 快速模型（默认 deepseek-chat，可按控制台改名） |
+| `DEEPSEEK_MODEL_THINK` | 推理/思考模型（默认 deepseek-reasoner） |
 | `FLASK_INTERNAL_URL` | Flask 内部 API 地址（默认 http://127.0.0.1:8004） |
 | `INTERNAL_API_TOKEN` | 内部通信 token（需与 Flask 一致） |
 | `AGENT_PORT` | Agent 服务端口（默认 8005） |
