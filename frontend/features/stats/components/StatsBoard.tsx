@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Activity, BarChart3, Cloud, Users } from 'lucide-react';
+import { Activity, BarChart3, ChevronDown, ChevronUp, Cloud, Users } from 'lucide-react';
 import type { StatsSummary } from '@/shared/api';
 
 type TabKey = 'overview' | 'demographics' | 'wordcloud';
@@ -23,6 +23,7 @@ function PercentBar({ label, value, maxValue }: { label: string; value: number; 
 
 export default function StatsBoard({ stats }: { stats: StatsSummary }) {
   const [activeTab, setActiveTab] = useState<TabKey>('overview');
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const cards = stats.overview?.cards || stats.cards || [];
 
   const ageGroups = stats.demographics?.age_groups || [];
@@ -50,6 +51,19 @@ export default function StatsBoard({ stats }: { stats: StatsSummary }) {
           基于 {stats.based_on_n} 份可见测评记录的匿名统计
         </div>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsCollapsed((prev) => !prev)}
+            aria-expanded={!isCollapsed}
+            title={isCollapsed ? '展开统计窗格' : '收起统计窗格'}
+            className={`inline-flex items-center justify-center rounded-md p-1 border transition-colors ${
+              isCollapsed
+                ? 'border-slate-200 text-slate-500 hover:bg-slate-50'
+                : 'border-indigo-300 bg-indigo-50 text-indigo-700'
+            }`}
+          >
+            {isCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+          </button>
           {tabs.map((tab) => (
             <button
               type="button"
@@ -68,7 +82,7 @@ export default function StatsBoard({ stats }: { stats: StatsSummary }) {
         </div>
       </div>
 
-      {activeTab === 'overview' && (
+      {!isCollapsed && activeTab === 'overview' && (
         <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2">
           {cards.map((card) => (
             <div key={card.label} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
@@ -82,7 +96,7 @@ export default function StatsBoard({ stats }: { stats: StatsSummary }) {
         </div>
       )}
 
-      {activeTab === 'demographics' && (
+      {!isCollapsed && activeTab === 'demographics' && (
         <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 space-y-2">
             <p className="text-xs font-semibold text-slate-600">年龄分布</p>
@@ -137,7 +151,7 @@ export default function StatsBoard({ stats }: { stats: StatsSummary }) {
         </div>
       )}
 
-      {activeTab === 'wordcloud' && (
+      {!isCollapsed && activeTab === 'wordcloud' && (
         <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-4 min-h-[170px]">
           {words.length ? (
             <div className="flex flex-wrap items-center gap-2">

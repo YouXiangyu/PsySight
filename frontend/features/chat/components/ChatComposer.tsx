@@ -1,4 +1,4 @@
-import { Brain, Search, Send, Zap } from 'lucide-react';
+import { Brain, Search, Send } from 'lucide-react';
 
 interface ChatComposerProps {
   input: string;
@@ -33,7 +33,7 @@ export default function ChatComposer({
             onClick={onToggleThinking}
             className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
               useThinking
-                ? 'bg-violet-100 text-violet-700 ring-1 ring-violet-300'
+                ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200'
                 : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
             }`}
             title={useThinking ? '深度思考模式 (deepseek-v3.2-exp-think)' : '快速模式 (deepseek-v3.2)'}
@@ -45,29 +45,17 @@ export default function ChatComposer({
             onClick={onToggleSearchMode}
             className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
               searchMode === 'rag'
-                ? 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-300'
+                ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200'
                 : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
             }`}
             title={searchMode === 'rag' ? '语义向量检索 (RAG)' : '关键词索引检索'}
           >
             <Search size={13} />
-            {searchMode === 'rag' ? 'RAG 检索' : '索引检索'}
+            {searchMode === 'rag' ? 'RAG增强' : '索引检索'}
           </button>
         </div>
       )}
       <div className="relative flex items-end w-full rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-        <button
-          onClick={onToggleAgent}
-          className={`mr-2 flex items-center gap-1 rounded-md px-2 py-1.5 text-xs font-medium transition-colors ${
-            useAgent
-              ? 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200'
-              : 'bg-slate-50 text-slate-400 hover:bg-slate-100'
-          }`}
-          title={useAgent ? 'Agent 模式 (LangGraph)' : '经典模式 (直连 Flask)'}
-        >
-          <Zap size={13} />
-          {useAgent ? 'Agent' : '经典'}
-        </button>
         <textarea
           value={input}
           onChange={(e) => onChange(e.target.value)}
