@@ -98,6 +98,12 @@ export function useChatState() {
     }
   }, [activeSessionFromQuery, activeSessionId, isAuthenticated, loadConversationMessages]);
 
+  useEffect(() => {
+    if (!isAuthenticated && activeSessionFromQuery && activeSessionFromQuery !== activeSessionId) {
+      setActiveSessionId(activeSessionFromQuery);
+    }
+  }, [activeSessionFromQuery, activeSessionId, isAuthenticated]);
+
   const handleNewConversation = useCallback(() => {
     setMessages([{ role: 'assistant', content: '新的对话已开始。你现在最想先聊哪一件事？' }]);
     setActiveSessionId(null);

@@ -10,20 +10,35 @@ export function useReportDetail(reportId: number) {
 
   useEffect(() => {
     const fetchReport = async () => {
+      setLoading(true);
+      setErrorMsg('');
+
       try {
-        const response = await getReport(reportId);
-        setRecord(response);
+        const report = await getReport(reportId);
+        setRecord(report);
+      } catch (e) {
+        setRecord(null);
+        setStats(null);
+        setErrorMsg((e as Error).message || '报告加载失败');
+        setLoading(false);
+        return;
+      }
+
+      try {
         const summary = await getStatsSummary();
         setStats(summary);
-      } catch (e) {
-        setErrorMsg((e as Error).message || '报告加载失败');
-      } finally {
-        setLoading(false);
+      } catch {
+        setStats(null);
       }
+
+      setLoading(false);
     };
+
     if (!Number.isNaN(reportId)) {
       fetchReport();
     } else {
+      setRecord(null);
+      setStats(null);
       setLoading(false);
       setErrorMsg('报告编号无效');
     }
@@ -31,7 +46,7 @@ export function useReportDetail(reportId: number) {
 
   const subjectName = useMemo(() => {
     if (record?.anonymous) return '匿名用户';
-    return record?.owner?.username || record?.owner?.public_name || '登录用户';
+    return record?.owner?.public_name || record?.owner?.username || '登录用户';
   }, [record]);
 
   return { record, stats, loading, errorMsg, subjectName };

@@ -163,7 +163,7 @@ class BaselineApiSmokeTest(unittest.TestCase):
             "/api/submit",
             json={
                 "scale_id": self.ais_scale_id,
-                "answers": {"q1": 3, "q2": 2, "q3": 2},
+                "answers": {"q1": 3, "q2": 3, "q3": 3},
                 "emotion_log": {"neutral": 0.8},
                 "emotion_consent": True,
                 "anonymous": False,
@@ -180,6 +180,33 @@ class BaselineApiSmokeTest(unittest.TestCase):
         self.assertEqual(report["id"], self.record_id)
         self.assertFalse(report["anonymous"])
         self.assertIsNotNone(report["owner"])
+
+    def test_07b_submit_rejects_invalid_answers(self) -> None:
+        self.assertIsNotNone(self.ais_scale_id)
+
+        invalid_score_resp = self.client_user.post(
+            "/api/submit",
+            json={
+                "scale_id": self.ais_scale_id,
+                "answers": {"q1": 2, "q2": 3, "q3": 3},
+                "emotion_log": {},
+                "emotion_consent": False,
+                "anonymous": False,
+            },
+        )
+        self.assertEqual(invalid_score_resp.status_code, 400)
+
+        missing_question_resp = self.client_user.post(
+            "/api/submit",
+            json={
+                "scale_id": self.ais_scale_id,
+                "answers": {"q1": 3, "q2": 3},
+                "emotion_log": {},
+                "emotion_consent": False,
+                "anonymous": False,
+            },
+        )
+        self.assertEqual(missing_question_resp.status_code, 400)
 
     def test_08_report_forbidden_for_non_owner(self) -> None:
         self.assertIsNotNone(self.record_id)

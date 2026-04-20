@@ -1,5 +1,5 @@
 import json
-from typing import Dict, Tuple
+from typing import Any, Dict, Tuple
 
 from application.services.scale_service import get_scale_by_code, serialize_scale
 from domain.rules.report_rules import build_default_report
@@ -8,6 +8,56 @@ from domain.rules.user_display_rules import get_user_public_name
 from infrastructure.ai.client import call_deepseek
 from infrastructure.ai.prompts import build_report_prompt
 from models import AssessmentRecord, Scale, User, db
+
+
+def _validate_answers(scale: Scale, answers: Dict[str, Any]) -> Tuple[Dict[str, int] | None, Tuple[Dict, int] | None]:
+    if not isinstance(answers, dict):
+        return None, ({"error": "answers 格式错误"}, 400)
+
+    questions = scale.questions or []
+    question_map = {str(question.get("id")): question for question in questions if question.get("id") is not None}
+    expected_ids = set(question_map.keys())
+    received_ids = {str(key) for key in answers.keys()}
+
+    if not expected_ids:
+        return None, ({"error": "量表题目配置错误"}, 500)
+
+    if received_ids != expected_ids:
+        return None, (
+            {
+                "error": "answers 与量表题目不匹配",
+                "missing_question_ids": sorted(expected_ids - received_ids),
+                "unexpected_question_ids": sorted(received_ids - expected_ids),
+            },
+            400,
+        )
+
+    normalized_answers: Dict[str, int] = {}
+    for question_id, question in question_map.items():
+        raw_value = answers.get(question_id)
+        try:
+            score = int(raw_value)
+        except Exception:
+            return None, ({"error": "答案格式错误", "question_id": question_id}, 400)
+
+        allowed_scores = {
+            int(option.get("score"))
+            for option in (question.get("options") or [])
+            if option.get("score") is not None
+        }
+        if allowed_scores and score not in allowed_scores:
+            return None, (
+                {
+                    "error": "答案分值不合法",
+                    "question_id": question_id,
+                    "allowed_scores": sorted(allowed_scores),
+                },
+                400,
+            )
+
+        normalized_answers[question_id] = score
+
+    return normalized_answers, None
 
 
 def submit_assessment(data: Dict, user, app_config) -> Tuple[Dict, int]:
@@ -26,10 +76,11 @@ def submit_assessment(data: Dict, user, app_config) -> Tuple[Dict, int]:
     if not scale:
         return {"error": "量表不存在"}, 404
 
-    try:
-        total_score = sum(int(value) for value in answers.values())
-    except Exception:
-        return {"error": "answers 格式错误"}, 400
+    normalized_answers, validation_error = _validate_answers(scale, answers)
+    if validation_error:
+        return validation_error
+
+    total_score = sum(normalized_answers.values())
 
     if not emotion_consent:
         emotion_log = {}
@@ -55,7 +106,7 @@ def submit_assessment(data: Dict, user, app_config) -> Tuple[Dict, int]:
         scale_id=scale.id,
         total_score=total_score,
         severity_level=severity_level,
-        user_answers=answers,
+        user_answers=normalized_answers,
         emotion_log=emotion_log,
         emotion_consent=emotion_consent,
         ai_report=ai_report,
@@ -79,9 +130,8 @@ def submit_assessment(data: Dict, user, app_config) -> Tuple[Dict, int]:
 def get_report(record_id: int, current_user) -> Tuple[Dict, int]:
     record = AssessmentRecord.query.get_or_404(record_id)
     is_anonymous_record = record.user_id is None
-    if not is_anonymous_record:
-        if not current_user or current_user.id != record.user_id:
-            return {"error": "无权限查看该报告"}, 403
+    if not is_anonymous_record and (not current_user or current_user.id != record.user_id):
+        return {"error": "无权限查看该报告"}, 403
 
     scale = Scale.query.get(record.scale_id)
     urgent = get_urgent_recommendation(scale.code if scale else "", record.total_score or 0)
