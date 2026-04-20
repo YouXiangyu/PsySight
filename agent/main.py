@@ -1,3 +1,7 @@
+import json
+import time
+from pathlib import Path
+
 import uvicorn
 from fastapi import BackgroundTasks, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +15,33 @@ from dependencies import (
 )
 from graph.builder import build_graph
 from models.schemas import AgentChatRequest, AgentChatResponse, CrisisAlertResponse
+
+_DEBUG_LOG_PATH = Path(__file__).resolve().parent.parent / "debug-e5d1e6.log"
+
+
+def _debug_ndjson(hypothesis_id: str, location: str, message: str, data: dict) -> None:
+    # #region agent log
+    try:
+        line = (
+            json.dumps(
+                {
+                    "sessionId": "e5d1e6",
+                    "hypothesisId": hypothesis_id,
+                    "location": location,
+                    "message": message,
+                    "data": data,
+                    "timestamp": int(time.time() * 1000),
+                },
+                ensure_ascii=False,
+            )
+            + "\n"
+        )
+        with open(_DEBUG_LOG_PATH, "a", encoding="utf-8") as f:
+            f.write(line)
+    except OSError:
+        pass
+    # #endregion
+
 
 app = FastAPI(title="PsySight Agent", version="1.0.0")
 
@@ -32,6 +63,14 @@ async def health():
 
 @app.post("/api/agent/chat", response_model=AgentChatResponse)
 async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
+    # #region agent log
+    _debug_ndjson(
+        "H2",
+        "main.py:agent_chat",
+        "fastapi_agent_chat_entered",
+        {"has_session": bool(req.session_id), "anonymous": bool(req.anonymous)},
+    )
+    # #endregion
     user_profile = {}
     history_messages = []
 

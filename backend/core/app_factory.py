@@ -1,4 +1,6 @@
+import json
 import time
+from pathlib import Path
 
 from flask import Flask, g, request
 from flask_cors import CORS
@@ -15,6 +17,33 @@ from api.routes.stats_admin_routes import create_stats_admin_blueprint
 from api.routes.system_routes import create_system_blueprint
 from config import Config
 from models import db
+
+# Repo root: backend/core/app_factory.py -> parents[2] == PsySight/
+_DEBUG_LOG_PATH = Path(__file__).resolve().parent.parent.parent / "debug-e5d1e6.log"
+
+
+def _debug_ndjson(hypothesis_id: str, location: str, message: str, data: dict) -> None:
+    # #region agent log
+    try:
+        line = (
+            json.dumps(
+                {
+                    "sessionId": "e5d1e6",
+                    "hypothesisId": hypothesis_id,
+                    "location": location,
+                    "message": message,
+                    "data": data,
+                    "timestamp": int(time.time() * 1000),
+                },
+                ensure_ascii=False,
+            )
+            + "\n"
+        )
+        with open(_DEBUG_LOG_PATH, "a", encoding="utf-8") as f:
+            f.write(line)
+    except OSError:
+        pass
+    # #endregion
 
 
 def create_app() -> Flask:
@@ -50,6 +79,22 @@ def create_app() -> Flask:
                 api_metrics["errors"] += 1
             elapsed_ms = int((time.time() - getattr(g, "request_start_at", time.time())) * 1000)
             print(f"API {request.method} {request.path} -> {response.status_code} ({elapsed_ms}ms)")
+        # #region agent log
+        if request.path.startswith("/api/agent"):
+            _debug_ndjson(
+                "H1_H4",
+                "app_factory.py:on_request_end",
+                "flask_saw_api_agent",
+                {
+                    "method": request.method,
+                    "path": request.path,
+                    "status": response.status_code,
+                    "host": request.headers.get("Host"),
+                    "x_forwarded_host": request.headers.get("X-Forwarded-Host"),
+                    "x_forwarded_prefix": request.headers.get("X-Forwarded-Prefix"),
+                },
+            )
+        # #endregion
         return response
 
     app.register_blueprint(create_system_blueprint(api_metrics, app_started_at))
