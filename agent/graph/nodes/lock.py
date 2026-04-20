@@ -16,7 +16,8 @@ def lock_node(state: PsyState) -> dict:
     refuse_count = state.get("refuse_count", 0) + 1
     scale_locked = refuse_count >= 2
 
-    reply = REFUSE_ACK_REPLIES[refuse_count % len(REFUSE_ACK_REPLIES)]
+    # Show the first template on the first refusal.
+    reply = REFUSE_ACK_REPLIES[(refuse_count - 1) % len(REFUSE_ACK_REPLIES)]
 
     return {
         "refuse_count": refuse_count,

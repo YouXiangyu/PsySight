@@ -74,8 +74,13 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
     user_profile = {}
     history_messages = []
 
-    if req.session_id and not req.anonymous:
-        history_messages = await fetch_conversation_messages(req.session_id)
+    # Keep anonymous chats stateful across turns by issuing a temporary session id.
+    effective_session_id = req.session_id
+    if req.anonymous and not effective_session_id:
+        effective_session_id = -int(time.time() * 1000)
+
+    if effective_session_id and not req.anonymous:
+        history_messages = await fetch_conversation_messages(effective_session_id)
     if not req.anonymous and req.user_id:
         user_profile = await fetch_user_profile(req.user_id)
 
@@ -90,7 +95,7 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
 
     lc_messages.append(HumanMessage(content=req.message))
 
-    thread_id = f"session-{req.session_id}" if req.session_id else f"anon-{id(req)}"
+    thread_id = f"session-{effective_session_id}" if effective_session_id is not None else f"anon-{id(req)}"
     graph_config = {"configurable": {"thread_id": thread_id}}
 
     existing_state = None
@@ -104,7 +109,7 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
     if existing_state:
         initial_state = {
             "messages": [HumanMessage(content=req.message)],
-            "session_id": req.session_id,
+            "session_id": effective_session_id,
             "user_id": req.user_id,
             "is_anonymous": req.anonymous,
             "user_profile": user_profile,
@@ -121,7 +126,7 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
     else:
         initial_state = {
             "messages": lc_messages,
-            "session_id": req.session_id,
+            "session_id": effective_session_id,
             "turn_count": len(history_messages) // 2,
             "user_id": req.user_id,
             "is_anonymous": req.anonymous,
@@ -171,7 +176,7 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
         background_tasks.add_task(
             save_conversation_to_flask,
             req.user_id,
-            req.session_id,
+            effective_session_id,
             [user_msg, assistant_msg],
         )
 
@@ -179,7 +184,7 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
 
     return AgentChatResponse(
         reply=result.get("reply", ""),
-        session_id=result.get("session_id"),
+        session_id=result.get("session_id", effective_session_id),
         recommended_scales=[
             {"code": s["code"], "title": s["title"], "scale_id": s.get("scale_id")}
             for s in result.get("recommended_scales", [])

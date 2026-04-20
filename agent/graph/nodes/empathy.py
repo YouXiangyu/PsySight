@@ -102,14 +102,21 @@ async def empathy_node(state: PsyState) -> dict:
     if not reply:
         reply = build_fallback_reply(user_text)
 
-    all_symptoms = list(set(existing_symptoms + new_symptoms))
+    # Preserve symptom order while de-duplicating.
+    all_symptoms = list(dict.fromkeys(existing_symptoms + new_symptoms))
 
     recommended_scales: list[dict] = []
+    seen_codes: set[str] = set()
 
     if should_rec and rec_codes and not state.get("scale_locked"):
+        # When symptoms are first extracted in this turn, retrieval may still be empty.
+        if not rag_results and all_symptoms:
+            rag_results = _run_retrieval(state, all_symptoms)
         for code in rec_codes[:3]:
-            matched = next((s for s in rag_results if s["code"] == code), None)
-            if matched:
+            normalized_code = (code or "").strip().lower()
+            matched = next((s for s in rag_results if (s.get("code") or "").lower() == normalized_code), None)
+            if matched and normalized_code not in seen_codes:
+                seen_codes.add(normalized_code)
                 recommended_scales.append({
                     "code": matched["code"],
                     "title": matched["title"],
