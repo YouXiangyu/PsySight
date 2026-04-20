@@ -5,38 +5,52 @@ import logging
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
-logger = logging.getLogger(__name__)
-
 from llm.client import get_llm
 from llm.prompts import build_empathy_prompt, build_fallback_reply
 from models.profile import UserProfile
 from models.state import PsyState
-from retrieval.scale_index import get_scale_index_search
-from retrieval.scale_rag import get_scale_rag
+from recommendation.engine import build_recommendation_plan, build_strategy_context
+
+logger = logging.getLogger(__name__)
 
 
-def _should_recommend(state: PsyState) -> bool:
-    if state.get("scale_locked"):
-        return False
-    symptoms = state.get("extracted_symptoms", [])
-    return len(symptoms) >= 1
+def _dedupe_keep_order(items: list[str]) -> list[str]:
+    return list(dict.fromkeys(item for item in items if item))
 
 
-def _run_retrieval(state: PsyState, symptoms: list[str]) -> list[dict]:
-    query = " ".join(symptoms)
-    if state.get("search_mode") == "rag":
-        try:
-            rag = get_scale_rag()
-            return rag.search(query, top_k=3)
-        except Exception:
-            pass
+def _ensure_scale_guidance(reply: str, recommended_scales: list[dict]) -> str:
+    if not recommended_scales:
+        return reply
 
-    index_search = get_scale_index_search()
-    return index_search.search(symptoms, top_k=3)
+    top = recommended_scales[0]
+    if top.get("title") and top["title"] in reply:
+        return reply
+
+    question_count = top.get("question_count")
+    depth = top.get("assessment_depth")
+    reason = top.get("reason") or "它和你刚才描述的重点更贴近。"
+
+    pieces = [f"如果你愿意，我会优先建议你先做 {top['title']}。"]
+    if question_count:
+        pieces.append(f"它大约有 {question_count} 题")
+    if depth == "brief":
+        pieces.append("更适合先快速筛一下")
+    elif depth == "deep":
+        pieces.append("更适合做一次相对完整的评估")
+    pieces.append(reason)
+
+    guidance = "，".join(piece.rstrip("。") for piece in pieces[:-1]) + "。" + pieces[-1]
+    return f"{reply.rstrip()}\n\n{guidance}"
+
+
+def _ensure_follow_up_question(reply: str, question: str) -> str:
+    if not question or question in reply:
+        return reply
+    return f"{reply.rstrip()}\n\n{question}"
 
 
 async def empathy_node(state: PsyState) -> dict:
-    """Core empathy + symptom extraction + optional scale recommendation."""
+    """Strategy-driven empathy node with cumulative recommendation scoring."""
     last_msg = state["messages"][-1]
     user_text = last_msg.content if hasattr(last_msg, "content") else str(last_msg)
 
@@ -44,29 +58,14 @@ async def empathy_node(state: PsyState) -> dict:
     profile = UserProfile.from_api_response(profile_data) if profile_data else UserProfile()
     profile_context = profile.to_prompt_context()
 
-    existing_symptoms = list(state.get("extracted_symptoms", []))
-    check_recommend = _should_recommend(state)
+    plan = build_recommendation_plan(state, user_text)
+    strategy_context = build_strategy_context(plan)
 
-    scale_context = ""
-    rag_results: list[dict] = []
-    if check_recommend and existing_symptoms:
-        rag_results = _run_retrieval(state, existing_symptoms)
-        if rag_results:
-            scale_lines = [f"- {s['title']} (code: {s['code']})" for s in rag_results[:3]]
-            scale_context = (
-                "## 可推荐的量表（仅在合适时自然提及，不要强推）\n"
-                + "\n".join(scale_lines)
-                + "\n如果你认为用户状态适合做测试，请温和地询问是否愿意做一个小测评。"
-            )
-
-    system_prompt = build_empathy_prompt(profile_context, scale_context)
+    system_prompt = build_empathy_prompt(profile_context, strategy_context)
     llm = get_llm(use_thinking=state.get("use_thinking", False))
 
-    raw = ""
     reply = ""
-    new_symptoms: list[str] = []
-    should_rec = False
-    rec_codes: list[str] = []
+    raw = ""
 
     try:
         response = await llm.ainvoke([
@@ -76,59 +75,54 @@ async def empathy_node(state: PsyState) -> dict:
         raw = (response.content or "").strip()
 
         if raw.startswith("```"):
-            raw = raw.split("```")[1]
+            raw = raw.split("```", 1)[1]
             if raw.startswith("json"):
                 raw = raw[4:]
             raw = raw.rstrip("`").strip()
 
         parsed = json.loads(raw)
-        reply = parsed.get("reply", "")
-        new_symptoms = parsed.get("extracted_symptoms", [])
-        should_rec = parsed.get("should_recommend", False)
-        rec_codes = parsed.get("recommended_scale_codes", [])
+        reply = (parsed.get("reply") or "").strip()
     except json.JSONDecodeError:
-        logger.warning("LLM 返回非 JSON，使用原文兜底: %s", raw[:200])
-        reply = raw if raw and not raw.strip().startswith("{") else build_fallback_reply(user_text)
-        new_symptoms = []
-        should_rec = False
-        rec_codes = []
+        logger.warning("Empathy reply was not valid JSON, falling back: %s", raw[:200])
     except Exception as exc:
-        logger.error("LLM 调用失败，走兜底回复: %s", exc)
-        reply = build_fallback_reply(user_text)
-        new_symptoms = []
-        should_rec = False
-        rec_codes = []
+        logger.error("Empathy node LLM call failed, using fallback reply: %s", exc)
 
     if not reply:
         reply = build_fallback_reply(user_text)
 
-    # Preserve symptom order while de-duplicating.
-    all_symptoms = list(dict.fromkeys(existing_symptoms + new_symptoms))
+    cooldown = max(int(state.get("recommendation_cooldown", 0) or 0) - 1, 0)
+    recommended_scales = list(plan.get("recommended_scales", []))
 
-    recommended_scales: list[dict] = []
-    seen_codes: set[str] = set()
+    if state.get("scale_locked"):
+        recommended_scales = []
+    elif cooldown > 0:
+        recommended_scales = []
+    elif recommended_scales:
+        cooldown = 2
 
-    if should_rec and rec_codes and not state.get("scale_locked"):
-        # When symptoms are first extracted in this turn, retrieval may still be empty.
-        if not rag_results and all_symptoms:
-            rag_results = _run_retrieval(state, all_symptoms)
-        for code in rec_codes[:3]:
-            normalized_code = (code or "").strip().lower()
-            matched = next((s for s in rag_results if (s.get("code") or "").lower() == normalized_code), None)
-            if matched and normalized_code not in seen_codes:
-                seen_codes.add(normalized_code)
-                recommended_scales.append({
-                    "code": matched["code"],
-                    "title": matched["title"],
-                    "scale_id": matched.get("scale_id"),
-                })
+    if recommended_scales:
+        reply = _ensure_scale_guidance(reply, recommended_scales)
+
+    reply = _ensure_follow_up_question(reply, plan.get("follow_up_question", ""))
+
+    analysis = plan.get("analysis", {})
+    existing_symptoms = list(state.get("extracted_symptoms", []))
+    existing_latent = list(state.get("latent_needs", []))
+
+    extracted_symptoms = _dedupe_keep_order(existing_symptoms + analysis.get("direct_signals", []))
+    latent_needs = _dedupe_keep_order(existing_latent + analysis.get("latent_needs", []))
 
     return {
         "reply": reply,
         "messages": [AIMessage(content=reply)],
-        "extracted_symptoms": all_symptoms,
-        "rag_results": rag_results,
+        "extracted_symptoms": extracted_symptoms,
+        "latent_needs": latent_needs,
+        "scale_scores": plan.get("scale_scores", {}),
+        "rag_results": plan.get("ranked_candidates", []),
         "recommended_scales": recommended_scales,
+        "conversation_goal": plan.get("conversation_goal", ""),
+        "follow_up_question": plan.get("follow_up_question", ""),
+        "recommendation_cooldown": cooldown,
         "turn_count": state.get("turn_count", 0) + 1,
         "last_node": "empathy",
     }

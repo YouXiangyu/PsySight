@@ -120,6 +120,10 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
             "crisis_keywords": [],
             "reply": "",
             "recommended_scales": [],
+            "latent_needs": existing_state.get("latent_needs", []),
+            "scale_scores": existing_state.get("scale_scores", {}),
+            "conversation_goal": existing_state.get("conversation_goal", ""),
+            "follow_up_question": existing_state.get("follow_up_question", ""),
             "rag_results": [],
             "last_node": "",
         }
@@ -138,11 +142,15 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
             "refuse_count": 0,
             "recommendation_cooldown": 0,
             "extracted_symptoms": [],
+            "latent_needs": [],
+            "scale_scores": {},
             "rag_results": [],
             "crisis_detected": False,
             "crisis_keywords": [],
             "reply": "",
             "recommended_scales": [],
+            "conversation_goal": "",
+            "follow_up_question": "",
             "last_node": "",
         }
 
@@ -186,13 +194,25 @@ async def agent_chat(req: AgentChatRequest, background_tasks: BackgroundTasks):
         reply=result.get("reply", ""),
         session_id=result.get("session_id", effective_session_id),
         recommended_scales=[
-            {"code": s["code"], "title": s["title"], "scale_id": s.get("scale_id")}
+            {
+                "code": s["code"],
+                "title": s["title"],
+                "scale_id": s.get("scale_id"),
+                "fit_score": s.get("fit_score"),
+                "question_count": s.get("question_count"),
+                "assessment_depth": s.get("assessment_depth"),
+                "question_style": s.get("question_style"),
+                "clinical_focus": s.get("clinical_focus"),
+                "reason": s.get("reason"),
+            }
             for s in result.get("recommended_scales", [])
         ],
         crisis_alert=crisis_alert,
         model_used=model_used,
         search_mode_used=req.search_mode,
         intent_detected=result.get("intent", ""),
+        conversation_goal=result.get("conversation_goal", ""),
+        follow_up_question=result.get("follow_up_question", ""),
     )
 
 
@@ -244,6 +264,10 @@ async def debug_state(session_id: int):
             "crisis_detected": vals.get("crisis_detected"),
             "last_node": vals.get("last_node"),
             "recommended_scales": vals.get("recommended_scales"),
+            "latent_needs": vals.get("latent_needs"),
+            "scale_scores": vals.get("scale_scores"),
+            "conversation_goal": vals.get("conversation_goal"),
+            "follow_up_question": vals.get("follow_up_question"),
             "recent_messages": messages_summary,
         }
     except Exception as exc:

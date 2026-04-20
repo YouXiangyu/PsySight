@@ -11,11 +11,19 @@ export interface Message {
     code: string;
     title: string;
     scale_id?: number | null;
+    fit_score?: number | null;
+    question_count?: number | null;
+    assessment_depth?: string | null;
+    question_style?: string | null;
+    clinical_focus?: string | null;
+    reason?: string | null;
   }>;
   feedback?: 'up' | 'down';
   isError?: boolean;
   model_used?: string;
   intent_detected?: string;
+  conversation_goal?: string;
+  follow_up_question?: string;
 }
 
 export interface CrisisAlert {

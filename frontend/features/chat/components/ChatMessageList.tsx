@@ -42,7 +42,26 @@ export default function ChatMessageList({ messages, isLoading, onFeedback }: Cha
                   key={scale.code}
                   className="flex items-center justify-between rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-2"
                 >
-                  <span className="text-sm text-indigo-900">{scale.title}</span>
+                  <div className="pr-3">
+                    <div className="text-sm text-indigo-900">{scale.title}</div>
+                    {(scale.question_count || scale.assessment_depth || scale.reason) && (
+                      <div className="mt-1 text-xs text-indigo-700/80">
+                        {[
+                          scale.question_count ? `${scale.question_count}题` : null,
+                          scale.assessment_depth === 'brief'
+                            ? '快速筛查'
+                            : scale.assessment_depth === 'deep'
+                              ? '完整评估'
+                              : scale.assessment_depth
+                                ? '中等深度'
+                                : null,
+                          scale.reason || null,
+                        ]
+                          .filter(Boolean)
+                          .join(' · ')}
+                      </div>
+                    )}
+                  </div>
                   <Link
                     href={scale.scale_id ? `/scale/${scale.scale_id}` : scale.code ? `/scale-code/${encodeURIComponent(scale.code)}` : '/scales'}
                     className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700"

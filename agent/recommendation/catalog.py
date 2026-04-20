@@ -414,7 +414,7 @@ def _infer_depth(question_count: int) -> str:
 
 
 def _build_default_aliases(code: str, title: str, category: str) -> list[str]:
-    aliases = {code.lower(), title.lower(), category.lower()}
+    aliases = {code.lower(), title.lower()}
     if "psqi" in code.lower():
         aliases.update({"匹兹堡", "睡眠质量", "匹兹堡睡眠质量指数"})
     if code.lower() == "ais":

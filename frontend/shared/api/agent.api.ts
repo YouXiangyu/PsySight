@@ -13,6 +13,12 @@ export interface ScaleRecommendationItem {
   code: string;
   title: string;
   scale_id?: number | null;
+  fit_score?: number | null;
+  question_count?: number | null;
+  assessment_depth?: string | null;
+  question_style?: string | null;
+  clinical_focus?: string | null;
+  reason?: string | null;
 }
 
 export interface AgentCrisisAlert {
@@ -32,6 +38,8 @@ export interface AgentChatResponse {
   model_used: string;
   search_mode_used: string;
   intent_detected: string;
+  conversation_goal?: string;
+  follow_up_question?: string;
 }
 
 export const agentChat = async (payload: AgentChatPayload): Promise<AgentChatResponse> => {

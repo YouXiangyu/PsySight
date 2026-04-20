@@ -16,6 +16,12 @@ class ScaleRecommendationItem(BaseModel):
     code: str
     title: str
     scale_id: int | None = None
+    fit_score: float | None = None
+    question_count: int | None = None
+    assessment_depth: str | None = None
+    question_style: str | None = None
+    clinical_focus: str | None = None
+    reason: str | None = None
 
 
 class CrisisAlertResponse(BaseModel):
@@ -35,3 +41,5 @@ class AgentChatResponse(BaseModel):
     model_used: str = ""
     search_mode_used: str = ""
     intent_detected: str = ""
+    conversation_goal: str = ""
+    follow_up_question: str = ""

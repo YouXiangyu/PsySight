@@ -40,9 +40,9 @@ SIGNAL_KEYWORDS: dict[str, list[str]] = {
     "sleep_initiation": ["入睡困难", "睡不着", "很难睡着", "躺很久"],
     "night_waking": ["夜醒", "半夜醒", "睡到一半醒", "夜里总醒"],
     "early_waking": ["早醒", "醒太早"],
-    "sleep_quality": ["睡得不好", "睡眠质量", "睡不踏实", "睡不沉", "休息不好"],
+    "sleep_quality": ["睡得不好", "睡眠质量", "睡不踏实", "睡得不踏实", "睡不沉", "休息不好"],
     "sleep_duration": ["睡太少", "睡眠时间短", "只睡", "睡得很少"],
-    "daytime_sleepiness": ["白天困", "没精神", "犯困", "白天嗜睡", "白天撑不住"],
+    "daytime_sleepiness": ["白天困", "白天犯困", "没精神", "犯困", "白天嗜睡", "白天撑不住"],
     "dream_disturbance": ["做梦", "噩梦", "梦多"],
     "anxiety": ["焦虑", "紧张", "担心", "不安", "害怕", "慌"],
     "worry": ["担心", "想太多", "停不下来", "脑子停不下来", "一直想"],
@@ -78,9 +78,9 @@ SIGNAL_KEYWORDS: dict[str, list[str]] = {
     "control_loss": ["控制不住", "停不下来"],
     "loneliness": ["孤独", "没人懂", "很孤单", "一个人"],
     "social_disconnection": ["被隔离", "没有连接感", "没有陪伴"],
-    "social_anxiety": ["社恐", "社交焦虑", "不敢社交"],
-    "interaction_fear": ["不敢说话", "怕跟人交流", "见人就紧张"],
-    "evaluation_fear": ["怕被评价", "怕别人怎么看", "怕出丑"],
+    "social_anxiety": ["社恐", "社交焦虑", "不敢社交", "一见到人就紧张"],
+    "interaction_fear": ["不敢说话", "怕跟人交流", "见人就紧张", "一见到人就紧张"],
+    "evaluation_fear": ["怕被评价", "怕别人怎么看", "怕别人怎么看我", "担心别人怎么看我", "担心别人怎么想", "怕出丑"],
     "stranger_fear": ["怕见陌生人", "见陌生人很紧张"],
     "impostor": ["冒牌货", "配不上", "怕被发现", "都是运气"],
     "achievement_doubt": ["不配得", "不是真的厉害", "怕露馅"],
@@ -104,7 +104,7 @@ LATENT_KEYWORDS: dict[str, list[str]] = {
     "attention_scatter": ["脑子散", "坐不住", "任务开了很多"],
     "activation_pattern": ["特别上头", "突然精力很旺", "停不下来"],
     "compulsive_pattern": ["明知道没必要还要做", "不做就不安心"],
-    "social_avoidance": ["能躲就躲", "不敢去见人", "回避社交"],
+    "social_avoidance": ["能躲就躲", "总想躲", "不敢去见人", "回避社交"],
     "social_emptiness": ["没人陪", "没有人可以说", "没有归属感"],
     "hidden_inadequacy": ["怕被发现", "像假的", "怕别人知道我其实不行"],
     "student_pressure": ["学业压力", "考试压力", "论文压力"],
@@ -117,6 +117,102 @@ def _contains_any(text: str, keywords: list[str]) -> bool:
 
 def _extract_matches(text: str, keyword_map: dict[str, list[str]]) -> list[str]:
     return [key for key, keywords in keyword_map.items() if _contains_any(text, keywords)]
+
+
+DOMAIN_FALLBACK_SCORES: dict[str, dict[str, float]] = {
+    "sleep": {"ais": 1.4, "psqi": 1.3},
+    "anxiety": {"gad7": 1.4, "sas": 1.2},
+    "depression": {"phq9": 1.4, "sds": 1.2, "bdi2": 1.1},
+    "stress": {"dass21": 1.4, "k10": 1.2},
+    "trauma": {"pcl5": 1.5, "iesr": 1.3},
+    "attention": {"asrs": 1.5},
+    "mood_activation": {"mdq": 1.5},
+    "compulsive": {"ybocs": 1.5},
+    "social_anxiety": {"sias": 1.4, "ias": 1.2},
+    "interpersonal": {"ucla": 1.4},
+    "self_worth": {"is": 1.4},
+    "general_distress": {"k10": 1.4, "dass21": 1.2},
+    "broad_screening": {"scl90": 1.4, "upi": 1.2},
+}
+
+GENERAL_FALLBACK_SCORES: dict[str, float] = {
+    "k10": 3.8,
+    "dass21": 3.5,
+    "scl90": 3.0,
+}
+
+USER_FACING_REASON_BY_FOCUS: dict[str, str] = {
+    "insomnia": "更贴近入睡困难、夜醒、早醒这类失眠表现。",
+    "sleep_quality": "更适合看整体睡眠质量，以及白天是否也受到影响。",
+    "general_anxiety": "更适合持续担心、紧张、停不下来的焦虑体验。",
+    "somatic_anxiety": "更适合焦虑已经明显带到身体反应上的情况。",
+    "depression_screening": "更适合先快速筛查低落、无力和兴趣下降。",
+    "depression_depth": "更适合把低落、自责和动力下降看得更细一些。",
+    "mixed_distress": "更适合压力、焦虑和低落交织在一起时先做区分。",
+    "broad_screening": "更适合问题牵涉多个维度时先做一次广谱筛查。",
+    "general_distress": "更适合先判断当前整体心理负荷有多重。",
+    "ptsd": "更贴近创伤后的闯入、回避和警觉升高。",
+    "trauma_impact": "更适合先看某件事件最近对你的影响有多大。",
+    "adhd_screening": "更适合注意力分散、拖延和执行困难这类表现。",
+    "bipolar_screening": "更适合排查精力异常上升、睡得少也不困这类状态。",
+    "ocd": "更适合反复念头、反复检查或停不下来的仪式化行为。",
+    "loneliness": "更适合孤独感和人际连接感不足是主轴的时候。",
+    "social_interaction_anxiety": "更贴近见人就紧张、担心互动本身的社交焦虑。",
+    "interpersonal_anxiety": "更适合普遍的人际紧张和见人不自在。",
+    "impostor_syndrome": "更适合表面撑得住、内心却总怕自己不够好的状态。",
+    "student_screening": "更适合学生场景下多方面压力交织时先筛查。",
+}
+
+SLEEP_SIGNAL_KEYS = {
+    "sleep",
+    "insomnia",
+    "sleep_initiation",
+    "night_waking",
+    "early_waking",
+    "sleep_quality",
+    "sleep_duration",
+    "daytime_sleepiness",
+    "dream_disturbance",
+}
+
+
+def _has_domain(analysis: dict[str, Any], domain: str) -> bool:
+    return domain in analysis.get("domains", [])
+
+
+def _has_sleep_context(analysis: dict[str, Any]) -> bool:
+    if _has_domain(analysis, "sleep"):
+        return True
+    return any(signal in SLEEP_SIGNAL_KEYS for signal in analysis.get("direct_signals", []))
+
+
+def _seed_fallback_scores(analysis: dict[str, Any], turn_count: int) -> dict[str, float]:
+    fallback: dict[str, float] = {}
+
+    for domain in analysis.get("domains", []):
+        for code, score in DOMAIN_FALLBACK_SCORES.get(domain, {}).items():
+            fallback[code] = max(fallback.get(code, 0.0), score)
+
+    if analysis.get("explicit_request") and not analysis.get("domains") and not analysis.get("direct_signals"):
+        for code, score in GENERAL_FALLBACK_SCORES.items():
+            fallback[code] = max(fallback.get(code, 0.0), score)
+    elif turn_count >= 2 and not fallback:
+        for code, score in GENERAL_FALLBACK_SCORES.items():
+            fallback[code] = max(fallback.get(code, 0.0), score - 0.6)
+
+    return fallback
+
+
+def _build_user_facing_reason(scale: dict) -> str:
+    clinical_focus = scale.get("clinical_focus")
+    if clinical_focus in USER_FACING_REASON_BY_FOCUS:
+        return USER_FACING_REASON_BY_FOCUS[clinical_focus]
+
+    if scale.get("assessment_depth") == "brief":
+        return "更适合先快速筛一下。"
+    if scale.get("assessment_depth") == "deep":
+        return "更适合做一次相对完整的评估。"
+    return "和你刚才描述的重点更贴近。"
 
 
 def analyze_message(user_text: str) -> dict[str, Any]:
@@ -143,23 +239,34 @@ def analyze_message(user_text: str) -> dict[str, Any]:
         for domain in scale.get("domains", [])
     })
     if not domains:
-        domains = sorted({
-            domain
-            for scale in catalog
-            if any(tag in direct_signals for tag in scale.get("focus_tags", []))
-            for domain in scale.get("domains", [])
-        })
+        domain_scores: dict[str, int] = {}
+        for scale in catalog:
+            overlap = len(set(scale.get("focus_tags", [])) & set(direct_signals))
+            if overlap <= 0:
+                continue
+            for domain in scale.get("domains", []):
+                domain_scores[domain] = domain_scores.get(domain, 0) + overlap
+
+        if domain_scores:
+            top_score = max(domain_scores.values())
+            domains = [
+                domain
+                for domain, score in sorted(domain_scores.items(), key=lambda item: item[1], reverse=True)
+                if score >= max(1, top_score - 1)
+            ]
 
     if urgency == "high" and assessment_preference == "balanced":
         latent_needs.append("urgent_screening")
-    if duration == "chronic":
+    if _has_sleep_context({"domains": domains, "direct_signals": direct_signals}) and duration == "chronic":
         latent_needs.append("chronic_sleep")
-    if duration == "acute":
+    if _has_sleep_context({"domains": domains, "direct_signals": direct_signals}) and duration == "acute":
         latent_needs.append("recent_poor_sleep")
     if assessment_preference == "brief":
         latent_needs.append("brief_screening")
     if assessment_preference == "deep":
         latent_needs.append("deep_assessment")
+    if len(domains) >= 2 and "mixed_distress" not in latent_needs:
+        latent_needs.append("mixed_distress")
 
     deduped_latent = list(dict.fromkeys(latent_needs))
     deduped_signals = list(dict.fromkeys(direct_signals))
@@ -188,6 +295,9 @@ def _score_scale(scale: dict, analysis: dict[str, Any]) -> tuple[float, list[str
     if analysis["explicit_request"] and any(domain in scale.get("domains", []) for domain in analysis["domains"]):
         score += 4.0
         reasons.append("matches the requested domain")
+    elif any(domain in scale.get("domains", []) for domain in analysis["domains"]):
+        score += 1.2
+        reasons.append("matches the current topic")
 
     for signal in analysis["direct_signals"]:
         weight = float(scale.get("signal_weights", {}).get(signal, 0.0))
@@ -200,6 +310,12 @@ def _score_scale(scale: dict, analysis: dict[str, Any]) -> tuple[float, list[str
         if weight > 0:
             score += weight
             reasons.append(f"latent fit: {need}")
+            continue
+
+        contextual_weight = float(scale.get("signal_weights", {}).get(need, 0.0))
+        if contextual_weight > 0:
+            score += contextual_weight
+            reasons.append(f"context fit: {need}")
 
     if analysis["assessment_preference"] == "brief":
         if scale.get("length_bucket") == "short":
@@ -276,6 +392,7 @@ def build_recommendation_plan(state: dict[str, Any], user_text: str, *, force_re
     catalog = get_scale_catalog()
     analysis = analyze_message(user_text)
     previous_scores = state.get("scale_scores", {}) or {}
+    turn_count = int(state.get("turn_count", 0))
 
     current_scores: dict[str, float] = {}
     explanations: dict[str, list[str]] = {}
@@ -284,6 +401,10 @@ def build_recommendation_plan(state: dict[str, Any], user_text: str, *, force_re
         if delta > 0:
             current_scores[scale["code"]] = round(delta, 3)
             explanations[scale["code"]] = reasons
+
+    for code, seed_score in _seed_fallback_scores(analysis, turn_count).items():
+        current_scores[code] = round(max(current_scores.get(code, 0.0), seed_score), 3)
+        explanations.setdefault(code, []).append("fallback candidate to keep the conversation moving")
 
     merged_scores = _merge_scores(previous_scores, current_scores)
     ranked = sorted(
@@ -300,7 +421,7 @@ def build_recommendation_plan(state: dict[str, Any], user_text: str, *, force_re
         reverse=True,
     )
 
-    threshold = _recommendation_threshold(int(state.get("turn_count", 0)), analysis["explicit_request"])
+    threshold = _recommendation_threshold(turn_count, analysis["explicit_request"])
     top_score = ranked[0]["fit_score"] if ranked else 0.0
     should_recommend = force_recommend or bool(ranked and top_score >= threshold)
 
@@ -316,7 +437,8 @@ def build_recommendation_plan(state: dict[str, Any], user_text: str, *, force_re
                 "question_count": item.get("question_count"),
                 "assessment_depth": item.get("assessment_depth"),
                 "question_style": item.get("question_style"),
-                "reason": item.get("summary_hint") or "; ".join(item.get("reasons", [])[:2]),
+                "clinical_focus": item.get("clinical_focus"),
+                "reason": _build_user_facing_reason(item),
             }
             for item in ranked[:3]
             if item["fit_score"] >= floor
@@ -338,6 +460,7 @@ def build_recommendation_plan(state: dict[str, Any], user_text: str, *, force_re
 
 
 def build_strategy_context(plan: dict[str, Any]) -> str:
+    analysis = plan.get("analysis", {})
     ranked = plan.get("ranked_candidates", [])
     recommended = plan.get("recommended_scales", [])
 
@@ -354,6 +477,8 @@ def build_strategy_context(plan: dict[str, Any]) -> str:
         "## Conversation strategy",
         f"- Current goal: {plan.get('conversation_goal', 'clarify the next best assessment direction')}",
         f"- Recommend now: {'yes' if plan.get('should_recommend') else 'no'}",
+        f"- Direct signals: {', '.join(analysis.get('direct_signals', [])) or 'none yet'}",
+        f"- Latent needs: {', '.join(analysis.get('latent_needs', [])) or 'none yet'}",
         f"- Follow-up question to anchor the next turn: {plan.get('follow_up_question', '')}",
         "## Top candidates",
         *(candidate_lines or ["- No strong candidate yet"]),

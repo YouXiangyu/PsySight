@@ -154,6 +154,8 @@ export function useChatState() {
             recommended_scales: data.recommended_scales?.length ? data.recommended_scales : undefined,
             model_used: data.model_used,
             intent_detected: data.intent_detected,
+            conversation_goal: data.conversation_goal,
+            follow_up_question: data.follow_up_question,
           };
           if (data.crisis_alert?.show) {
             setCrisisAlert(data.crisis_alert);

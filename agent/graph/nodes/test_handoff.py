@@ -1,78 +1,67 @@
 from __future__ import annotations
 
-import logging
-import re
-
 from langchain_core.messages import AIMessage
 
 from models.state import PsyState
-from retrieval.scale_index import get_scale_index_search
-from retrieval.scale_rag import get_scale_rag
-
-logger = logging.getLogger(__name__)
+from recommendation.engine import build_recommendation_plan
 
 
-def _extract_keywords_from_message(text: str) -> list[str]:
-    """Extract potential psychological keywords from the user's current message."""
-    keyword_pool = [
-        "睡眠", "失眠", "入睡", "早醒", "嗜睡", "疲惫", "疲劳", "累",
-        "焦虑", "紧张", "担心", "恐惧", "害怕", "不安",
-        "抑郁", "低落", "难过", "悲伤", "绝望", "无助", "空虚",
-        "压力", "烦躁", "愤怒", "暴躁",
-        "注意力", "专注", "分心", "记忆",
-        "人际", "社交", "孤独", "关系",
-        "自尊", "自信", "自卑",
-        "强迫", "反复", "控制不住",
-        "饮食", "暴食", "厌食", "体重",
-        "情绪", "心情", "感受",
-    ]
-    return [kw for kw in keyword_pool if kw in text]
+def _dedupe_keep_order(items: list[str]) -> list[str]:
+    return list(dict.fromkeys(item for item in items if item))
+
+
+def _format_depth(depth: str | None) -> str:
+    if depth == "brief":
+        return "偏快速筛查"
+    if depth == "deep":
+        return "偏完整评估"
+    return "信息覆盖适中"
+
+
+def _format_scale_line(scale: dict) -> str:
+    question_count = scale.get("question_count")
+    question_text = f"{question_count}题，" if question_count else ""
+    reason = scale.get("reason") or "和你当前的诉求更贴近。"
+    return f"- **{scale['title']}**：{question_text}{_format_depth(scale.get('assessment_depth'))}。{reason}"
 
 
 def test_handoff_node(state: PsyState) -> dict:
-    """User wants to take a test — recommend scales and provide links."""
-    symptoms = list(state.get("extracted_symptoms", []))
-
+    """Deterministic recommendation node for explicit scale requests."""
     last_msg = state["messages"][-1]
     user_text = last_msg.content if hasattr(last_msg, "content") else str(last_msg)
-    msg_keywords = _extract_keywords_from_message(user_text)
-    search_terms = list(set(symptoms + msg_keywords))
 
-    results: list[dict] = []
-    if search_terms:
-        if state.get("search_mode") == "rag":
-            try:
-                rag = get_scale_rag()
-                results = rag.search(" ".join(search_terms), top_k=3)
-            except Exception:
-                logger.warning("RAG search failed, falling back to index search")
+    plan = build_recommendation_plan(state, user_text, force_recommend=True)
+    recommended = list(plan.get("recommended_scales", []))
 
-        if not results:
-            search = get_scale_index_search()
-            results = search.search(search_terms, top_k=3)
-
-    if results:
-        scale_lines = [f"- **{s['title']}** → /scale/{s['code']}" for s in results]
+    if recommended:
+        scale_lines = "\n".join(_format_scale_line(scale) for scale in recommended)
         reply = (
-            "好的，根据我们的对话，这几个量表可能适合你：\n"
-            + "\n".join(scale_lines)
-            + "\n\n你可以点击上面的链接进入测评页面。做完之后我们可以继续聊。"
+            "可以，我先把更贴近你现在情况的量表排在前面：\n"
+            f"{scale_lines}\n\n"
+            "你可以直接点下面的“开始测评”进入答题。"
         )
+        if plan.get("follow_up_question"):
+            reply += f" 如果你愿意，我也想顺手确认一句：{plan['follow_up_question']}"
     else:
         reply = (
-            "好的，你可以去量表库页面浏览所有可用的量表，选一个你感兴趣的。"
-            "做完之后回来告诉我，我们可以一起看看结果。"
+            "可以，我们也可以先从广谱筛查量表开始，帮你更快看清当前主要是压力、焦虑、低落，还是多方面交织。"
         )
 
-    recommended = [
-        {"code": s["code"], "title": s["title"], "scale_id": s.get("scale_id")}
-        for s in results
-    ]
+    analysis = plan.get("analysis", {})
+    extracted_symptoms = _dedupe_keep_order(list(state.get("extracted_symptoms", [])) + analysis.get("direct_signals", []))
+    latent_needs = _dedupe_keep_order(list(state.get("latent_needs", [])) + analysis.get("latent_needs", []))
 
     return {
         "reply": reply,
         "messages": [AIMessage(content=reply)],
         "recommended_scales": recommended,
+        "extracted_symptoms": extracted_symptoms,
+        "latent_needs": latent_needs,
+        "scale_scores": plan.get("scale_scores", {}),
+        "rag_results": plan.get("ranked_candidates", []),
+        "conversation_goal": "help the user enter the most relevant scale as quickly as possible",
+        "follow_up_question": plan.get("follow_up_question", ""),
+        "recommendation_cooldown": 2,
         "turn_count": state.get("turn_count", 0) + 1,
         "last_node": "test_handoff",
     }
