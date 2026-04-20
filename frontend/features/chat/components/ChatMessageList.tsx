@@ -44,7 +44,7 @@ export default function ChatMessageList({ messages, isLoading, onFeedback }: Cha
                 >
                   <span className="text-sm text-indigo-900">{scale.title}</span>
                   <Link
-                    href={scale.scale_id ? `/scale/${scale.scale_id}` : `/scales`}
+                    href={scale.scale_id ? `/scale/${scale.scale_id}` : scale.code ? `/scale-code/${encodeURIComponent(scale.code)}` : '/scales'}
                     className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700"
                   >
                     开始测评

@@ -1,6 +1,7 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { Loader2, ShieldCheck } from 'lucide-react';
 
 import AssessmentControls from '@/features/assessment/components/AssessmentControls';
@@ -10,8 +11,31 @@ import QuestionCard from '@/features/assessment/components/QuestionCard';
 import { useScaleAssessment } from '@/features/assessment/hooks/useScaleAssessment';
 
 export default function ScalePage() {
+  const router = useRouter();
   const { id } = useParams();
-  const scaleId = id ? Number(id) : null;
+  const rawId = Array.isArray(id) ? id[0] : id;
+  const isNumericId = typeof rawId === 'string' && /^\d+$/.test(rawId);
+  const scaleId = isNumericId ? Number(rawId) : null;
+
+  useEffect(() => {
+    if (rawId && !isNumericId) {
+      router.replace(`/scale-code/${encodeURIComponent(rawId)}`);
+    }
+  }, [isNumericId, rawId, router]);
+
+  if (rawId && !isNumericId) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
+        <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+          <div className="flex items-center gap-3 text-indigo-700">
+            <Loader2 className="animate-spin" size={20} />
+            <p className="text-sm font-medium">Resolving scale link...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const {
     scale,
     currentIdx,
