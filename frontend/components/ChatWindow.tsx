@@ -29,6 +29,7 @@ export default function ChatWindow() {
     useThinking,
     searchMode,
     useAgent,
+    historyMode,
     setUseThinking,
     setSearchMode,
     setUseAgent,
@@ -59,6 +60,7 @@ export default function ChatWindow() {
         username={username}
         conversations={conversations}
         activeSessionId={activeSessionId}
+        historyMode={historyMode}
         onNewConversation={handleNewConversation}
         onSelectConversation={handleSelectConversation}
       />
@@ -74,7 +76,12 @@ export default function ChatWindow() {
         {crisisAlert?.show && <CrisisAlertCard alert={crisisAlert} />}
 
         <div className="flex-1 overflow-y-auto w-full pb-32" ref={scrollRef}>
-          <ChatMessageList messages={messages} isLoading={isLoading} onFeedback={handleFeedback} />
+          <ChatMessageList
+            messages={messages}
+            isLoading={isLoading}
+            activeSessionId={activeSessionId}
+            onFeedback={handleFeedback}
+          />
         </div>
 
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#f7f8fb] via-[#f7f8fb] to-transparent pt-10 pb-4 px-4">

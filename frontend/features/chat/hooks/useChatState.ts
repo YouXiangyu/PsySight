@@ -16,16 +16,128 @@ const INITIAL_ASSISTANT_MESSAGE: Message = {
   content: '你好，我是 PsySight。谢谢你愿意来到这里。你可以从最近最困扰你的一件小事开始说，我会认真听。',
 };
 
+const LOCAL_CONVERSATION_INDEX_KEY = 'psysight_chat_local_conversations_v1';
+const LOCAL_CONVERSATION_MESSAGES_PREFIX = 'psysight_chat_local_messages_';
+const SAVE_HISTORY_PREF_KEY = 'psysight_chat_save_history_v1';
+
+type ConversationSummary = {
+  id: number;
+  title: string;
+};
+
+type StoredConversationSummary = ConversationSummary & {
+  updated_at: string;
+};
+
+const isLocalSession = (sessionId: number | null | undefined): sessionId is number =>
+  typeof sessionId === 'number' && sessionId < 0;
+
+const getLocalMessagesKey = (sessionId: number) => `${LOCAL_CONVERSATION_MESSAGES_PREFIX}${sessionId}`;
+
+const getDefaultMessages = (): Message[] => [{ ...INITIAL_ASSISTANT_MESSAGE }];
+
+const truncateTitle = (text: string) => {
+  const trimmed = text.trim();
+  if (!trimmed) return '新对话';
+  return trimmed.length > 20 ? `${trimmed.slice(0, 20)}...` : trimmed;
+};
+
+const buildConversationTitle = (items: Message[]) => {
+  const firstUserMessage = items.find((item) => item.role === 'user' && item.content.trim());
+  return truncateTitle(firstUserMessage?.content || '');
+};
+
+const readStoredLocalConversationIndex = (): StoredConversationSummary[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(LOCAL_CONVERSATION_INDEX_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (item): item is StoredConversationSummary =>
+        typeof item?.id === 'number' && typeof item?.title === 'string' && typeof item?.updated_at === 'string'
+    );
+  } catch {
+    return [];
+  }
+};
+
+const readSaveHistoryPreference = (fallback: boolean) => {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const value = window.localStorage.getItem(SAVE_HISTORY_PREF_KEY);
+    if (value == null) return fallback;
+    return value === '1';
+  } catch {
+    return fallback;
+  }
+};
+
+const persistSaveHistoryPreference = (value: boolean) => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(SAVE_HISTORY_PREF_KEY, value ? '1' : '0');
+  } catch {
+    // Ignore local persistence failures.
+  }
+};
+
+const readLocalConversationIndex = (): ConversationSummary[] => {
+  return readStoredLocalConversationIndex()
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
+    .map((item) => ({ id: item.id, title: item.title }));
+};
+
+const readLocalConversationMessages = (sessionId: number): Message[] | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(getLocalMessagesKey(sessionId));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    const items = parsed.filter(
+      (item): item is Message =>
+        (item?.role === 'user' || item?.role === 'assistant') && typeof item?.content === 'string'
+    );
+    return items.length ? items : null;
+  } catch {
+    return null;
+  }
+};
+
+const persistLocalConversation = (sessionId: number, items: Message[]) => {
+  if (typeof window === 'undefined') return;
+  const hasUserMessages = items.some((item) => item.role === 'user' && item.content.trim());
+  if (!hasUserMessages) return;
+
+  try {
+    window.localStorage.setItem(getLocalMessagesKey(sessionId), JSON.stringify(items));
+    const nextRecord: StoredConversationSummary = {
+      id: sessionId,
+      title: buildConversationTitle(items),
+      updated_at: new Date().toISOString(),
+    };
+
+    const existing = readStoredLocalConversationIndex();
+    const merged = [nextRecord, ...existing.filter((item) => item.id !== sessionId)];
+
+    window.localStorage.setItem(LOCAL_CONVERSATION_INDEX_KEY, JSON.stringify(merged));
+  } catch {
+    // Ignore local persistence failures.
+  }
+};
+
 export function useChatState() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [messages, setMessages] = useState<Message[]>([INITIAL_ASSISTANT_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>(getDefaultMessages);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
-  const [conversations, setConversations] = useState<Array<{ id: number; title: string }>>([]);
+  const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<number | null>(null);
-  const [saveHistory, setSaveHistory] = useState(true);
+  const [saveHistory, setSaveHistory] = useState(false);
   const [crisisAlert, setCrisisAlert] = useState<CrisisAlert | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [useThinking, setUseThinking] = useState(false);
@@ -40,13 +152,31 @@ export function useChatState() {
     return Number.isNaN(parsed) ? null : parsed;
   }, [searchParams]);
 
-  const loadConversations = useCallback(async () => {
+  const historyMode = useMemo<'account' | 'local'>(() => {
+    if (!isAuthenticated || !saveHistory || isLocalSession(activeSessionId)) {
+      return 'local';
+    }
+    return 'account';
+  }, [activeSessionId, isAuthenticated, saveHistory]);
+
+  const loadBackendConversations = useCallback(async () => {
     try {
       const response = await listConversations();
       setConversations(response.items.map((item) => ({ id: item.id, title: item.title })));
     } catch {
       setConversations([]);
     }
+  }, []);
+
+  const loadLocalConversations = useCallback(() => {
+    setConversations(readLocalConversationIndex());
+  }, []);
+
+  const loadLocalConversationMessages = useCallback((sessionId: number) => {
+    const restored = readLocalConversationMessages(sessionId);
+    setMessages(restored?.length ? restored : getDefaultMessages());
+    setActiveSessionId(sessionId);
+    setCrisisAlert(null);
   }, []);
 
   const loadConversationMessages = useCallback(async (sessionId: number) => {
@@ -66,6 +196,7 @@ export function useChatState() {
       }));
       setMessages(mapped.length ? mapped : [{ role: 'assistant', content: '这个会话还没有消息，我们从现在开始吧。' }]);
       setActiveSessionId(sessionId);
+      setCrisisAlert(null);
     } catch {
       setMessages([{ role: 'assistant', content: '会话加载失败，请稍后重试。', isError: true }]);
     }
@@ -75,34 +206,70 @@ export function useChatState() {
     const init = async () => {
       try {
         const me = await getMe();
-        setIsAuthenticated(me.authenticated);
+        const authenticated = me.authenticated;
+        const preferredSaveHistory = authenticated ? readSaveHistoryPreference(true) : false;
+
+        setIsAuthenticated(authenticated);
         setUsername(me.user?.username || null);
         setUserId(me.user?.id || null);
-        setSaveHistory(me.authenticated);
-        if (me.authenticated) {
-          await loadConversations();
-          if (activeSessionFromQuery) {
-            await loadConversationMessages(activeSessionFromQuery);
-          }
+        setSaveHistory(preferredSaveHistory);
+
+        if (authenticated && preferredSaveHistory && activeSessionFromQuery && !isLocalSession(activeSessionFromQuery)) {
+          await loadBackendConversations();
+          await loadConversationMessages(activeSessionFromQuery);
+          return;
+        }
+
+        loadLocalConversations();
+        if (activeSessionFromQuery !== null) {
+          loadLocalConversationMessages(activeSessionFromQuery);
         }
       } catch {
         setIsAuthenticated(false);
+        setUsername(null);
+        setUserId(null);
+        setSaveHistory(false);
+        loadLocalConversations();
+        if (activeSessionFromQuery !== null) {
+          loadLocalConversationMessages(activeSessionFromQuery);
+        }
       }
     };
     init();
-  }, [activeSessionFromQuery, loadConversationMessages, loadConversations]);
+  }, [activeSessionFromQuery, loadConversationMessages, loadBackendConversations, loadLocalConversationMessages, loadLocalConversations]);
 
   useEffect(() => {
-    if (isAuthenticated && activeSessionFromQuery && activeSessionFromQuery !== activeSessionId) {
-      loadConversationMessages(activeSessionFromQuery);
-    }
-  }, [activeSessionFromQuery, activeSessionId, isAuthenticated, loadConversationMessages]);
+    if (!isAuthenticated) return;
+    persistSaveHistoryPreference(saveHistory);
+  }, [isAuthenticated, saveHistory]);
 
   useEffect(() => {
-    if (!isAuthenticated && activeSessionFromQuery && activeSessionFromQuery !== activeSessionId) {
-      setActiveSessionId(activeSessionFromQuery);
+    if (historyMode === 'account') {
+      loadBackendConversations();
+      return;
     }
-  }, [activeSessionFromQuery, activeSessionId, isAuthenticated]);
+    loadLocalConversations();
+  }, [historyMode, loadBackendConversations, loadLocalConversations]);
+
+  useEffect(() => {
+    if (activeSessionFromQuery === null || activeSessionFromQuery === activeSessionId) {
+      return;
+    }
+
+    if (historyMode === 'local' || isLocalSession(activeSessionFromQuery)) {
+      loadLocalConversationMessages(activeSessionFromQuery);
+      return;
+    }
+
+    loadConversationMessages(activeSessionFromQuery);
+  }, [activeSessionFromQuery, activeSessionId, historyMode, loadConversationMessages, loadLocalConversationMessages]);
+
+  useEffect(() => {
+    if (activeSessionId == null) return;
+    if (historyMode !== 'local' && !isLocalSession(activeSessionId)) return;
+    persistLocalConversation(activeSessionId, messages);
+    loadLocalConversations();
+  }, [activeSessionId, historyMode, loadLocalConversations, messages]);
 
   const handleNewConversation = useCallback(() => {
     setMessages([{ role: 'assistant', content: '新的对话已开始。你现在最想先聊哪一件事？' }]);
@@ -113,11 +280,15 @@ export function useChatState() {
 
   const handleSelectConversation = useCallback(
     (sessionId: number) => {
-      setActiveSessionId(sessionId);
       router.replace(`/?session=${sessionId}`);
+      const restoredLocalMessages = readLocalConversationMessages(sessionId);
+      if (restoredLocalMessages?.length) {
+        loadLocalConversationMessages(sessionId);
+        return;
+      }
       loadConversationMessages(sessionId);
     },
-    [loadConversationMessages, router]
+    [loadConversationMessages, loadLocalConversationMessages, router]
   );
 
   const handleFeedback = useCallback(async (messageId: number, feedback: 'up' | 'down') => {
@@ -125,7 +296,7 @@ export function useChatState() {
       await sendMessageFeedback(messageId, feedback);
       setMessages((prev) => prev.map((item) => (item.id === messageId ? { ...item, feedback } : item)));
     } catch {
-      // 反馈失败不阻塞聊天
+      // Feedback failures should not block the chat flow.
     }
   }, []);
 
@@ -134,6 +305,7 @@ export function useChatState() {
       if (!rawInput.trim() || isLoading) return;
 
       const userMsg = rawInput.trim();
+      const anonymousMode = !isAuthenticated || !saveHistory;
       setMessages((prev) => [...prev, { role: 'user', content: userMsg }]);
       setIsLoading(true);
 
@@ -143,7 +315,7 @@ export function useChatState() {
             message: userMsg,
             session_id: activeSessionId,
             user_id: userId,
-            anonymous: !isAuthenticated || !saveHistory,
+            anonymous: anonymousMode,
             use_thinking: useThinking,
             search_mode: searchMode,
           });
@@ -165,11 +337,16 @@ export function useChatState() {
             router.replace(`/?session=${data.session_id}`);
           }
           setMessages((prev) => [...prev, assistantMsg]);
+          if (anonymousMode || isLocalSession(data.session_id ?? null)) {
+            loadLocalConversations();
+          } else if (isAuthenticated) {
+            loadBackendConversations();
+          }
         } else {
           const data = await chatWithAI({
             message: userMsg,
             session_id: activeSessionId,
-            anonymous: !isAuthenticated || !saveHistory,
+            anonymous: anonymousMode,
           });
           const assistantMsg: Message = {
             id: data.assistant_message_id || undefined,
@@ -191,16 +368,18 @@ export function useChatState() {
             router.replace(`/?session=${data.session_id}`);
           }
           setMessages((prev) => [...prev, assistantMsg]);
-        }
-        if (isAuthenticated) {
-          loadConversations();
+          if (anonymousMode || isLocalSession(data.session_id ?? null)) {
+            loadLocalConversations();
+          } else if (isAuthenticated) {
+            loadBackendConversations();
+          }
         }
       } catch (error) {
         setMessages((prev) => [
           ...prev,
           {
             role: 'assistant',
-            content: (error as Error).message || '连接 AI 服务失败。请检查后端是否启动。',
+            content: (error as Error).message || '连接 AI 服务失败，请检查后端是否已启动。',
             isError: true,
           },
         ]);
@@ -208,7 +387,7 @@ export function useChatState() {
         setIsLoading(false);
       }
     },
-    [activeSessionId, isAuthenticated, isLoading, loadConversations, router, saveHistory, useAgent, useThinking, searchMode, userId]
+    [activeSessionId, isAuthenticated, isLoading, loadBackendConversations, loadLocalConversations, router, saveHistory, searchMode, useAgent, useThinking, userId]
   );
 
   return {
@@ -223,6 +402,7 @@ export function useChatState() {
     useThinking,
     searchMode,
     useAgent,
+    historyMode,
     setUseThinking,
     setSearchMode,
     setUseAgent,

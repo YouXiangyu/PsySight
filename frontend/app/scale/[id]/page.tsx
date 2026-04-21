@@ -60,6 +60,7 @@ export default function ScalePage() {
     handleAnswer,
     toggleEmotion,
     handleSubmit,
+    handleReturnHome,
   } = useScaleAssessment(scaleId);
 
   if (isBootstrapping || !scale) {
@@ -110,6 +111,7 @@ export default function ScalePage() {
           emotionEnabled={emotionEnabled && consentConfirmed}
           onToggleEmotion={toggleEmotion}
           onEmotionUpdate={handleEmotionUpdate}
+          onReturnHome={handleReturnHome}
         />
 
         <AssessmentControls

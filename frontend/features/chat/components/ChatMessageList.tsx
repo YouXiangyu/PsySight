@@ -5,10 +5,17 @@ import type { Message } from '../types';
 interface ChatMessageListProps {
   messages: Message[];
   isLoading: boolean;
+  activeSessionId: number | null;
   onFeedback: (messageId: number, feedback: 'up' | 'down') => void;
 }
 
-export default function ChatMessageList({ messages, isLoading, onFeedback }: ChatMessageListProps) {
+const withSessionQuery = (href: string, sessionId: number | null) => {
+  if (sessionId == null) return href;
+  const separator = href.includes('?') ? '&' : '?';
+  return `${href}${separator}session=${encodeURIComponent(String(sessionId))}`;
+};
+
+export default function ChatMessageList({ messages, isLoading, activeSessionId, onFeedback }: ChatMessageListProps) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-4 space-y-4">
       {messages.map((msg, idx) => (
@@ -26,7 +33,7 @@ export default function ChatMessageList({ messages, isLoading, onFeedback }: Cha
               <p className="text-xs text-indigo-700 font-medium">推荐量表</p>
               <p className="text-sm mt-1 text-indigo-900">{msg.recommended_scale.title}</p>
               <Link
-                href={`/scale/${msg.recommended_scale.id}`}
+                href={withSessionQuery(`/scale/${msg.recommended_scale.id}`, activeSessionId)}
                 className="mt-2 inline-flex rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700"
               >
                 一键开始测评
@@ -63,7 +70,14 @@ export default function ChatMessageList({ messages, isLoading, onFeedback }: Cha
                     )}
                   </div>
                   <Link
-                    href={scale.scale_id ? `/scale/${scale.scale_id}` : scale.code ? `/scale-code/${encodeURIComponent(scale.code)}` : '/scales'}
+                    href={withSessionQuery(
+                      scale.scale_id
+                        ? `/scale/${scale.scale_id}`
+                        : scale.code
+                          ? `/scale-code/${encodeURIComponent(scale.code)}`
+                          : '/scales',
+                      activeSessionId
+                    )}
                     className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700"
                   >
                     开始测评

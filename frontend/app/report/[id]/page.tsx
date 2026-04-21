@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download } from 'lucide-react';
 import Link from 'next/link';
 import StatsBoard from '@/features/stats/components/StatsBoard';
@@ -9,6 +9,9 @@ import { useReportDetail } from '@/features/report/hooks/useReportDetail';
 
 export default function ReportPage() {
   const { id } = useParams();
+  const searchParams = useSearchParams();
+  const chatSession = searchParams.get('session');
+  const homeHref = chatSession ? `/?session=${encodeURIComponent(chatSession)}` : '/';
   const { record, stats, loading, errorMsg, subjectName } = useReportDetail(Number(id));
 
   if (loading) return (
@@ -24,7 +27,7 @@ export default function ReportPage() {
     <main className="min-h-screen p-4 md:p-12 bg-slate-50">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <Link href="/" className="flex items-center text-slate-500 hover:text-indigo-600 transition-colors">
+          <Link href={homeHref} className="flex items-center text-slate-500 hover:text-indigo-600 transition-colors">
             <ArrowLeft size={18} className="mr-1" /> 返回首页
           </Link>
           <button onClick={() => window.print()} className="flex items-center text-sm font-bold text-indigo-600 bg-white px-4 py-2 rounded-lg border border-indigo-100 shadow-sm hover:shadow-md transition-all">

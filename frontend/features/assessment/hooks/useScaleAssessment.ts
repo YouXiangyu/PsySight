@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { getMe, getScaleMeta, getScaleQuestionsChunk, submitAssessment } from '@/lib/api';
 
@@ -10,6 +10,7 @@ const PREFETCH_THRESHOLD = 5;
 
 export function useScaleAssessment(scaleId: number | null) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [scale, setScale] = useState<any>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -30,13 +31,16 @@ export function useScaleAssessment(scaleId: number | null) {
   const [hasMoreQuestions, setHasMoreQuestions] = useState(true);
   const [isChunkLoading, setIsChunkLoading] = useState(false);
 
+  const chatSession = searchParams.get('session');
+  const homeHref = chatSession ? `/?session=${encodeURIComponent(chatSession)}` : '/';
+
   useEffect(() => {
     if (!scaleId) return;
 
     let cancelled = false;
     const minLoadingMs = 800 + Math.floor(Math.random() * 1201);
     setIsBootstrapping(true);
-    setLoadingHint('正在连接服务器...');
+    setLoadingHint('正在连接服务...');
     setErrorMsg('');
     setScale(null);
     setCurrentIdx(0);
@@ -80,7 +84,6 @@ export function useScaleAssessment(scaleId: number | null) {
             restoredAnswers = parsed.answers || {};
             restoredStartedAt = parsed.startedAt || Date.now();
           } catch {
-            // 忽略损坏缓存
             restoredStartedAt = Date.now();
           }
         }
@@ -207,7 +210,7 @@ export function useScaleAssessment(scaleId: number | null) {
   const toggleEmotion = () => {
     if (!consentConfirmed) {
       const accepted = window.confirm(
-        '隐私说明：仅在你同意并开启后采集聚合情绪数据（不保存原始视频帧）。关闭后立即停止采集。'
+        '隐私说明：仅在你同意并开启后采集聚合情绪数据，不保存原始视频帧。关闭后会立即停止采集。'
       );
       if (!accepted) return;
       setConsentConfirmed(true);
@@ -218,6 +221,15 @@ export function useScaleAssessment(scaleId: number | null) {
       }
       return !prev;
     });
+  };
+
+  const handleReturnHome = () => {
+    const hasAnswered = Object.keys(answers).length > 0;
+    if (hasAnswered) {
+      const confirmed = window.confirm('当前作答进度已保存，可以稍后继续。现在返回首页吗？');
+      if (!confirmed) return;
+    }
+    router.push(homeHref);
   };
 
   const handleSubmit = async () => {
@@ -237,7 +249,7 @@ export function useScaleAssessment(scaleId: number | null) {
       anonymous = false;
     } else {
       const continueAsAnonymous = window.confirm(
-        '登录后可保存报告与历史记录。点击“确定”继续匿名测评，点击“取消”前往登录。'
+        '登录后可以保存报告与历史记录。点击“确定”继续匿名测评，点击“取消”前往登录。'
       );
       if (!continueAsAnonymous) {
         router.push('/auth');
@@ -258,7 +270,10 @@ export function useScaleAssessment(scaleId: number | null) {
       localStorage.removeItem(getProgressKey(scaleId));
       setShowEncouragement(true);
       window.setTimeout(() => {
-        router.push(`/report/${result.record_id}`);
+        const reportHref = chatSession
+          ? `/report/${result.record_id}?session=${encodeURIComponent(chatSession)}`
+          : `/report/${result.record_id}`;
+        router.push(reportHref);
       }, 2300);
     } catch (error) {
       setErrorMsg((error as Error).message || '提交失败，请重试');
@@ -274,7 +289,7 @@ export function useScaleAssessment(scaleId: number | null) {
   );
   const elapsedMin = Math.max(1, Math.floor((Date.now() - startedAt) / 1000 / 60));
   const estimatedTotalMin = scale?.estimated_minutes || (questionTotal > 0 ? Math.max(5, Math.ceil(questionTotal / 2)) : 5);
-  const remainingMin = Math.max(0, estimatedTotalMin - Math.floor((elapsedMin * (currentIdx + 1)) / Math.max(1, currentIdx + 1)));
+  const remainingMin = Math.max(0, estimatedTotalMin - elapsedMin);
 
   return {
     scale,
@@ -300,5 +315,6 @@ export function useScaleAssessment(scaleId: number | null) {
     handleAnswer,
     toggleEmotion,
     handleSubmit,
+    handleReturnHome,
   };
 }
