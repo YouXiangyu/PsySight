@@ -1,14 +1,11 @@
+
 from __future__ import annotations
 
 from typing import Annotated, TypedDict
-
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 
-
 class PsyState(TypedDict):
-    """Shared LangGraph state."""
-
     messages: Annotated[list[BaseMessage], add_messages]
 
     session_id: int | None
@@ -19,7 +16,7 @@ class PsyState(TypedDict):
     user_profile: dict
 
     use_thinking: bool
-    search_mode: str  # "index" | "rag"
+    search_mode: str
 
     intent: str  # chat / want_test / refuse_test / crisis / greeting
 
@@ -40,5 +37,10 @@ class PsyState(TypedDict):
     recommended_scales: list[dict]
     conversation_goal: str
     follow_up_question: str
+
+    evidence: dict
+    uncertainty_slots: list[str]
+    candidate_scores_log: list[dict]
+    policy_action: str
 
     last_node: str
