@@ -16,12 +16,14 @@ from dependencies import (
 from graph.builder import build_graph
 from models.schemas import AgentChatRequest, AgentChatResponse, CrisisAlertResponse
 
-_DEBUG_LOG_PATH = Path(__file__).resolve().parent.parent / "debug-e5d1e6.log"
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_DEBUG_LOG_PATH = _REPO_ROOT / "logs" / "debug-e5d1e6.log"
 
 
 def _debug_ndjson(hypothesis_id: str, location: str, message: str, data: dict) -> None:
     # #region agent log
     try:
+        _DEBUG_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
         line = (
             json.dumps(
                 {
@@ -36,7 +38,7 @@ def _debug_ndjson(hypothesis_id: str, location: str, message: str, data: dict) -
             )
             + "\n"
         )
-        with open(_DEBUG_LOG_PATH, "a", encoding="utf-8") as f:
+        with _DEBUG_LOG_PATH.open("a", encoding="utf-8") as f:
             f.write(line)
     except OSError:
         pass

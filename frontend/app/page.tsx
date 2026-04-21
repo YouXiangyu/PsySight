@@ -3,7 +3,7 @@
 import ChatWindow from '@/components/ChatWindow';
 import AppHeader from '@/components/AppHeader';
 import OnboardingGuide from '@/components/OnboardingGuide';
-import StatsBoard from '@/components/StatsBoard';
+import StatsBoard from '@/features/stats/components/StatsBoard';
 import { getStatsSummary, type StatsSummary } from '@/lib/api';
 import { useEffect, useState } from 'react';
 

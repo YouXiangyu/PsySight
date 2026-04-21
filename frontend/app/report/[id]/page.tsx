@@ -4,7 +4,7 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download } from 'lucide-react';
 import Link from 'next/link';
-import StatsBoard from '@/components/StatsBoard';
+import StatsBoard from '@/features/stats/components/StatsBoard';
 import { useReportDetail } from '@/features/report/hooks/useReportDetail';
 
 export default function ReportPage() {
