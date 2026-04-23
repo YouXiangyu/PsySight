@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { StatsSummary } from '@/shared/api';
 import { getReport, getStatsSummary } from '@/lib/api';
+import { reportDetailCopy } from '@/shared/copy/report-detail-copy';
+import { getErrorMessage } from '@/shared/ui/request-state';
+
+type ReportRecord = Awaited<ReturnType<typeof getReport>>;
 
 export function useReportDetail(reportId: number) {
-  const [record, setRecord] = useState<any>(null);
+  const [record, setRecord] = useState<ReportRecord | null>(null);
   const [stats, setStats] = useState<StatsSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
@@ -16,10 +20,10 @@ export function useReportDetail(reportId: number) {
       try {
         const report = await getReport(reportId);
         setRecord(report);
-      } catch (e) {
+      } catch (error) {
         setRecord(null);
         setStats(null);
-        setErrorMsg((e as Error).message || '报告加载失败');
+        setErrorMsg(getErrorMessage(error, reportDetailCopy.fallbackErrors.load));
         setLoading(false);
         return;
       }
@@ -35,18 +39,21 @@ export function useReportDetail(reportId: number) {
     };
 
     if (!Number.isNaN(reportId)) {
-      fetchReport();
+      void fetchReport();
     } else {
       setRecord(null);
       setStats(null);
       setLoading(false);
-      setErrorMsg('报告编号无效');
+      setErrorMsg(reportDetailCopy.fallbackErrors.invalidId);
     }
   }, [reportId]);
 
   const subjectName = useMemo(() => {
-    if (record?.anonymous) return '匿名用户';
-    return record?.owner?.public_name || record?.owner?.username || '登录用户';
+    if (record?.anonymous) {
+      return reportDetailCopy.meta.anonymousUser;
+    }
+
+    return record?.owner?.public_name || record?.owner?.username || reportDetailCopy.meta.signedInUser;
   }, [record]);
 
   return { record, stats, loading, errorMsg, subjectName };

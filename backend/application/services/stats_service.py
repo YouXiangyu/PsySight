@@ -14,7 +14,7 @@ def get_stats_summary() -> Dict:
         .all()
     )
 
-    by_scale: Dict[str, Dict[str, int]] = {}
+    by_scale: Dict[str, Dict[str, object]] = {}
     age_distribution = {
         "18岁以下": 0,
         "18-22岁": 0,
@@ -44,11 +44,21 @@ def get_stats_summary() -> Dict:
     for record, scale, user in rows:
         code = (scale.code or "").lower()
         total_score = int(record.total_score or 0)
-        by_scale.setdefault(code, {"total": 0, "severe": 0})
-        by_scale[code]["total"] += 1
+        scale_state = by_scale.setdefault(
+            code,
+            {
+                "code": scale.code,
+                "title": scale.title,
+                "category": scale.category,
+                "count": 0,
+                "severe": 0,
+            },
+        )
+        scale_state["count"] = int(scale_state["count"]) + 1
+
         severe_threshold = 7 if code == "ais" else 10
         if total_score >= severe_threshold:
-            by_scale[code]["severe"] += 1
+            scale_state["severe"] = int(scale_state["severe"]) + 1
 
         if user:
             age_label = get_age_bucket(user.age)
@@ -91,17 +101,20 @@ def get_stats_summary() -> Dict:
     total_records = len(rows)
 
     def ratio(scale_code: str) -> int:
-        total = by_scale.get(scale_code, {}).get("total", 0)
-        severe = by_scale.get(scale_code, {}).get("severe", 0)
+        state = by_scale.get(scale_code, {})
+        total = int(state.get("count", 0))
+        severe = int(state.get("severe", 0))
         if total == 0:
             return 0
         return int(round(severe * 100 / total))
 
     cards = [
-        {"label": "有明显失眠困扰的同龄人", "value": f"{ratio('ais')}%"},
-        {"label": "中高焦虑水平的同龄人", "value": f"{ratio('gad7')}%"},
-        {"label": "中高抑郁风险的同龄人", "value": f"{ratio('phq9')}%"},
+        {"label": "有明显失眠困扰的用户占比", "value": f"{ratio('ais')}%"},
+        {"label": "中高焦虑水平的用户占比", "value": f"{ratio('gad7')}%"},
+        {"label": "中高抑郁风险的用户占比", "value": f"{ratio('phq9')}%"},
     ]
+
+    top_scales = sorted(by_scale.values(), key=lambda item: int(item["count"]), reverse=True)[:6]
 
     demographics = {
         "age_groups": [{"label": label, "value": value} for label, value in age_distribution.items()],
@@ -120,10 +133,21 @@ def get_stats_summary() -> Dict:
         for label, weight in sorted(word_weights.items(), key=lambda item: item[1], reverse=True)[:24]
     ]
 
+    scale_usage = [
+        {
+            "code": item["code"],
+            "title": item["title"],
+            "category": item["category"],
+            "count": int(item["count"]),
+        }
+        for item in top_scales
+    ]
+
     return {
         "based_on_n": total_records,
         "cards": cards,
         "overview": {"cards": cards},
         "demographics": demographics,
         "wordcloud": wordcloud,
+        "scale_usage": scale_usage,
     }

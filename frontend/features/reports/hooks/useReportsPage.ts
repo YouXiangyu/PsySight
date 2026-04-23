@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getMe, getMyReports, setReportStatsVisibility } from '@/lib/api';
+import { reportsCopy } from '@/shared/copy/app-copy';
+import { getErrorMessage } from '@/shared/ui/request-state';
 
 export type ReportItem = Awaited<ReturnType<typeof getMyReports>>['items'][number];
 
@@ -10,39 +12,46 @@ export function useReportsPage() {
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const loadReports = async () => {
+  const loadReports = useCallback(async () => {
     const data = await getMyReports({ limit: 100 });
     setItems(data.items);
-  };
+  }, []);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const me = await getMe();
+      setAuthenticated(me.authenticated);
+
+      if (!me.authenticated) {
+        return;
+      }
+
+      await loadReports();
+    } catch (error) {
+      setErrorMsg(getErrorMessage(error, reportsCopy.fallbackErrors.load));
+    } finally {
+      setLoading(false);
+    }
+  }, [loadReports]);
 
   useEffect(() => {
-    const init = async () => {
-      setLoading(true);
-      setErrorMsg('');
-      try {
-        const me = await getMe();
-        setAuthenticated(me.authenticated);
-        if (!me.authenticated) return;
-        await loadReports();
-      } catch (error) {
-        setErrorMsg((error as Error).message || '加载报告失败');
-      } finally {
-        setLoading(false);
-      }
-    };
-    init();
-  }, []);
+    void reload();
+  }, [reload]);
 
   const handleToggleVisibility = async (item: ReportItem) => {
     setUpdatingId(item.id);
     setErrorMsg('');
+
     try {
       await setReportStatsVisibility(item.id, !item.hidden_from_stats);
       setItems((prev) =>
         prev.map((row) => (row.id === item.id ? { ...row, hidden_from_stats: !row.hidden_from_stats } : row))
       );
     } catch (error) {
-      setErrorMsg((error as Error).message || '更新统计可见性失败');
+      setErrorMsg(getErrorMessage(error, reportsCopy.fallbackErrors.visibility));
     } finally {
       setUpdatingId(null);
     }
@@ -55,5 +64,6 @@ export function useReportsPage() {
     updatingId,
     errorMsg,
     handleToggleVisibility,
+    reload,
   };
 }

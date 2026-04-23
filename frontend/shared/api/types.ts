@@ -40,4 +40,10 @@ export interface StatsSummary {
     participants?: Array<{ name: string; region: string; reports: number }>;
   };
   wordcloud?: Array<{ text: string; weight: number }>;
+  scale_usage?: Array<{
+    code?: string;
+    title: string;
+    category?: string | null;
+    count: number;
+  }>;
 }

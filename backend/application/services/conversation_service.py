@@ -2,7 +2,16 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 from application.services.scale_service import get_scale_by_code
-from models import ConversationMessage, ConversationSession, MessageFeedback, db
+from models import ConversationMessage, ConversationSession, CrisisEvent, MessageFeedback, db
+
+DEFAULT_CONVERSATION_TITLE = "新的对话"
+
+
+def _build_conversation_title(text: str) -> str:
+    trimmed = (text or "").strip()
+    if not trimmed:
+        return DEFAULT_CONVERSATION_TITLE
+    return trimmed[:20] + ("..." if len(trimmed) > 20 else "")
 
 
 def list_conversations(user_id: int) -> Dict:
@@ -29,6 +38,22 @@ def create_conversation(user_id: int, title: str) -> Dict:
     db.session.add(chat)
     db.session.commit()
     return {"id": chat.id, "title": chat.title}
+
+
+def delete_conversation(user_id: int, session_id: int) -> Dict:
+    conv = ConversationSession.query.filter_by(id=session_id, user_id=user_id, is_anonymous=False).first_or_404()
+    message_ids = [
+        row.id for row in ConversationMessage.query.with_entities(ConversationMessage.id).filter_by(session_id=conv.id).all()
+    ]
+
+    if message_ids:
+        MessageFeedback.query.filter(MessageFeedback.message_id.in_(message_ids)).delete(synchronize_session=False)
+
+    ConversationMessage.query.filter_by(session_id=conv.id).delete(synchronize_session=False)
+    CrisisEvent.query.filter_by(session_id=conv.id).delete(synchronize_session=False)
+    db.session.delete(conv)
+    db.session.commit()
+    return {"ok": True, "session_id": session_id}
 
 
 def get_conversation_messages(user_id: int, session_id: int) -> Dict:
@@ -70,10 +95,16 @@ def save_message_feedback(message_id: int, feedback: str, user_id: Optional[int]
 
 def build_or_get_chat_session(user_id: int, user_message: str, session_id: Optional[int]) -> Optional[ConversationSession]:
     if session_id:
-        return ConversationSession.query.filter_by(id=session_id, user_id=user_id).first()
+        conv = ConversationSession.query.filter_by(id=session_id, user_id=user_id).first()
+        if conv:
+            has_messages = ConversationMessage.query.filter_by(session_id=conv.id).first() is not None
+            if not has_messages and (not conv.title or conv.title == DEFAULT_CONVERSATION_TITLE):
+                conv.title = _build_conversation_title(user_message)
+        return conv
+
     conv = ConversationSession(
         user_id=user_id,
-        title=user_message[:20] + ("..." if len(user_message) > 20 else ""),
+        title=_build_conversation_title(user_message),
         is_anonymous=False,
     )
     db.session.add(conv)

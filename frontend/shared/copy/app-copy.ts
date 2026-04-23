@@ -1,0 +1,243 @@
+export const commonCopy = {
+  actions: {
+    backToChat: '返回聊天室',
+    reload: '重新加载',
+    goToLogin: '前往登录',
+    goToScales: '去做量表',
+    viewReport: '查看报告',
+  },
+  emptyStateDescription: '当前还没有足够的数据，先完成一些操作后再回来查看。',
+} as const;
+
+export const authCopy = {
+  badge: 'PsySight 入口',
+  signedInTitle: '欢迎回来',
+  signedOutTitle: '登录或注册后继续',
+  signedInDescription: '当前账号已登录，可以直接进入 PsySight 倾诉空间。',
+  signedOutDescription: '登录后可同步聊天记录、量表报告和个人资料；游客模式只在当前浏览器保留数据。',
+  checkingState: {
+    title: '正在检查登录状态',
+    description: '稍候片刻，系统正在确认当前浏览器中的账号信息。',
+  },
+  fields: {
+    email: '邮箱',
+    password: '密码',
+    nickname: '昵称（可选）',
+  },
+  actions: {
+    login: '登录',
+    register: '注册',
+    loginAndEnter: '登录并进入',
+    registerAndEnter: '注册并进入',
+    loggingIn: '正在登录...',
+    registering: '正在创建账号...',
+    enterChat: '进入倾诉空间',
+    enteringChat: '正在进入倾诉空间...',
+    logout: '退出登录',
+    loggingOut: '正在退出登录...',
+    guestDivider: '或',
+    guestEnter: '游客进入',
+    guestEntering: '正在进入游客模式...',
+  },
+  currentUserLabel: '当前账号：',
+  signedInFallbackName: '已登录用户',
+  guestHint: '游客对话仅保存在当前浏览器中，不会同步到账号历史记录。',
+  notices: {
+    authCheckFailed: {
+      title: '暂时无法检查登录状态',
+      description: '你仍然可以继续登录、注册，或以游客身份进入。',
+    },
+    loginSuccess: {
+      title: '登录成功',
+      description: '正在进入 PsySight 倾诉空间。',
+    },
+    registerSuccess: {
+      title: '注册成功',
+      description: '账号已创建，正在进入 PsySight 倾诉空间。',
+    },
+    logoutSuccess: {
+      title: '已退出登录',
+      description: '你可以重新登录、注册，或以游客身份进入。',
+    },
+    guestEntering: {
+      title: '正在进入游客模式',
+      description: '对话记录只会保存在当前浏览器中。',
+    },
+  },
+  fallbackErrors: {
+    loginTitle: '登录失败',
+    registerTitle: '注册失败',
+    logoutTitle: '退出失败',
+    login: '登录失败，请稍后重试。',
+    register: '注册失败，请稍后重试。',
+    logout: '退出失败，请稍后重试。',
+  },
+} as const;
+
+export const scalesCopy = {
+  title: '量表库',
+  description: '浏览结构化心理量表、预计作答时长，并结合你的描述获取 AI 推荐。',
+  recommendTitle: '不确定从哪份量表开始？先让 AI 帮你推荐。',
+  recommendPlaceholder: '例如：最近睡眠很差，白天经常提不起精神。',
+  searchPlaceholder: '按量表名称或代码搜索，例如 phq9',
+  actions: {
+    recommend: '获取推荐',
+    recommending: '推荐中...',
+  },
+  recommendationErrorTitle: '推荐暂时不可用',
+  recommendationEmptyTitle: '暂时没有匹配的推荐',
+  recommendationEmptyDescription: '可以把描述写得更具体一些，例如情绪、睡眠、压力来源或最近持续的困扰。',
+  listLoadingTitle: '正在加载量表列表...',
+  listErrorTitle: '量表列表加载失败',
+  noSearchResultTitle: '没有找到匹配的量表',
+  noSearchResultDescription: '可以尝试更短的关键词，或直接按焦虑、睡眠、抑郁这类主题重新搜索。',
+  emptyLibraryTitle: '量表库暂时为空',
+  emptyLibraryDescription: '当前还没有可展示的量表数据，稍后再来试试。',
+  fallbackErrors: {
+    list: '量表列表加载失败，请稍后重试。',
+    recommend: '暂时无法获取推荐结果，请稍后再试。',
+  },
+} as const;
+
+export const reportsCopy = {
+  title: '我的报告',
+  description: '查看历史测评结果，并决定每份报告是否参与匿名统计。',
+  loading: '正在加载报告...',
+  loginRequiredTitle: '登录后才能查看报告',
+  loginRequiredDescription: '你的测评报告会和账号绑定保存。登录后，可以继续查看历史结果和报告详情。',
+  loadErrorTitle: '报告加载失败',
+  emptyTitle: '你还没有保存任何报告',
+  emptyDescription: '先完成一份量表测评，系统会自动生成并保存对应报告。',
+  partialErrorTitle: '部分操作未完成',
+  fallbackErrors: {
+    load: '加载报告失败，请稍后重试。',
+    visibility: '更新统计可见性失败，请稍后重试。',
+  },
+  card: {
+    scoreLabel: '总分：',
+    severityLabel: '严重程度：',
+    severityFallback: '待评估',
+    hiddenFromStats: '从统计中隐藏',
+    restoreToStats: '恢复统计展示',
+    updatingVisibility: '更新中...',
+    hideTitle: '从匿名统计中隐藏',
+    restoreTitle: '恢复加入匿名统计',
+  },
+} as const;
+
+export const profileCopy = {
+  title: '个人信息',
+  description: '更新基础资料，并控制你的匿名统计展示方式。',
+  loading: '正在加载个人资料...',
+  loginRequiredTitle: '登录后才能编辑资料',
+  loginRequiredDescription: '个人资料会和账号绑定，用于量表记录、报告展示和匿名统计设置。',
+  loadErrorTitle: '个人资料加载失败',
+  form: {
+    accountLabel: '当前账号：',
+    publicNameLabel: '匿名统计展示名：',
+    publicNameFallback: '未设置',
+    age: '年龄',
+    agePlaceholder: '例如 20',
+    gender: '性别',
+    region: '地区',
+    regionPlaceholder: '例如 北京 / 上海 / 广州',
+    nicknameToggle: '在匿名统计中显示我的昵称；关闭后系统会使用匿名代称',
+    save: '保存资料',
+    saving: '保存中...',
+  },
+  genders: [
+    { value: '', label: '不填写' },
+    { value: '男', label: '男' },
+    { value: '女', label: '女' },
+    { value: '非二元', label: '非二元' },
+    { value: '不便透露', label: '不便透露' },
+  ],
+  fallbackErrors: {
+    load: '加载个人资料失败，请稍后重试。',
+    save: '保存失败，请稍后重试。',
+  },
+  saveErrorTitle: '保存失败',
+  saveSuccess: {
+    title: '资料已更新',
+    description: '新的资料设置已经保存成功。',
+  },
+} as const;
+
+export const canvasCopy = {
+  title: '绘画投射空间',
+  description: '先用线条和颜色表达，再补充一段简短感受，让系统辅助整理你的投射内容。',
+  reflectionLabel: '补充说明（可选）',
+  reflectionPlaceholder: '例如：最近总觉得自己像画里的那棵树，看起来安静，但其实很想有人靠近。',
+  analysisTitle: 'AI 分析报告',
+  analysisLoading: '系统正在分析你的画作...',
+  analysisErrorTitle: '分析暂时失败',
+  analysisDisclaimer: '本分析基于投射表达与辅助模型生成，仅供自我观察参考，不构成医学诊断。',
+  analysisEmptyTitle: '分析结果会显示在这里',
+  analysisEmptyDescription: '在左侧完成绘画并点击提交后，AI 分析报告会显示在这里。',
+  drawing: {
+    emptyAlert: '画板还是空的，先画一点内容再提交吧。',
+    analyze: 'AI 分析画作',
+    analyzing: '分析中...',
+    pencil: '画笔',
+    eraser: '橡皮擦',
+    clear: '清空',
+    undo: '撤销',
+    htpTitle: '绘画提示：房树人（HTP）',
+    htpDescription:
+      '可以尝试画出一个房子、一棵树和一个完整的人物。不需要追求精致，重点是把你当下更自然的表达画出来。完成后系统会结合图像内容与补充说明进行分析。',
+    hasHouse: '已画房子',
+    hasTree: '已画树',
+    hasPerson: '已画人',
+    colorOptions: ['#27464e', '#6a9ba0', '#8ab4b1', '#d8895a', '#8ea2b5', '#5b7b8b'],
+  },
+  fallbackErrors: {
+    analyze: '分析失败，请检查后端连接和接口配置后重试。',
+  },
+} as const;
+
+export const statsCopy = {
+  title: '统计数据',
+  description: '在同一页面集中查看概览、人群画像、量表使用分布和关键词云。',
+  loadErrorTitle: '统计数据暂时不可用',
+  loadErrorDescription: '暂时无法获取统计数据。你可以稍后重试，或先回到聊天和量表页面继续使用。',
+  emptyTitle: '还没有可展示的统计数据',
+  emptyDescription: '当前暂时缺少公开可见的样本数据。你可以先去完成量表，或继续使用聊天功能，之后再回来看变化。',
+  hero: {
+    badge: (count: number) => `基于 ${count} 份公开可见测评记录生成`,
+    title: 'PsySight 匿名统计总览',
+    description: '同一页面集中呈现整体概况、人群画像、量表使用分布和关键词主题。',
+    topAge: '最高频年龄段',
+    topGender: '最高频性别',
+    topRegion: '最高频地区',
+    topWord: '核心关键词',
+    noData: '暂无数据',
+  },
+  overview: {
+    title: '概览',
+    description: '用核心比例卡片快速展示当前平台上较值得关注的睡眠、焦虑和抑郁风险情况。',
+    emptyTitle: '暂时还没有概览数据',
+  },
+  scaleUsage: {
+    title: '量表使用分布',
+    description: '展示被完成次数最多的前六份量表，以及它们分别被做了多少次。',
+    emptyTitle: '还没有量表使用分布数据',
+    topLabel: (index: number) => `TOP ${index + 1}`,
+    fallbackCategory: '量表',
+    usageCount: (count: number) => `${count} 次`,
+  },
+  demographics: {
+    title: '人群画像',
+    description: '从年龄、性别、地区和近期参与者四个角度，帮助用户理解当前样本的大致轮廓。',
+    ageTitle: '年龄分布',
+    genderTitle: '性别分布',
+    regionTitle: '地区分布（Top 10）',
+    participantsTitle: '近期参与者（匿名化）',
+    noData: '暂无数据',
+    participantSeparator: ' · ',
+  },
+  wordCloud: {
+    title: '关键词云',
+    description: '用更直观的视觉密度展示当前样本中较高频出现的主题词与心理状态线索。',
+    emptyTitle: '还没有关键词云数据',
+  },
+} as const;

@@ -15,15 +15,17 @@ const nextConfig = {
       },
     ];
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        encoding: false,
-        os: false,
-      };
-    }
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      encoding: false,
+    };
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      encoding: false,
+      os: false,
+    };
     return config;
   },
 };

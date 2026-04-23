@@ -36,7 +36,7 @@ export default function ScaleCodePage() {
         }
       } catch {
         if (!cancelled) {
-          setError('Failed to resolve recommended scale. Redirecting to scale library...');
+          setError('推荐量表解析失败，正在跳转回量表库...');
         }
       }
 
@@ -54,11 +54,11 @@ export default function ScaleCodePage() {
   }, [code, router]);
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
-      <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
-        <div className="flex items-center gap-3 text-indigo-700">
+    <div className="mist-page px-4 py-8 md:py-12">
+      <div className="mist-container mx-auto w-full max-w-2xl rounded-[1.75rem] border border-white/75 bg-white/85 p-6 shadow-[0_20px_60px_rgba(86,126,134,0.12)] backdrop-blur">
+        <div className="flex items-center gap-3 text-[#517d84]">
           <Loader2 className="animate-spin" size={20} />
-          <p className="text-sm font-medium">Resolving recommended scale...</p>
+          <p className="text-sm font-medium">正在解析推荐量表...</p>
         </div>
         {error && <p className="mt-3 text-sm text-rose-600">{error}</p>}
       </div>

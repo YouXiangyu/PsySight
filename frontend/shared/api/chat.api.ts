@@ -30,6 +30,11 @@ export const createConversation = async (title?: string) => {
   return response.data as { id: number; title: string };
 };
 
+export const deleteConversation = async (sessionId: number) => {
+  const response = await api.delete(`/conversations/${sessionId}`);
+  return response.data as { ok: boolean; session_id: number };
+};
+
 export const getConversationMessages = async (sessionId: number) => {
   const response = await api.get(`/conversations/${sessionId}/messages`);
   return response.data as { items: MessageItem[]; session_id: number; title: string };

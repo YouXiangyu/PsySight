@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getScaleList, recommendScales } from '@/lib/api';
+import { scalesCopy } from '@/shared/copy/app-copy';
+import { getErrorMessage } from '@/shared/ui/request-state';
 
 export interface ScaleItem {
   id: number;
@@ -11,40 +13,73 @@ export interface ScaleItem {
   question_count: number;
 }
 
+type ScaleCategory = {
+  name: string;
+  items: ScaleItem[];
+};
+
 export function useScalesPage() {
-  const [categories, setCategories] = useState<Array<{ name: string; items: ScaleItem[] }>>([]);
+  const [categories, setCategories] = useState<ScaleCategory[]>([]);
   const [query, setQuery] = useState('');
   const [recoInput, setRecoInput] = useState('');
   const [recommended, setRecommended] = useState<ScaleItem[]>([]);
+  const [listLoading, setListLoading] = useState(true);
+  const [listError, setListError] = useState('');
   const [loadingReco, setLoadingReco] = useState(false);
+  const [recoError, setRecoError] = useState('');
+  const [hasTriedRecommend, setHasTriedRecommend] = useState(false);
 
-  useEffect(() => {
-    getScaleList(true)
-      .then((res) => setCategories((res.categories || []) as Array<{ name: string; items: ScaleItem[] }>))
-      .catch(() => setCategories([]));
+  const loadScales = useCallback(async () => {
+    setListLoading(true);
+    setListError('');
+
+    try {
+      const res = await getScaleList(true);
+      setCategories((res.categories || []) as ScaleCategory[]);
+    } catch (error) {
+      setCategories([]);
+      setListError(getErrorMessage(error, scalesCopy.fallbackErrors.list));
+    } finally {
+      setListLoading(false);
+    }
   }, []);
 
+  useEffect(() => {
+    void loadScales();
+  }, [loadScales]);
+
   const filtered = useMemo(() => {
-    if (!query.trim()) return categories;
+    if (!query.trim()) {
+      return categories;
+    }
+
     const lower = query.trim().toLowerCase();
+
     return categories
-      .map((cat) => ({
-        ...cat,
-        items: cat.items.filter(
+      .map((category) => ({
+        ...category,
+        items: category.items.filter(
           (item) => item.title.toLowerCase().includes(lower) || item.code.toLowerCase().includes(lower)
         ),
       }))
-      .filter((cat) => cat.items.length > 0);
+      .filter((category) => category.items.length > 0);
   }, [categories, query]);
 
   const handleRecommend = async () => {
-    if (!recoInput.trim()) return;
+    if (!recoInput.trim()) {
+      return;
+    }
+
     setLoadingReco(true);
+    setRecoError('');
+    setHasTriedRecommend(true);
+
     try {
       const res = await recommendScales(recoInput);
       setRecommended(res.recommended as ScaleItem[]);
-    } catch {
+    } catch (error) {
       setRecommended([]);
+      setRecoError(getErrorMessage(error, scalesCopy.fallbackErrors.recommend));
     } finally {
       setLoadingReco(false);
     }
@@ -54,10 +89,15 @@ export function useScalesPage() {
     query,
     recoInput,
     recommended,
+    listLoading,
+    listError,
     loadingReco,
+    recoError,
+    hasTriedRecommend,
     filtered,
     setQuery,
     setRecoInput,
     handleRecommend,
+    reloadScales: loadScales,
   };
 }
