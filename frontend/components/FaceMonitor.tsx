@@ -85,20 +85,22 @@ export default function FaceMonitor({ enabled, onEmotionUpdate }: FaceMonitorPro
   };
 
   return (
-    <div className={`relative w-32 h-24 rounded-lg overflow-hidden border-2 shadow-lg ${enabled ? 'bg-black border-indigo-500/30' : 'bg-slate-100 border-slate-200'}`}>
+    <div className={`relative h-20 w-28 overflow-hidden rounded-2xl border-2 shadow-lg sm:h-24 sm:w-32 ${enabled ? 'border-indigo-500/30 bg-black' : 'border-slate-200 bg-slate-100'}`}>
       <video
         ref={videoRef}
         autoPlay
         muted
         playsInline
         onPlay={handleVideoPlay}
-        className={`absolute inset-0 w-full h-full object-cover grayscale opacity-80 ${enabled ? '' : 'hidden'}`}
+        className={`absolute inset-0 h-full w-full object-cover grayscale opacity-80 ${enabled ? '' : 'hidden'}`}
       />
       <div className="absolute bottom-1 right-1 flex items-center gap-1">
-         <span className={`text-[10px] font-mono px-1 rounded ${enabled ? 'text-white bg-black/50' : 'text-slate-600 bg-white/80'}`}>{dominantEmotion}</span>
-        <div className={`w-2 h-2 rounded-full ${enabled ? 'bg-red-500 animate-pulse' : 'bg-slate-300'}`} />
+        <span className={`rounded px-1 text-[10px] font-mono ${enabled ? 'bg-black/50 text-white' : 'bg-white/80 text-slate-600'}`}>
+          {dominantEmotion}
+        </span>
+        <div className={`h-2 w-2 rounded-full ${enabled ? 'animate-pulse bg-red-500' : 'bg-slate-300'}`} />
       </div>
-      <p className={`absolute top-1 left-1 text-[8px] uppercase font-bold tracking-wider ${enabled ? 'text-white/70' : 'text-slate-500'}`}>
+      <p className={`absolute left-1 top-1 text-[7px] font-bold uppercase tracking-wider sm:text-[8px] ${enabled ? 'text-white/70' : 'text-slate-500'}`}>
         {enabled ? 'AI Emotion' : 'Emotion Off'}
       </p>
     </div>

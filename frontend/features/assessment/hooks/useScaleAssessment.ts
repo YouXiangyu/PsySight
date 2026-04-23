@@ -32,7 +32,7 @@ export function useScaleAssessment(scaleId: number | null) {
   const [isChunkLoading, setIsChunkLoading] = useState(false);
 
   const chatSession = searchParams.get('session');
-  const homeHref = chatSession ? `/?session=${encodeURIComponent(chatSession)}` : '/';
+  const homeHref = chatSession ? `/chat?session=${encodeURIComponent(chatSession)}` : '/chat';
 
   useEffect(() => {
     if (!scaleId) return;
@@ -119,12 +119,12 @@ export function useScaleAssessment(scaleId: number | null) {
           setNextOffset(cursor);
           setHasMoreQuestions(hasMore);
         } catch {
-          setErrorMsg('题目加载失败，请返回重试');
+          setErrorMsg('题目加载失败，请返回后重试');
         } finally {
           setIsChunkLoading(false);
         }
       } else {
-        setErrorMsg('题目加载失败，请返回重试');
+        setErrorMsg('题目加载失败，请返回后重试');
       }
 
       if (meResult.status === 'fulfilled') {
@@ -138,7 +138,7 @@ export function useScaleAssessment(scaleId: number | null) {
 
     load().catch(() => {
       if (cancelled) return;
-      setErrorMsg('题目加载失败，请返回重试');
+      setErrorMsg('题目加载失败，请返回后重试');
       setIsBootstrapping(false);
     });
 
@@ -210,7 +210,7 @@ export function useScaleAssessment(scaleId: number | null) {
   const toggleEmotion = () => {
     if (!consentConfirmed) {
       const accepted = window.confirm(
-        '隐私说明：仅在你同意并开启后采集聚合情绪数据，不保存原始视频帧。关闭后会立即停止采集。'
+        '隐私说明：只有在你明确同意并开启后，系统才会采集聚合后的情绪数据，不会保存原始视频画面。关闭后将立即停止采集。'
       );
       if (!accepted) return;
       setConsentConfirmed(true);
@@ -226,7 +226,7 @@ export function useScaleAssessment(scaleId: number | null) {
   const handleReturnHome = () => {
     const hasAnswered = Object.keys(answers).length > 0;
     if (hasAnswered) {
-      const confirmed = window.confirm('当前作答进度已保存，可以稍后继续。现在返回首页吗？');
+      const confirmed = window.confirm('你的作答进度会被保留。现在返回聊天室吗？');
       if (!confirmed) return;
     }
     router.push(homeHref);

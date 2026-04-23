@@ -1,4 +1,8 @@
 import type { FormEvent } from 'react';
+import LoadingButton from '@/components/LoadingButton';
+import NoticeBanner from '@/components/NoticeBanner';
+import { profileCopy } from '@/shared/copy/app-copy';
+import type { NoticeState } from '@/shared/ui/request-state';
 
 interface ProfileFormProps {
   username: string;
@@ -8,7 +12,7 @@ interface ProfileFormProps {
   region: string;
   showNickname: boolean;
   saving: boolean;
-  message: string;
+  notice: NoticeState | null;
   errorMsg: string;
   onSubmit: (event: FormEvent) => void;
   onGenderChange: (value: string) => void;
@@ -25,7 +29,7 @@ export default function ProfileForm({
   region,
   showNickname,
   saving,
-  message,
+  notice,
   errorMsg,
   onSubmit,
   onGenderChange,
@@ -34,68 +38,71 @@ export default function ProfileForm({
   onShowNicknameChange,
 }: ProfileFormProps) {
   return (
-    <form onSubmit={onSubmit} className="mt-6 rounded-xl border border-slate-200 bg-white p-6 space-y-4">
-      <div className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-600">
-        当前账号：<span className="font-semibold text-slate-800">{username}</span>
+    <form onSubmit={onSubmit} className="mist-panel mt-6 space-y-4 rounded-[1.75rem] p-6">
+      <div className="rounded-[1.25rem] border border-[#d9ebe7] bg-[#f3f9f8] px-4 py-3 text-sm text-slate-600">
+        {profileCopy.form.accountLabel}
+        <span className="font-semibold text-slate-800">{username}</span>
         <span className="mx-2">·</span>
-        匿名统计显示名：<span className="font-semibold text-indigo-700">{publicName || '未设置'}</span>
+        {profileCopy.form.publicNameLabel}
+        <span className="font-semibold text-[#517d84]">{publicName || profileCopy.form.publicNameFallback}</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <label className="text-sm">
-          <span className="text-slate-600">年龄</span>
+          <span className="text-slate-600">{profileCopy.form.age}</span>
           <input
             type="number"
             min={10}
             max={100}
             value={age}
-            onChange={(e) => onAgeChange(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-indigo-400"
-            placeholder="例如 20"
+            onChange={(event) => onAgeChange(event.target.value)}
+            className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/90 px-3 py-2 outline-none transition focus:border-[#76a7a7] focus:ring-2 focus:ring-[#d7ecea]"
+            placeholder={profileCopy.form.agePlaceholder}
           />
         </label>
 
         <label className="text-sm">
-          <span className="text-slate-600">性别</span>
+          <span className="text-slate-600">{profileCopy.form.gender}</span>
           <select
             value={gender}
-            onChange={(e) => onGenderChange(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-indigo-400 bg-white"
+            onChange={(event) => onGenderChange(event.target.value)}
+            className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/90 px-3 py-2 outline-none transition focus:border-[#76a7a7] focus:ring-2 focus:ring-[#d7ecea]"
           >
-            <option value="">不填写</option>
-            <option value="男">男</option>
-            <option value="女">女</option>
-            <option value="非二元">非二元</option>
-            <option value="不便透露">不便透露</option>
+            {profileCopy.genders.map((item) => (
+              <option key={item.value || 'empty'} value={item.value}>
+                {item.label}
+              </option>
+            ))}
           </select>
         </label>
       </div>
 
-      <label className="text-sm block">
-        <span className="text-slate-600">地区</span>
+      <label className="block text-sm">
+        <span className="text-slate-600">{profileCopy.form.region}</span>
         <input
           value={region}
-          onChange={(e) => onRegionChange(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-indigo-400"
-          placeholder="例如 北京/上海/广州"
+          onChange={(event) => onRegionChange(event.target.value)}
+          className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/90 px-3 py-2 outline-none transition focus:border-[#76a7a7] focus:ring-2 focus:ring-[#d7ecea]"
+          placeholder={profileCopy.form.regionPlaceholder}
         />
       </label>
 
       <label className="flex items-center gap-2 text-sm text-slate-700">
-        <input type="checkbox" checked={showNickname} onChange={(e) => onShowNicknameChange(e.target.checked)} />
-        在匿名统计中显示我的昵称（关闭时将显示匿名别名）
+        <input type="checkbox" checked={showNickname} onChange={(event) => onShowNicknameChange(event.target.checked)} />
+        {profileCopy.form.nicknameToggle}
       </label>
 
-      {!!errorMsg && <p className="text-sm text-rose-700">{errorMsg}</p>}
-      {!!message && <p className="text-sm text-emerald-700">{message}</p>}
+      {errorMsg ? <NoticeBanner tone="danger" title={profileCopy.saveErrorTitle} description={errorMsg} /> : null}
+      {notice ? <NoticeBanner tone={notice.tone} title={notice.title} description={notice.description} /> : null}
 
-      <button
+      <LoadingButton
         type="submit"
-        disabled={saving}
-        className="rounded-lg bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700 disabled:opacity-60"
+        loading={saving}
+        loadingText={profileCopy.form.saving}
+        className="mist-primary-button inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm"
       >
-        {saving ? '保存中...' : '保存资料'}
-      </button>
+        {profileCopy.form.save}
+      </LoadingButton>
     </form>
   );
 }

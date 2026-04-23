@@ -1,5 +1,8 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { getMe, updateMyProfile } from '@/lib/api';
+import { profileCopy } from '@/shared/copy/app-copy';
+import type { NoticeState } from '@/shared/ui/request-state';
+import { getErrorMessage } from '@/shared/ui/request-state';
 
 export function useProfilePage() {
   const [loading, setLoading] = useState(true);
@@ -11,37 +14,44 @@ export function useProfilePage() {
   const [age, setAge] = useState('');
   const [region, setRegion] = useState('');
   const [showNickname, setShowNickname] = useState(false);
-  const [message, setMessage] = useState('');
+  const [notice, setNotice] = useState<NoticeState | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
 
-  useEffect(() => {
-    const init = async () => {
-      setLoading(true);
-      setErrorMsg('');
-      try {
-        const me = await getMe();
-        setAuthenticated(me.authenticated);
-        if (!me.authenticated || !me.user) return;
-        setUsername(me.user.username || '');
-        setPublicName(me.user.public_name || '');
-        setGender(me.user.gender || '');
-        setAge(me.user.age ? String(me.user.age) : '');
-        setRegion(me.user.region || '');
-        setShowNickname(Boolean(me.user.show_nickname_in_stats));
-      } catch (error) {
-        setErrorMsg((error as Error).message || '加载个人资料失败');
-      } finally {
-        setLoading(false);
+  const reloadProfile = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const me = await getMe();
+      setAuthenticated(me.authenticated);
+
+      if (!me.authenticated || !me.user) {
+        return;
       }
-    };
-    init();
+
+      setUsername(me.user.username || '');
+      setPublicName(me.user.public_name || '');
+      setGender(me.user.gender || '');
+      setAge(me.user.age ? String(me.user.age) : '');
+      setRegion(me.user.region || '');
+      setShowNickname(Boolean(me.user.show_nickname_in_stats));
+    } catch (error) {
+      setErrorMsg(getErrorMessage(error, profileCopy.fallbackErrors.load));
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    void reloadProfile();
+  }, [reloadProfile]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setSaving(true);
-    setMessage('');
+    setNotice(null);
     setErrorMsg('');
+
     try {
       const response = await updateMyProfile({
         gender: gender || null,
@@ -49,10 +59,11 @@ export function useProfilePage() {
         region: region || null,
         show_nickname_in_stats: showNickname,
       });
+
       setPublicName(response.user.public_name || '');
-      setMessage('资料已更新');
+      setNotice({ tone: 'success', ...profileCopy.saveSuccess });
     } catch (error) {
-      setErrorMsg((error as Error).message || '保存失败');
+      setErrorMsg(getErrorMessage(error, profileCopy.fallbackErrors.save));
     } finally {
       setSaving(false);
     }
@@ -68,12 +79,13 @@ export function useProfilePage() {
     age,
     region,
     showNickname,
-    message,
+    notice,
     errorMsg,
     setGender,
     setAge,
     setRegion,
     setShowNickname,
     handleSubmit,
+    reloadProfile,
   };
 }

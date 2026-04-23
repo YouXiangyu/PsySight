@@ -1,173 +1,340 @@
 'use client';
 
-import React from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
-import { ShieldAlert, ShieldCheck, FileText, Calendar, User, ArrowLeft, Download } from 'lucide-react';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
+import {
+  Activity,
+  ArrowLeft,
+  CalendarDays,
+  Download,
+  FileText,
+  ShieldAlert,
+  ShieldCheck,
+  Sparkles,
+  User,
+} from 'lucide-react';
+import LoadingPanel from '@/components/LoadingPanel';
+import StatePanel from '@/components/StatePanel';
 import StatsBoard from '@/features/stats/components/StatsBoard';
 import { useReportDetail } from '@/features/report/hooks/useReportDetail';
+import { commonCopy } from '@/shared/copy/app-copy';
+import { reportDetailCopy } from '@/shared/copy/report-detail-copy';
+
+function SummaryCard({
+  label,
+  value,
+  icon,
+  accent = 'default',
+}: {
+  label: string;
+  value: string;
+  icon: ReactNode;
+  accent?: 'default' | 'soft' | 'warning';
+}) {
+  const accentStyle =
+    accent === 'warning'
+      ? 'bg-amber-50 border-amber-200 text-amber-800'
+      : accent === 'soft'
+        ? 'bg-[#f4faf9] border-[#d8ebe7] text-[#456f74]'
+        : 'bg-white/90 border-white/80 text-slate-800';
+
+  return (
+    <div className={`rounded-[1.5rem] border px-4 py-4 shadow-[0_16px_32px_rgba(86,126,134,0.08)] ${accentStyle}`}>
+      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/80 text-[#4a7a80]">{icon}</div>
+      <p className="mt-3 text-xs opacity-75">{label}</p>
+      <p className="mt-1 text-2xl font-semibold tracking-tight">{value}</p>
+    </div>
+  );
+}
+
+function SectionShell({
+  title,
+  description,
+  icon,
+  children,
+}: {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <section className="mist-panel rounded-[2rem] p-5 md:p-6">
+      <div className="flex items-start gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#e7f1f1] text-[#406f76]">
+          {icon}
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
+        </div>
+      </div>
+      <div className="mt-5">{children}</div>
+    </section>
+  );
+}
+
+function MetaItem({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon: ReactNode;
+}) {
+  return (
+    <div className="rounded-[1.4rem] border border-[#ddeaea] bg-white/88 px-4 py-4">
+      <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-slate-400">{icon}{label}</div>
+      <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">{value}</p>
+    </div>
+  );
+}
+
+function EmotionBar({ label, value }: { label: string; value: number }) {
+  const percentage = Math.round(Number(value) * 100);
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between text-xs text-slate-500">
+        <span>{label}</span>
+        <span>{percentage}%</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full border border-slate-200 bg-white">
+        <div className="h-full rounded-full bg-[linear-gradient(135deg,#6a9ba0,#517d84)]" style={{ width: `${percentage}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function getSeverityAccent(level: string) {
+  if (level.includes('重')) {
+    return 'warning' as const;
+  }
+
+  if (level.includes('中')) {
+    return 'soft' as const;
+  }
+
+  return 'default' as const;
+}
+
+function formatDate(value?: string | null) {
+  if (!value) {
+    return new Date().toLocaleDateString('zh-CN');
+  }
+
+  return new Date(value).toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  });
+}
 
 export default function ReportPage() {
   const { id } = useParams();
   const searchParams = useSearchParams();
+  const reportId = Number(Array.isArray(id) ? id[0] : id);
   const chatSession = searchParams.get('session');
-  const homeHref = chatSession ? `/?session=${encodeURIComponent(chatSession)}` : '/';
-  const { record, stats, loading, errorMsg, subjectName } = useReportDetail(Number(id));
+  const homeHref = chatSession ? `/chat?session=${encodeURIComponent(chatSession)}` : '/chat';
+  const { record, stats, loading, errorMsg, subjectName } = useReportDetail(reportId);
 
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50">
-      <div className="flex flex-col items-center space-y-4">
-        <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-        <p className="text-slate-400 font-medium">正在生成您的专属报告...</p>
+  if (loading) {
+    return (
+      <div className="mist-page flex min-h-screen items-center justify-center px-4">
+        <div className="mist-container w-full max-w-md">
+          <LoadingPanel message={reportDetailCopy.loading} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (!record) {
+    return (
+      <main className="mist-page px-4 py-6 md:px-8 md:py-10">
+        <div className="mist-container mx-auto max-w-3xl">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <Link href={homeHref} className="mist-link inline-flex items-center text-sm">
+              <ArrowLeft size={18} className="mr-1" />
+              {commonCopy.actions.backToChat}
+            </Link>
+          </div>
+          <StatePanel
+            tone="danger"
+            icon={<ShieldAlert size={18} />}
+            title={reportDetailCopy.reportContent.emptyTitle}
+            description={errorMsg || reportDetailCopy.reportContent.emptyDescription}
+            actions={
+              <Link href={homeHref} className="mist-primary-button inline-flex rounded-full px-4 py-2 text-xs font-semibold">
+                {commonCopy.actions.backToChat}
+              </Link>
+            }
+          />
+        </div>
+      </main>
+    );
+  }
+
+  const severity = record.severity_level || reportDetailCopy.metrics.severityFallback;
+  const emotionConsentLabel = record.emotion_consent
+    ? reportDetailCopy.metrics.consentEnabled
+    : reportDetailCopy.metrics.consentDisabled;
+  const hasEmotionLog = record.emotion_consent && record.emotion_log && Object.keys(record.emotion_log).length > 0;
 
   return (
-    <main className="min-h-screen p-4 md:p-12 bg-slate-50">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <Link href={homeHref} className="flex items-center text-slate-500 hover:text-indigo-600 transition-colors">
-            <ArrowLeft size={18} className="mr-1" /> 返回首页
+    <main className="mist-page px-4 py-6 md:px-8 md:py-10">
+      <div className="mist-container mx-auto max-w-5xl space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link href={homeHref} className="mist-link inline-flex items-center text-sm">
+            <ArrowLeft size={18} className="mr-1" />
+            {commonCopy.actions.backToChat}
           </Link>
-          <button onClick={() => window.print()} className="flex items-center text-sm font-bold text-indigo-600 bg-white px-4 py-2 rounded-lg border border-indigo-100 shadow-sm hover:shadow-md transition-all">
-            <Download size={16} className="mr-2" /> 保存 PDF
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="mist-secondary-button inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
+          >
+            <Download size={16} />
+            {reportDetailCopy.actions.savePdf}
           </button>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-          {/* 页眉 */}
-          <div className="bg-indigo-600 p-8 text-white">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                <ShieldCheck size={24} />
+        <section className="mist-panel relative overflow-hidden rounded-[2.25rem] px-6 py-6 md:px-7 md:py-7">
+          <div className="absolute -right-10 top-0 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(166,210,205,0.42),transparent_70%)]" />
+          <div className="absolute -left-8 bottom-0 h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(188,210,226,0.42),transparent_72%)]" />
+          <div className="relative grid gap-5 lg:grid-cols-[1.45fr_0.95fr] lg:items-end">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#eef6f5] px-3 py-1 text-xs font-medium text-[#4a7a80]">
+                <ShieldCheck size={14} />
+                {reportDetailCopy.hero.badge}
               </div>
-              <span className="font-bold tracking-wider uppercase text-sm opacity-80">PsySight Assessment Report</span>
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-800 md:text-[2.35rem]">
+                {reportDetailCopy.hero.title}
+              </h1>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-500 md:text-[15px]">
+                {reportDetailCopy.hero.description}
+              </p>
+              <div className="mt-5 inline-flex rounded-full border border-white/75 bg-white/82 px-4 py-2 text-sm font-medium text-slate-600 shadow-[0_10px_24px_rgba(86,126,134,0.06)]">
+                {reportDetailCopy.hero.encouragement}
+              </div>
             </div>
-            <h1 className="text-3xl font-bold mb-2">心理健康评估报告</h1>
-            <p className="opacity-80 text-sm">此报告由 DeepSeek R1 根据你的测评结果与情绪数据生成。</p>
-            <p className="mt-3 text-sm bg-white/15 inline-block rounded-lg px-3 py-1">
-              完成测评已经很勇敢了，你正在认真照顾自己。
-            </p>
-          </div>
 
-          {/* 信息条 */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-6 bg-slate-50 border-b border-slate-100">
-            <div className="flex items-center space-x-2">
-              <User size={16} className="text-slate-400" />
-              <div className="text-xs">
-                <p className="text-slate-400">测评对象</p>
-                <p className="font-bold text-slate-700">{subjectName}</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Calendar size={16} className="text-slate-400" />
-              <div className="text-xs">
-                <p className="text-slate-400">完成时间</p>
-                <p className="font-bold text-slate-700">
-                  {record?.created_at ? new Date(record.created_at).toLocaleDateString() : new Date().toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <FileText size={16} className="text-slate-400" />
-              <div className="text-xs">
-                <p className="text-slate-400">评估类型</p>
-                <p className="font-bold text-indigo-600">{record?.scale?.title || 'AI 多模态综合分析'}</p>
-              </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              <SummaryCard
+                label={reportDetailCopy.metrics.totalScore}
+                value={String(record.total_score ?? '-')}
+                icon={<Activity size={18} />}
+                accent="soft"
+              />
+              <SummaryCard
+                label={reportDetailCopy.metrics.severity}
+                value={severity}
+                icon={<ShieldAlert size={18} />}
+                accent={getSeverityAccent(severity)}
+              />
+              <SummaryCard
+                label={reportDetailCopy.metrics.emotionConsent}
+                value={emotionConsentLabel}
+                icon={<Sparkles size={18} />}
+              />
             </div>
           </div>
+        </section>
 
-          {/* 正文内容 */}
-          <div className="p-8 md:p-12">
-            {!!record?.urgent_recommendation && (
-              <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-4">
-                <div className="flex items-center gap-2 text-rose-700 font-semibold">
-                  <ShieldAlert size={16} />
-                  专业求助优先建议
-                </div>
-                <p className="mt-2 text-sm text-rose-700">{record.urgent_recommendation}</p>
-                <p className="mt-2 text-xs text-rose-600">可优先联系学校心理咨询中心或当地危机干预热线。</p>
-              </div>
-            )}
-
-            <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">总分</p>
-                <p className="text-2xl font-semibold text-slate-800">{record?.total_score ?? '-'}</p>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">严重程度</p>
-                <p className="text-2xl font-semibold text-indigo-700">{record?.severity_level || '待评估'}</p>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">情绪采集</p>
-                <p className="text-2xl font-semibold text-slate-800">{record?.emotion_consent ? '已同意' : '未开启'}</p>
-              </div>
+        {record.urgent_recommendation ? (
+          <div className="rounded-[1.75rem] border border-rose-200 bg-rose-50 px-5 py-5 shadow-[0_16px_32px_rgba(190,80,80,0.08)]">
+            <div className="flex items-center gap-2 font-semibold text-rose-700">
+              <ShieldAlert size={18} />
+              {reportDetailCopy.urgent.title}
             </div>
-            {!!record?.score_explanation && (
-              <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-800">
-                <p className="font-semibold">分值解释</p>
-                <p className="mt-1">{record.score_explanation}</p>
-              </div>
-            )}
+            <p className="mt-2 text-sm leading-7 text-rose-700">{record.urgent_recommendation}</p>
+            <p className="mt-2 text-xs leading-6 text-rose-600">{reportDetailCopy.urgent.helperText}</p>
+          </div>
+        ) : null}
 
-            {record?.emotion_consent && record?.emotion_log && Object.keys(record.emotion_log).length > 0 && (
-              <div className="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <h3 className="text-sm font-semibold text-slate-700 mb-2">答题期间情绪分布</h3>
-                <div className="space-y-2">
-                  {Object.entries(record.emotion_log).map(([key, value]) => {
-                    const pct = Math.round(Number(value) * 100);
-                    return (
-                      <div key={key} className="space-y-1">
-                        <div className="flex items-center justify-between text-xs text-slate-500">
-                          <span>{key}</span>
-                          <span>{pct}%</span>
-                        </div>
-                        <div className="h-2 rounded-full bg-white border border-slate-200 overflow-hidden">
-                          <div className="h-full bg-indigo-500" style={{ width: `${pct}%` }} />
-                        </div>
-                      </div>
-                    );
-                  })}
+        {errorMsg ? (
+          <StatePanel tone="danger" icon={<ShieldAlert size={18} />} title={reportDetailCopy.fallbackErrors.load} description={errorMsg} />
+        ) : null}
+
+        <div className="grid gap-6 xl:grid-cols-[1.55fr_0.9fr]">
+          <div className="space-y-6">
+            <SectionShell
+              title={reportDetailCopy.reportContent.title}
+              description={reportDetailCopy.reportContent.description}
+              icon={<FileText size={20} />}
+            >
+              {record.score_explanation ? (
+                <div className="mb-5 rounded-[1.5rem] border border-[#d9ebe7] bg-[#f2f8f7] px-4 py-4 text-sm text-[#3c666b]">
+                  <p className="font-semibold">{reportDetailCopy.scoreExplanation.title}</p>
+                  <p className="mt-2 leading-7">{record.score_explanation}</p>
                 </div>
-              </div>
-            )}
+              ) : null}
 
-            {!!errorMsg && (
-              <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
-                {errorMsg}
-              </div>
-            )}
-
-            {record ? (
-              <article className="max-w-none">
-                <div className="whitespace-pre-wrap text-slate-700 leading-relaxed text-sm md:text-base">
-                  {record.ai_report}
-                </div>
+              <article className="rounded-[1.6rem] border border-[#ddeaea] bg-white/92 px-5 py-5 shadow-[0_16px_32px_rgba(86,126,134,0.06)]">
+                <div className="whitespace-pre-wrap text-sm leading-8 text-slate-700 md:text-[15px]">{record.ai_report}</div>
               </article>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-slate-400">报告内容加载失败，请检查数据库连接。</p>
-              </div>
-            )}
+            </SectionShell>
 
-            {/* 页脚免责声明 */}
-            <div className="mt-12 pt-8 border-t border-slate-100">
-              <div className="bg-amber-50 p-4 rounded-xl border border-amber-100 flex items-start space-x-3">
-                <ShieldCheck className="text-amber-600 flex-shrink-0 mt-0.5" size={18} />
-                <p className="text-xs text-amber-800 leading-relaxed">
-                  <strong>非医疗免责声明：</strong> 本报告由人工智能生成，基于统计概率与心理学通用原则。报告结果仅供自我筛查与支持参考，不应视为正式的医学建议、心理诊断或治疗计划。如果您感到痛苦或有自残倾向，请立即寻求专业医疗帮助或联系危机干预热线。
-                </p>
-              </div>
-            </div>
-
-            {stats && (
-              <div className="mt-6">
+            {stats ? (
+              <SectionShell
+                title={reportDetailCopy.stats.title}
+                description={reportDetailCopy.stats.description}
+                icon={<Activity size={20} />}
+              >
                 <StatsBoard stats={stats} />
-              </div>
-            )}
+              </SectionShell>
+            ) : null}
           </div>
+
+          <aside className="space-y-6">
+            <SectionShell
+              title="报告概览"
+              description="快速查看本次报告的身份、完成时间和测评类型。"
+              icon={<User size={20} />}
+            >
+              <div className="space-y-3">
+                <MetaItem label={reportDetailCopy.meta.subject} value={subjectName} icon={<User size={13} />} />
+                <MetaItem
+                  label={reportDetailCopy.meta.completedAt}
+                  value={formatDate(record.created_at)}
+                  icon={<CalendarDays size={13} />}
+                />
+                <MetaItem
+                  label={reportDetailCopy.meta.assessmentType}
+                  value={record.scale?.title || reportDetailCopy.meta.aiComposite}
+                  icon={<FileText size={13} />}
+                />
+              </div>
+            </SectionShell>
+
+            <SectionShell
+              title={reportDetailCopy.emotionSection.title}
+              description={reportDetailCopy.emotionSection.description}
+              icon={<Sparkles size={20} />}
+            >
+              {hasEmotionLog ? (
+                <div className="space-y-3">
+                  {Object.entries(record.emotion_log).map(([key, value]) => (
+                    <EmotionBar key={key} label={key} value={Number(value)} />
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-[1.5rem] border border-[#ddeaea] bg-white/88 px-4 py-4 text-sm text-slate-500">
+                  <p className="font-medium text-slate-700">{reportDetailCopy.emotionSection.emptyTitle}</p>
+                  <p className="mt-2 leading-6">{reportDetailCopy.emotionSection.emptyDescription}</p>
+                </div>
+              )}
+            </SectionShell>
+
+            <div className="rounded-[1.75rem] border border-amber-100 bg-amber-50 px-5 py-5 shadow-[0_14px_28px_rgba(180,140,60,0.06)]">
+              <div className="flex items-center gap-2 text-sm font-semibold text-amber-800">
+                <ShieldCheck size={16} />
+                {reportDetailCopy.disclaimer.title}
+              </div>
+              <p className="mt-2 text-xs leading-7 text-amber-800">{reportDetailCopy.disclaimer.description}</p>
+            </div>
+          </aside>
         </div>
       </div>
     </main>

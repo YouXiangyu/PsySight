@@ -25,11 +25,11 @@ export default function ScalePage() {
 
   if (rawId && !isNumericId) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
-        <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
-          <div className="flex items-center gap-3 text-indigo-700">
+      <div className="mist-page px-3 py-6 sm:px-4 sm:py-8 md:py-12">
+        <div className="mist-container mx-auto w-full max-w-2xl rounded-[1.75rem] border border-white/75 bg-white/85 p-6 shadow-[0_20px_60px_rgba(86,126,134,0.12)] backdrop-blur">
+          <div className="flex items-center gap-3 text-[#517d84]">
             <Loader2 className="animate-spin" size={20} />
-            <p className="text-sm font-medium">Resolving scale link...</p>
+            <p className="text-sm font-medium">正在解析量表链接...</p>
           </div>
         </div>
       </div>
@@ -65,19 +65,19 @@ export default function ScalePage() {
 
   if (isBootstrapping || !scale) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
-        <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
-          <div className="flex items-center gap-3 text-indigo-700">
+      <div className="mist-page px-3 py-6 sm:px-4 sm:py-8 md:py-12">
+        <div className="mist-container mx-auto w-full max-w-2xl rounded-[1.75rem] border border-white/75 bg-white/85 p-6 shadow-[0_20px_60px_rgba(86,126,134,0.12)] backdrop-blur">
+          <div className="flex items-center gap-3 text-[#517d84]">
             <Loader2 className="animate-spin" size={20} />
             <p className="text-sm font-medium">{loadingHint}</p>
           </div>
           <div className="mt-5 space-y-3">
             <div className="h-3 w-2/3 animate-pulse rounded bg-slate-200" />
-            <div className="h-24 animate-pulse rounded-xl bg-slate-100" />
-            <div className="h-24 animate-pulse rounded-xl bg-slate-100" />
-            <div className="h-10 w-40 animate-pulse rounded-lg bg-slate-200" />
+            <div className="h-24 animate-pulse rounded-[1.5rem] bg-slate-100" />
+            <div className="h-24 animate-pulse rounded-[1.5rem] bg-slate-100" />
+            <div className="h-10 w-40 animate-pulse rounded-2xl bg-slate-200" />
           </div>
-          <p className="mt-4 text-xs text-slate-500">若网络较慢，请稍候 1-2 秒，题目正在准备中。</p>
+          <p className="mt-4 text-xs text-slate-500">如果网络较慢，请稍等 1 到 2 秒，题目正在准备中。</p>
         </div>
       </div>
     );
@@ -89,9 +89,9 @@ export default function ScalePage() {
 
   if (!currentQ) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8 md:py-12">
-        <div className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm">
-          <div className="flex items-center gap-3 text-indigo-700">
+      <div className="mist-page px-3 py-6 sm:px-4 sm:py-8 md:py-12">
+        <div className="mist-container mx-auto w-full max-w-2xl rounded-[1.75rem] border border-white/75 bg-white/85 p-6 shadow-[0_20px_60px_rgba(86,126,134,0.12)] backdrop-blur">
+          <div className="flex items-center gap-3 text-[#517d84]">
             <Loader2 className="animate-spin" size={20} />
             <p className="text-sm font-medium">{isChunkLoading ? '正在加载后续题目...' : loadingHint}</p>
           </div>
@@ -104,8 +104,8 @@ export default function ScalePage() {
   const canGoNext = answers[currentQ.id] !== undefined;
 
   return (
-    <main className="min-h-screen p-4 md:p-8 flex flex-col items-center">
-      <div className="w-full max-w-2xl">
+    <main className="mist-page flex min-h-screen flex-col items-center p-3 sm:p-4 md:p-8">
+      <div className="mist-container w-full max-w-2xl">
         <AssessmentHeader
           scale={scale}
           emotionEnabled={emotionEnabled && consentConfirmed}
@@ -139,12 +139,15 @@ export default function ScalePage() {
         />
 
         {!!errorMsg && (
-          <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">{errorMsg}</div>
+          <div className="mt-4 rounded-[1.25rem] border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+            {errorMsg}
+          </div>
         )}
+
         {!isAuthenticated && (
-          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800 flex items-start gap-2">
+          <div className="mt-4 flex items-start gap-2 rounded-[1.25rem] border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
             <ShieldCheck size={14} className="mt-0.5" />
-            匿名模式下可完成测评，但若希望长期保存历史报告，建议先登录账号。
+            游客模式下也可以完成测评，但如果你希望长期保存报告与历史记录，建议先登录账户。
           </div>
         )}
       </div>

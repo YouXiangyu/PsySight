@@ -2,7 +2,9 @@ from flask import Blueprint, jsonify, request
 
 from application.services.context_service import get_current_user
 from application.services.conversation_service import (
+    DEFAULT_CONVERSATION_TITLE,
     create_conversation,
+    delete_conversation,
     get_conversation_messages,
     list_conversations,
     save_message_feedback,
@@ -25,8 +27,15 @@ def create_conversation_blueprint():
         if not user:
             return jsonify({"error": "请先登录"}), 401
         data = request.json or {}
-        title = (data.get("title") or "新对话").strip()
+        title = (data.get("title") or DEFAULT_CONVERSATION_TITLE).strip() or DEFAULT_CONVERSATION_TITLE
         return jsonify(create_conversation(user.id, title))
+
+    @bp.route("/api/conversations/<int:session_id>", methods=["DELETE"])
+    def delete_conversation_api(session_id: int):
+        user = get_current_user()
+        if not user:
+            return jsonify({"error": "请先登录"}), 401
+        return jsonify(delete_conversation(user.id, session_id))
 
     @bp.route("/api/conversations/<int:session_id>/messages", methods=["GET"])
     def get_messages_api(session_id: int):

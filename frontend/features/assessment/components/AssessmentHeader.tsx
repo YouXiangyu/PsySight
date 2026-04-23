@@ -1,6 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-import FaceMonitor from '@/components/FaceMonitor';
+const FaceMonitor = dynamic(() => import('@/components/FaceMonitor'), { ssr: false });
 
 interface AssessmentHeaderProps {
   scale: any;
@@ -22,23 +23,24 @@ export default function AssessmentHeader({
       <button
         type="button"
         onClick={onReturnHome}
-        className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+        className="mist-secondary-button inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-2 text-sm sm:w-auto"
       >
         <ArrowLeft size={16} />
-        返回首页
+        返回聊天室
       </button>
 
-      <div className="flex justify-between items-end gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">{scale.title}</h1>
-          <p className="text-slate-500 text-sm mt-1">{scale.description}</p>
+      <div className="mist-panel flex flex-col gap-4 rounded-[1.5rem] p-4 sm:rounded-[1.75rem] sm:p-5 md:flex-row md:items-end md:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{scale.title}</h1>
+          <p className="mt-1 text-sm leading-7 text-slate-500">{scale.description}</p>
         </div>
-        <div className="flex flex-col items-end gap-2">
+
+        <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-end sm:justify-between md:w-auto md:flex-col md:items-end md:justify-end">
           <FaceMonitor enabled={emotionEnabled} onEmotionUpdate={onEmotionUpdate} />
           <button
             onClick={onToggleEmotion}
-            className={`text-xs px-3 py-1.5 rounded-lg border ${
-              emotionEnabled ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200'
+            className={`w-full rounded-full px-4 py-2 text-xs sm:w-auto sm:py-1.5 ${
+              emotionEnabled ? 'bg-[#517d84] text-white' : 'border border-slate-200 bg-white/85 text-slate-600'
             }`}
           >
             {emotionEnabled ? '关闭情绪感知' : '开启情绪感知'}
