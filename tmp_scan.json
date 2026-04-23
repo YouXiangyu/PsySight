@@ -1,0 +1,5020 @@
+[
+  {
+    "file": "README.md",
+    "hits": [
+      {
+        "line": 14,
+        "text": "- 匿名群体统计展示与管理员导出"
+      },
+      {
+        "line": 38,
+        "text": "- **意图路由**：自动识别用户意图（倾诉/想测试/拒绝测试/危机/寒暄）"
+      },
+      {
+        "line": 42,
+        "text": "- **危机检测**：硬规则优先，零延迟，命中即阻断并展示热线"
+      },
+      {
+        "line": 48,
+        "text": "- 每条 AI 回复支持点赞/点踩反馈记录"
+      },
+      {
+        "line": 52,
+        "text": "- 44 个心理量表库，分类展示，含题目数与预计用时"
+      },
+      {
+        "line": 66,
+        "text": "- 高分值时报告顶部优先展示专业求助建议"
+      },
+      {
+        "line": 93,
+        "text": "# 共用 backend/.env 或单独配置环境变量"
+      }
+    ]
+  },
+  {
+    "file": "表单todolist.md",
+    "hits": [
+      {
+        "line": 37,
+        "text": "- [x] **Enneagram** - 九型人格测试 (36/144题) *[已集成]* ⓒ需遵循许可"
+      }
+    ]
+  },
+  {
+    "file": "docs\\agent-recommendation-architecture.md",
+    "hits": [
+      {
+        "line": 34,
+        "text": "   - 前端推荐卡片可以展示“题量 + 定位 + 理由”。"
+      },
+      {
+        "line": 47,
+        "text": "  - `assessment_preference`"
+      },
+      {
+        "line": 139,
+        "text": "   - 前端可展示题量、深度、推荐理由"
+      },
+      {
+        "line": 145,
+        "text": "1. 把 `catalog.py` 从硬编码迁到结构化配置"
+      }
+    ]
+  },
+  {
+    "file": "docs\\architecture-overview.md",
+    "hits": [
+      {
+        "line": 12,
+        "text": "- **依赖库、关键配置与运行方式**"
+      },
+      {
+        "line": 44,
+        "text": "- **工程化**（后端分层、类型收敛、测试、OpenAPI 文档）"
+      },
+      {
+        "line": 55,
+        "text": "  - `DEEPSEEK_API_KEY`（未配置则 AI 返回会走降级/空响应逻辑）"
+      },
+      {
+        "line": 91,
+        "text": "展示 PsySight 与外部系统的关系。"
+      },
+      {
+        "line": 278,
+        "text": "    F-->>U: 展示回复、量表推荐卡片、危机提示(若有)"
+      },
+      {
+        "line": 340,
+        "text": "    E --> F[前端展示]"
+      },
+      {
+        "line": 351,
+        "text": "    User ||--o{ MessageFeedback : \"反馈\""
+      },
+      {
+        "line": 422,
+        "text": "| 模块 | 规则/配置 | 说明 |"
+      },
+      {
+        "line": 424,
+        "text": "| 危机检测 | CRISIS_KEYWORDS | 命中则展示热线、写入 CrisisEvent |"
+      },
+      {
+        "line": 449,
+        "text": "- **tailwindcss + postcss + autoprefixer**：样式与构建"
+      },
+      {
+        "line": 461,
+        "text": "- **python-dotenv**：`.env` 配置加载"
+      },
+      {
+        "line": 471,
+        "text": "- **`ChatWindow`**：首页聊天主窗体（消息流、会话列表、反馈、危机提示、断网提示、本地草稿缓存等）"
+      },
+      {
+        "line": 509,
+        "text": "- **`backend/domain/rules/*`**：领域规则（分级、推荐、匿名展示、危机词）"
+      },
+      {
+        "line": 514,
+        "text": "- **`backend/config.py`**：环境变量配置（DeepSeek、DB、CORS origin、管理员 token）"
+      },
+      {
+        "line": 520,
+        "text": "## 6.5 关键配置与环境变量（统一说明）"
+      }
+    ]
+  },
+  {
+    "file": "docs\\refactor-baseline-gate.md",
+    "hits": [
+      {
+        "line": 42,
+        "text": "- 个人资料：`/profile` 可编辑年龄/性别/地区/昵称展示开关"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\any-promise\\README.md",
+    "hits": [
+      {
+        "line": 5,
+        "text": "Let your library support any ES 2015 (ES6) compatible `Promise` and leave the choice to application authors. The application can *optionally* register its preferred `Promise` implementation and it will be exported when requiring `any-promise` from library code."
+      },
+      {
+        "line": 7,
+        "text": "If no preference is registered, defaults to the global `Promise` for newer Node.js versions. The browser version defaults to the window `Promise`, so polyfill or register as necessary."
+      },
+      {
+        "line": 34,
+        "text": "# Install preferred promise library"
+      },
+      {
+        "line": 42,
+        "text": "Register your preference in the application entry point before any other `require` of packages that load `any-promise`:"
+      },
+      {
+        "line": 66,
+        "text": "As an application author, you can *optionally* register a preferred `Promise` implementation on application startup (before any call to `require('any-promise')`:"
+      },
+      {
+        "line": 68,
+        "text": "You must register your preference before any call to `require('any-promise')` (by you or required packages), and only one implementation can be registered. Typically, this registration would occur at the top of the application entry point."
+      },
+      {
+        "line": 73,
+        "text": "If you are using a known `Promise` implementation, you can register your preference with a shortcut:"
+      },
+      {
+        "line": 82,
+        "text": "Shortcut registration is the preferred registration method as it works in the browser and Node.js. It is also convenient for using with `import` and many test runners, that offer a `--require` flag:"
+      },
+      {
+        "line": 93,
+        "text": "As an alternative to registration shortcuts, you can call the `register` function with the preferred `Promise` implementation. The benefit of this approach is that a `Promise` library can be required by name without being a known implementation.  This approach does NOT work in the browser. To use `any-promise` in the browser use either registration shortcuts or specify the `Promise` constructor using advanced registration (see below)."
+      },
+      {
+        "line": 113,
+        "text": "Your preference will be registered globally, allowing a single registration even if multiple versions of `any-promise` are installed in the NPM dependency tree or are using multiple bundled JavaScript files in the browser. You can bypass this global registration in options:"
+      },
+      {
+        "line": 154,
+        "text": "If an implementation is not registered, `any-promise` will attempt to discover an installed `Promise` implementation.  If no implementation can be found, an error will be thrown on `require('any-promise')`.  While the auto-discovery usually avoids errors, it is non-deterministic. It is recommended that the user always register a preferred implementation for older Node.js versions."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\anymatch\\README.md",
+    "hits": [
+      {
+        "line": 3,
+        "text": "Javascript module to match a string against a regular expression, glob, string,"
+      },
+      {
+        "line": 19,
+        "text": "String to be directly matched, string with glob patterns, regular expression"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\arg\\README.md",
+    "hits": [
+      {
+        "line": 18,
+        "text": "It returns an object with any values present on the command-line (missing options are thus"
+      },
+      {
+        "line": 90,
+        "text": "3. The previous value for the destination (useful for reduce-like operations or for supporting `-v` multiple times, etc.)"
+      },
+      {
+        "line": 114,
+        "text": "function myHandler(value, argName, previousValue) {"
+      },
+      {
+        "line": 116,
+        "text": "\treturn 'na ' + (previousValue || 'batman!');"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\asynckit\\README.md",
+    "hits": [
+      {
+        "line": 15,
+        "text": "AsyncKit provides harness for `parallel` and `serial` iterators over list of items represented by arrays or objects."
+      },
+      {
+        "line": 18,
+        "text": "It ensures async operations to keep behavior more stable and prevent `Maximum call stack size exceeded` errors, from sync iterators."
+      },
+      {
+        "line": 20,
+        "text": "| compression        |     size |"
+      },
+      {
+        "line": 68,
+        "text": "  // pretend different jobs take different time to finish"
+      },
+      {
+        "line": 113,
+        "text": "  // pretend different jobs take different time to finish"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\autoprefixer\\README.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# Autoprefixer [![Cult Of Martians][cult-img]][cult]"
+      },
+      {
+        "line": 4,
+        "text": "     src=\"https://postcss.github.io/autoprefixer/logo.svg\""
+      },
+      {
+        "line": 5,
+        "text": "     title=\"Autoprefixer logo by Anton Lovchikov\">"
+      },
+      {
+        "line": 7,
+        "text": "[PostCSS] plugin to parse CSS and add vendor prefixes to CSS rules using values"
+      },
+      {
+        "line": 10,
+        "text": "Write your CSS rules without vendor prefixes (in fact, forget about them"
+      },
+      {
+        "line": 23,
+        "text": "Autoprefixer will use the data based on current browser popularity and property"
+      },
+      {
+        "line": 24,
+        "text": "support to apply prefixes for you. You can try the [interactive demo]"
+      },
+      {
+        "line": 25,
+        "text": "of Autoprefixer."
+      },
+      {
+        "line": 42,
+        "text": "Twitter account for news and releases: [@autoprefixer]."
+      },
+      {
+        "line": 44,
+        "text": "<a href=\"https://evilmartians.com/?utm_source=autoprefixer\">"
+      },
+      {
+        "line": 48,
+        "text": "[interactive demo]: https://autoprefixer.github.io/"
+      },
+      {
+        "line": 49,
+        "text": "[@autoprefixer]:    https://twitter.com/autoprefixer"
+      },
+      {
+        "line": 53,
+        "text": "[cult]:             https://cultofmartians.com/tasks/autoprefixer-grid.html"
+      },
+      {
+        "line": 57,
+        "text": "Read full docs **[here](https://github.com/postcss/autoprefixer#readme)**."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\axios\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 6,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 24,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 36,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 38,
+        "text": "* **fetch:** prevent TypeError when config.env is undefined ([#7155](https://github.com/axios/axios/issues/7155)) ([015faec](https://github.com/axios/axios/commit/015faeca9f26db76f9562760f04bb9f8229f4db1))"
+      },
+      {
+        "line": 69,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 81,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 92,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 127,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 130,
+        "text": "* prevent RangeError when using large Buffers ([#6961](https://github.com/axios/axios/issues/6961)) ([a2214ca](https://github.com/axios/axios/commit/a2214ca1bc60540baf2c80573cea3a0ff91ba9d1))"
+      },
+      {
+        "line": 144,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 168,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 195,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 206,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 220,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 231,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 242,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 261,
+        "text": "* code relying on the above will now combine the URLs instead of prefer request URL"
+      },
+      {
+        "line": 303,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 341,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 354,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 368,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 384,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 397,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 412,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 423,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 438,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 451,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 464,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 490,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 509,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 521,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 534,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 547,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 561,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 563,
+        "text": "* Regular Expression Denial of Service (ReDoS) ([#6132](https://github.com/axios/axios/issues/6132)) ([5e7ad38](https://github.com/axios/axios/commit/5e7ad38fb0f819fceb19fb2ee5d5d38f56aa837d))"
+      },
+      {
+        "line": 596,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 618,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 640,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 666,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 677,
+        "text": "* **export:** export adapters without `unsafe` prefix ([#5839](https://github.com/axios/axios/issues/5839)) ([1601f4a](https://github.com/axios/axios/commit/1601f4a27a81ab47fea228f1e244b2c4e3ce28bf))"
+      },
+      {
+        "line": 696,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 699,
+        "text": "* **package:** export package internals with unsafe path prefix; ([#5677](https://github.com/axios/axios/issues/5677)) ([df38c94](https://github.com/axios/axios/commit/df38c949f26414d88ba29ec1e353c4d4f97eaf09))"
+      },
+      {
+        "line": 728,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 748,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 767,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 788,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 809,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 828,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 847,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 872,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 891,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 893,
+        "text": "* **types:** fixed AxiosHeaders to handle spread syntax by making all methods non-enumerable; ([#5499](https://github.com/axios/axios/issues/5499)) ([580f1e8](https://github.com/axios/axios/commit/580f1e8033a61baa38149d59fd16019de3932c22))"
+      },
+      {
+        "line": 910,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 930,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 949,
+        "text": "- fix(ci): prerelease scipts [#5377](https://github.com/axios/axios/pull/5377)"
+      },
+      {
+        "line": 952,
+        "text": "- fix: Brotli decompression [#5353](https://github.com/axios/axios/pull/5353)"
+      },
+      {
+        "line": 977,
+        "text": "- fix(headers): decompression for responses without Content-Length header [#5306](https://github.com/axios/axios/pull/5306)"
+      },
+      {
+        "line": 1219,
+        "text": "- Replacing deprecated substr() with slice() as substr() is deprecated [#4468](https://github.com/axios/axios/pull/4468)"
+      },
+      {
+        "line": 1230,
+        "text": "### Deprecated"
+      },
+      {
+        "line": 1231,
+        "text": "- There are multiple deprecations, refactors and fixes provided in this release. Please read through the full release notes to see how this may impact your project and use case."
+      },
+      {
+        "line": 1268,
+        "text": "- Remove repeated compression algorithm [#4820](https://github.com/axios/axios/pull/4820)"
+      },
+      {
+        "line": 1300,
+        "text": "- [Des Preston](https://github.com/despreston)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\axios\\README.md",
+    "hits": [
+      {
+        "line": 2,
+        "text": "<h3 align=\"center\"> 🥇 Gold sponsors <br> </h3> <table align=\"center\" width=\"100%\"><tr width=\"33.333333333333336%\"><td align=\"center\" width=\"33.333333333333336%\"> <a href=\"https://stytch.com/?utm_source&#x3D;oss-sponsorship&amp;utm_medium&#x3D;paid_sponsorship&amp;utm_content&#x3D;website-link&amp;utm_campaign&#x3D;axios-http\" style=\"padding: 10px; display: inline-block\" target=\"_blank\"> <picture> <source width=\"200px\" height=\"38px\" media=\"(prefers-color-scheme: dark)\" srcset=\"https://axios-http.com/assets/sponsors/stytch_white.png\"> <img width=\"200px\" height=\"38px\" src=\"https://axios-http.com/assets/sponsors/stytch.png\" alt=\"Stytch\"/> </picture> </a> <p align=\"center\" title=\"API-first authentication, authorization, and fraud prevention\">API-first authentication, authorization, and fraud prevention</p> <p align=\"center\"> <a href=\"https://stytch.com/?utm_source&#x3D;oss-sponsorship&amp;utm_medium&#x3D;paid_sponsorship&amp;utm_content&#x3D;website-link&amp;utm_campaign&#x3D;axios-http\" target=\"_blank\"><b>Website</b></a> | <a href=\"https://stytch.com/docs?utm_source&#x3D;oss-sponsorship&amp;utm_medium&#x3D;paid_sponsorship&amp;utm_content&#x3D;docs-link&amp;utm_campaign&#x3D;axios-http\" target=\"_blank\"><b>Documentation</b></a> | <a href=\"https://github.com/stytchauth/stytch-node?utm_source&#x3D;oss-sponsorship&amp;utm_medium&#x3D;paid_sponsorship&amp;utm_content&#x3D;node-sdk&amp;utm_campaign&#x3D;axios-http\" target=\"_blank\"><b>Node.js</b></a> </p>"
+      },
+      {
+        "line": 5,
+        "text": "</td></tr><tr width=\"33.333333333333336%\"><td align=\"center\" width=\"33.333333333333336%\"> <a href=\"https://www.descope.com/?utm_source&#x3D;axios&amp;utm_medium&#x3D;referral&amp;utm_campaign&#x3D;axios-oss-sponsorship\" style=\"padding: 10px; display: inline-block\" target=\"_blank\"> <picture> <source width=\"200px\" height=\"52px\" media=\"(prefers-color-scheme: dark)\" srcset=\"https://axios-http.com/assets/sponsors/descope_white.png\"> <img width=\"200px\" height=\"52px\" src=\"https://axios-http.com/assets/sponsors/descope.png\" alt=\"Descope\"/> </picture> </a> <p align=\"center\" title=\"Hi, we&#x27;re Descope! We are building something in the authentication space for app developers and can’t wait to place it in your hands.\">Hi, we&#x27;re Descope! We are building something in the authentication space for app developers and...</p> <p align=\"center\"> <a href=\"https://www.descope.com/?utm_source&#x3D;axios&amp;utm_medium&#x3D;referral&amp;utm_campaign&#x3D;axios-oss-sponsorship\" target=\"_blank\"><b>Website</b></a> | <a href=\"https://docs.descope.com/?utm_source&#x3D;axios&amp;utm_medium&#x3D;referral&amp;utm_campaign&#x3D;axios-oss-sponsorship\" target=\"_blank\"><b>Docs</b></a> | <a href=\"https://www.descope.com/community?utm_source&#x3D;axios&amp;utm_medium&#x3D;referral&amp;utm_campaign&#x3D;axios-oss-sponsorship\" target=\"_blank\"><b>Community</b></a> </p>"
+      },
+      {
+        "line": 6,
+        "text": "</td><td align=\"center\" width=\"33.333333333333336%\"> <a href=\"https://route4me.com/?utm_source&#x3D;axios&amp;utm_medium&#x3D;sponsorlist&amp;utm_campaign&#x3D;sponsorship\" style=\"padding: 10px; display: inline-block\" target=\"_blank\"> <picture> <source width=\"200px\" height=\"51px\" media=\"(prefers-color-scheme: dark)\" srcset=\"https://axios-http.com/assets/sponsors/route4me_white.png\"> <img width=\"200px\" height=\"51px\" src=\"https://axios-http.com/assets/sponsors/route4me.png\" alt=\"Route4Me\"/> </picture> </a> <p align=\"center\" title=\"Best Route Planning And Route Optimization Software\">Best Route Planning And Route Optimization Software</p> <p align=\"center\"> <a href=\"https://route4me.com/platform/route-optimization-software?utm_source&#x3D;axios&amp;utm_medium&#x3D;readme_sponsorlist&amp;utm_campaign&#x3D;sponsorship\" target=\"_blank\"><b>Explore</b></a> | <a href=\"https://route4me.com/platform/marketplace/pricing?utm_source&#x3D;axios&amp;utm_medium&#x3D;readme_sponsorlist&amp;utm_campaign&#x3D;sponsorship\" target=\"_blank\"><b>Free Trial</b></a> | <a href=\"https://route4me.com/contact?utm_source&#x3D;axios&amp;utm_medium&#x3D;readme_sponsorlist&amp;utm_campaign&#x3D;sponsorship\" target=\"_blank\"><b>Contact</b></a> </p>"
+      },
+      {
+        "line": 8,
+        "text": "</td></tr><tr width=\"33.333333333333336%\"><td align=\"center\" width=\"33.333333333333336%\"> <a href=\"https://poprey.com/?utm_source&#x3D;axios&amp;utm_medium&#x3D;sponsorlist&amp;utm_campaign&#x3D;sponsorship\" style=\"padding: 10px; display: inline-block\" target=\"_blank\"> <img width=\"70px\" height=\"70px\" src=\"https://axios-http.com/assets/sponsors/opencollective/e699ec99f7df3a203ddbc49d3c7712a907e628ea.png\" alt=\"Poprey - Buy Instagram Likes\"/> </a> <p align=\"center\" title=\"Buy Instagram Likes\">Buy Instagram Likes</p> <p align=\"center\"> <a href=\"https://poprey.com/?utm_source&#x3D;axios&amp;utm_medium&#x3D;readme_sponsorlist&amp;utm_campaign&#x3D;sponsorship\" target=\"_blank\"><b>poprey.com</b></a> </p>"
+      },
+      {
+        "line": 33,
+        "text": "[![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=axios&query=$.install.pretty&label=install%20size&style=flat-square)](https://packagephobia.now.sh/result?p=axios)"
+      },
+      {
+        "line": 56,
+        "text": "  - [Concurrency 👎](#concurrency-deprecated)"
+      },
+      {
+        "line": 64,
+        "text": "    - [Config order of precedence](#config-order-of-precedence)"
+      },
+      {
+        "line": 70,
+        "text": "    - [CancelToken 👎](#canceltoken-deprecated)"
+      },
+      {
+        "line": 339,
+        "text": "### Concurrency (Deprecated)"
+      },
+      {
+        "line": 345,
+        "text": "axios.spread(callback)"
+      },
+      {
+        "line": 387,
+        "text": "  // `baseURL` will be prepended to `url` unless `url` is absolute and option `allowAbsoluteUrls` is set to true."
+      },
+      {
+        "line": 394,
+        "text": "  // When set to false, absolute values for `url` will always be prepended by `baseUrl`."
+      },
+      {
+        "line": 431,
+        "text": "    // Custom serializer function for the entire parameter. Allows user to mimic pre 1.x behaviour."
+      },
+      {
+        "line": 577,
+        "text": "    // hostname: '127.0.0.1' // Takes precedence over 'host' if both are defined"
+      },
+      {
+        "line": 593,
+        "text": "  // `decompress` indicates whether or not the response body should be decompressed"
+      },
+      {
+        "line": 595,
+        "text": "  // from the responses objects of all decompressed responses"
+      },
+      {
+        "line": 596,
+        "text": "  // - Node only (XHR cannot turn off decompression)"
+      },
+      {
+        "line": 597,
+        "text": "  decompress: true, // default"
+      },
+      {
+        "line": 714,
+        "text": "### Config order of precedence"
+      },
+      {
+        "line": 716,
+        "text": "Config will be merged with an order of precedence. The order is library defaults found in [lib/defaults/index.js](https://github.com/axios/axios/blob/main/lib/defaults/index.js#L49), then `defaults` property of the instance, and finally `config` argument for the request. The latter will take precedence over the former. Here's an example."
+      },
+      {
+        "line": 786,
+        "text": "When you add request interceptors, they are presumed to be asynchronous by default. This can cause a delay"
+      },
+      {
+        "line": 823,
+        "text": "- then every interceptor receives the result of its predecessor"
+      },
+      {
+        "line": 842,
+        "text": "| code     | Represents an axios identified error. The table below lists out specific definitions for internal axios error.  |"
+      },
+      {
+        "line": 852,
+        "text": "| ERR_DEPRECATED            | Deprecated feature or method used in axios.                                                                                                                                                                                                                                                                                                                                                    |"
+      },
+      {
+        "line": 925,
+        "text": "### CancelToken `👎deprecated`"
+      },
+      {
+        "line": 931,
+        "text": "> This API is deprecated since v0.22.0 and shouldn't be used in new projects"
+      },
+      {
+        "line": 1029,
+        "text": "> **Note**: The `qs` library is preferable if you need to stringify nested objects, as the `querystring` method has [known issues](https://github.com/nodejs/node-v0.x-archive/issues/1665) with that use case."
+      },
+      {
+        "line": 1065,
+        "text": "If your backend body-parser (like `body-parser` of `express.js`) supports nested objects decoding, you will get the same object on the server-side automatically"
+      },
+      {
+        "line": 1068,
+        "text": "  var app = express();"
+      },
+      {
+        "line": 1194,
+        "text": "which are just the corresponding http methods with the `Content-Type` header preset to `multipart/form-data`."
+      },
+      {
+        "line": 1337,
+        "text": "> as follow-redirects package will buffer the entire stream in RAM without following the \"backpressure\" algorithm."
+      },
+      {
+        "line": 1359,
+        "text": "The old approach of directly manipulating headers object is still available, but deprecated and not recommended for future usage."
+      },
+      {
+        "line": 1392,
+        "text": "      request.headers['My-set-header2'] = 'newValue' // direct access is deprecated"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\baseline-browser-mapping\\LICENSE.txt",
+    "hits": [
+      {
+        "line": 26,
+        "text": "      \"Source\" form shall mean the preferred form for making modifications,"
+      },
+      {
+        "line": 43,
+        "text": "      represent, as a whole, an original work of authorship. For the purposes"
+      },
+      {
+        "line": 55,
+        "text": "      to the Licensor or its representatives, including but not limited to"
+      },
+      {
+        "line": 69,
+        "text": "      copyright license to reproduce, prepare Derivative Works of,"
+      },
+      {
+        "line": 146,
+        "text": "      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or"
+      },
+      {
+        "line": 199,
+        "text": "   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\baseline-browser-mapping\\README.md",
+    "hits": [
+      {
+        "line": 18,
+        "text": "`baseline-browser-mapping` depends on `web-features` and `@mdn/browser-compat-data` for core browser version selection, but the data is pre-packaged and minified. This package checks for updates to those modules and the supported [downstream browsers](#downstream-browsers) on a daily basis and is updated frequently. Consider adding a script to your `package.json` to update `baseline-browser-mapping` and using it as part of your build process to ensure your data is as up to date as possible:"
+      },
+      {
+        "line": 34,
+        "text": "If you want to suppress these warnings you can use the `suppressWarnings: true` option in the configuration object passed to `getCompatibleVersions()` or `getAllVersions()`. Alternatively, you can use the `BASELINE_BROWSER_MAPPING_IGNORE_OLD_DATA=true` environment variable when running your build process. This module also respects the `BROWSERSLIST_IGNORE_OLD_DATA=true` environment variable. Environment variables can also be provided in a `.env` file from Node 20 onwards; however, this module does not load .env files automatically to avoid conflicts with other libraries with different requirements. You will need to use `process.loadEnvFile()` or a library like `dotenv` to load .env files before `baseline-browser-mapping` is called."
+      },
+      {
+        "line": 107,
+        "text": "  suppressWarnings: false"
+      },
+      {
+        "line": 197,
+        "text": "#### `suppressWarnings`"
+      },
+      {
+        "line": 199,
+        "text": "Setting `suppressWarnings` to `true` will suppress the console warning about old data:"
+      },
+      {
+        "line": 203,
+        "text": "  suppressWarnings: true,"
+      },
+      {
+        "line": 233,
+        "text": "For browser versions in `@mdn/browser-compat-data` that were released before Baseline can be defined, i.e. Baseline 2015, the `year` property is always the string: `\"pre_baseline\"`."
+      },
+      {
+        "line": 260,
+        "text": "  suppressWarnings: false"
+      },
+      {
+        "line": 303,
+        "text": "#### `suppressWarnings` (in `getAllVersions()` output)"
+      },
+      {
+        "line": 305,
+        "text": "As with `getCompatibleVersions()`, you can set `suppressWarnings` to `true` to suppress the console warning about old data:"
+      },
+      {
+        "line": 309,
+        "text": "  suppressWarnings: true,"
+      },
+      {
+        "line": 367,
+        "text": "\"chrome\",\"24\",\"pre_baseline\",\"\",\"2013-01-10\",\"NULL\",\"NULL\""
+      },
+      {
+        "line": 436,
+        "text": "This data is updated on a daily basis using a [script](https://github.com/web-platform-dx/web-features/tree/main/scripts/refresh-downstream.ts) triggered by a GitHub [action](https://github.com/web-platform-dx/web-features/tree/main/.github/workflows/refresh_downstream.yml). Useragents.io provides a private API for this module which exposes the last 7 days of newly seen user agents for the currently tracked browsers. If a new major version of one of the tracked browsers is encountered with a Chromium version that meets or exceeds the previous latest version of that browser, it is added to the [src/data/downstream-browsers.json](src/data/downstream-browsers.json) file with the date it was first seen by useragents.io as its release date."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\braces\\README.md",
+    "hits": [
+      {
+        "line": 27,
+        "text": "- **Safer** - You shouldn't have to worry about users defining aggressive or malicious brace patterns that can break your application. Braces takes measures to prevent malicious regex that can be used for DDoS attacks (see [catastrophic backtracking](https://www.regular-expressions.info/catastrophic.html))."
+      },
+      {
+        "line": 31,
+        "text": "- [Supports escaping](#escaping) - To prevent evaluation of special characters."
+      },
+      {
+        "line": 50,
+        "text": "By default, brace patterns are compiled into strings that are optimized for creating regular expressions and matching."
+      },
+      {
+        "line": 118,
+        "text": "Brace patterns may be nested. The results of each expanded string are not sorted, and left to right order is preserved."
+      },
+      {
+        "line": 216,
+        "text": "**Description**: To prevent malicious patterns from being passed by users, an error is thrown when `braces.expand()` is used or `options.expand` is true and the generated range will exceed the `rangeLimit`."
+      },
+      {
+        "line": 272,
+        "text": "**Description**: In regular expressions, quanitifiers can be used to specify how many times a token can be repeated. For example, `a{1,3}` will match the letter `a` one to three times."
+      },
+      {
+        "line": 348,
+        "text": "In addition to _expansion_, brace patterns are also useful for performing regular-expression-like matching."
+      },
+      {
+        "line": 441,
+        "text": "Instead, convert the pattern into an optimized regular expression. This is easier said than done, and braces is the only library that does this currently."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\browserslist\\README.md",
+    "hits": [
+      {
+        "line": 9,
+        "text": "* [Autoprefixer]"
+      },
+      {
+        "line": 11,
+        "text": "* [postcss-preset-env]"
+      },
+      {
+        "line": 56,
+        "text": "[postcss-preset-env]:                        https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env"
+      },
+      {
+        "line": 60,
+        "text": "[Autoprefixer]:                              https://github.com/postcss/autoprefixer"
+      },
+      {
+        "line": 62,
+        "text": "[Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\busboy\\README.md",
+    "hits": [
+      {
+        "line": 142,
+        "text": "    * **preservePath** - _boolean_ - If paths in filenames from file parts in a `'multipart/form-data'` request shall be preserved. **Default:** `false`."
+      },
+      {
+        "line": 166,
+        "text": "    * `filename` - _string_ - If supplied, this contains the file's filename. **WARNING:** You should almost _never_ use this value as-is (especially if you are using `preservePath: true` in your `config`) as it could contain malicious input. You are better off generating your own (safe) filenames, or at the very least using a hash of the filename."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\chokidar\\README.md",
+    "hits": [
+      {
+        "line": 237,
+        "text": "or `EACCES` with this set to `true`, the errors will be suppressed silently."
+      },
+      {
+        "line": 260,
+        "text": "* `.getWatched()`: Returns an object representing all the paths on the file"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\combined-stream\\Readme.md",
+    "hits": [
+      {
+        "line": 81,
+        "text": "Whether to apply back pressure to the underlaying streams. If set to `false`,"
+      },
+      {
+        "line": 124,
+        "text": "currently being drained, so you can use it to apply back pressure."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\commander\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 65,
+        "text": "* removed deprecated `customFds` option from call to `child_process.spawn` ([#1052])"
+      },
+      {
+        "line": 72,
+        "text": "If you were previously using code like:"
+      },
+      {
+        "line": 84,
+        "text": "## [4.0.0-1] Prerelease (2019-10-08)"
+      },
+      {
+        "line": 88,
+        "text": "## [4.0.0-0] Prerelease (2019-10-01)"
+      },
+      {
+        "line": 141,
+        "text": "* Add parent command as prefix of subcommand in help ([#980])"
+      },
+      {
+        "line": 148,
+        "text": "  * **Breaking** custom event listeners: `--no-foo` on cli now emits `option:no-foo` (previously `option:foo`)"
+      },
+      {
+        "line": 149,
+        "text": "  * **Breaking** default value: defining `--no-foo` after defining `--foo` leaves the default value unchanged (previously set it to false)"
+      },
+      {
+        "line": 156,
+        "text": "The custom event for a negated option like `--no-foo` is `option:no-foo` (previously `option:foo`)."
+      },
+      {
+        "line": 175,
+        "text": "## 3.0.0-0 Prerelease / 2019-07-28"
+      },
+      {
+        "line": 193,
+        "text": "* Bugfix - Error output (#862)"
+      },
+      {
+        "line": 262,
+        "text": "* Documentation updated for options with --no prefix"
+      },
+      {
+        "line": 285,
+        "text": "* Prefix events to prevent conflicts between commands and options (#494)"
+      },
+      {
+        "line": 373,
+        "text": "* add passing of previous option value"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\commander\\Readme.md",
+    "hits": [
+      {
+        "line": 196,
+        "text": "previous value for the option. It returns the new value for the option."
+      },
+      {
+        "line": 205,
+        "text": "function myParseInt(value, dummyPrevious) {"
+      },
+      {
+        "line": 210,
+        "text": "function increaseVerbosity(dummyValue, previous) {"
+      },
+      {
+        "line": 211,
+        "text": "  return previous + 1;"
+      },
+      {
+        "line": 214,
+        "text": "function collect(value, previous) {"
+      },
+      {
+        "line": 215,
+        "text": "  return previous.concat([value]);"
+      },
+      {
+        "line": 218,
+        "text": "function commaSeparatedList(value, dummyPrevious) {"
+      },
+      {
+        "line": 272,
+        "text": "The optional `version` method adds handling for displaying the command version. The default option flags are `-V` and `--version`, and when present the command prints the version number and exits."
+      },
+      {
+        "line": 626,
+        "text": "- Use the `--harmony` option when call the command, like `node --harmony examples/pm publish`. The `--harmony` option will be preserved when spawning sub-command process."
+      },
+      {
+        "line": 696,
+        "text": "More Demos can be found in the [examples](https://github.com/tj/commander.js/tree/master/examples) directory."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\cssesc\\README.md",
+    "hits": [
+      {
+        "line": 163,
+        "text": "A string representing the semantic version number."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\csstype\\README.md",
+    "hits": [
+      {
+        "line": 65,
+        "text": "- **`Vendor`** - Vendor prefixed properties and extends subcategories `VendorLonghand` and `VendorShorthand` _(e.g. `VendorShorthandProperties`)_"
+      },
+      {
+        "line": 66,
+        "text": "- **`Obsolete`** - Removed or deprecated properties"
+      },
+      {
+        "line": 80,
+        "text": "**Flow**: These will be prefixed with `AtRule$`, e.g. `AtRule$Viewport`."
+      },
+      {
+        "line": 284,
+        "text": "**Never modify `index.d.ts` and `index.js.flow` directly. They are generated automatically and committed so that we can easily follow any change it results in.** Therefor it's important that you run `$ git config merge.ours.driver true` after you've forked and cloned. That setting prevents merge conflicts when doing rebase."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\didyoumean\\README.md",
+    "hits": [
+      {
+        "line": 132,
+        "text": "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\dlv\\README.md",
+    "hits": [
+      {
+        "line": 75,
+        "text": "[preact]: https://github.com/developit/preact"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\electron-to-chromium\\README.md",
+    "hits": [
+      {
+        "line": 15,
+        "text": "This package is used in [Browserslist](https://github.com/ai/browserslist), so you can use e.g. `electron >= 1.4` in [Autoprefixer](https://github.com/postcss/autoprefixer), [Stylelint](https://github.com/stylelint/stylelint), [babel-preset-env](https://github.com/babel/babel-preset-env) and [eslint-plugin-compat](https://github.com/amilajack/eslint-plugin-compat)."
+      },
+      {
+        "line": 132,
+        "text": "_**Deprecated**: Browserlist already includes electron-to-chromium._"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\escalade\\readme.md",
+    "hits": [
+      {
+        "line": 205,
+        "text": "- [premove](https://github.com/lukeed/premove) - A tiny (247B) utility to remove items recursively"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\face-api.js\\README.md",
+    "hits": [
+      {
+        "line": 10,
+        "text": "## **[Click me for Live Demos!](https://justadudewhohacks.github.io/face-api.js/)**"
+      },
+      {
+        "line": 38,
+        "text": "  * **[Face Expression Recognition](#models-face-expression-recognition)**"
+      },
+      {
+        "line": 52,
+        "text": "## Face Expression Recognition"
+      },
+      {
+        "line": 54,
+        "text": "![preview_face-expression-recognition](https://user-images.githubusercontent.com/31125521/50575270-f501d080-0dfb-11e9-9676-8f419efdade4.png)"
+      },
+      {
+        "line": 157,
+        "text": "// faceExpressionNet"
+      },
+      {
+        "line": 197,
+        "text": "You can also load the weights as a Float32Array (in case you want to use the uncompressed models):"
+      },
+      {
+        "line": 254,
+        "text": "**After face detection, we can furthermore predict the facial landmarks for each detected face as follows:**"
+      },
+      {
+        "line": 277,
+        "text": "**After face detection and facial landmark prediction the face descriptors for each face can be computed as follows:**"
+      },
+      {
+        "line": 291,
+        "text": "### Recognizing Face Expressions"
+      },
+      {
+        "line": 293,
+        "text": "**Face expression recognition can be performed for detected faces as follows:**"
+      },
+      {
+        "line": 295,
+        "text": "Detect all faces in an image + recognize face expressions of each face. Returns **Array<[WithFaceExpressions<WithFaceLandmarks<WithFaceDetection<{}>>>](#getting-started-utility-classes)>**:"
+      },
+      {
+        "line": 298,
+        "text": "const detectionsWithExpressions = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceExpressions()"
+      },
+      {
+        "line": 301,
+        "text": "Detect the face with the highest confidence score in an image + recognize the face expressions for that face. Returns **[WithFaceExpressions<WithFaceLandmarks<WithFaceDetection<{}>>>](#getting-started-utility-classes) | undefined**:"
+      },
+      {
+        "line": 304,
+        "text": "const detectionWithExpressions = await faceapi.detectSingleFace(input).withFaceLandmarks().withFaceExpressions()"
+      },
+      {
+        "line": 309,
+        "text": "Detect all faces without face alignment + recognize face expressions of each face. Returns **Array<[WithFaceExpressions<WithFaceDetection<{}>>](#getting-started-utility-classes)>**:"
+      },
+      {
+        "line": 312,
+        "text": "const detectionsWithExpressions = await faceapi.detectAllFaces(input).withFaceExpressions()"
+      },
+      {
+        "line": 315,
+        "text": "Detect the face with the highest confidence score without face alignment + recognize the face expression for that face. Returns **[WithFaceExpressions<WithFaceDetection<{}>>](#getting-started-utility-classes) | undefined**:"
+      },
+      {
+        "line": 318,
+        "text": "const detectionWithExpressions = await faceapi.detectSingleFace(input).withFaceExpressions()"
+      },
+      {
+        "line": 358,
+        "text": "await faceapi.detectAllFaces(input).withFaceExpressions()"
+      },
+      {
+        "line": 360,
+        "text": "await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceExpressions()"
+      },
+      {
+        "line": 361,
+        "text": "await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceExpressions().withFaceDescriptors()"
+      },
+      {
+        "line": 363,
+        "text": "await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()"
+      },
+      {
+        "line": 367,
+        "text": "await faceapi.detectSingleFace(input).withFaceExpressions()"
+      },
+      {
+        "line": 369,
+        "text": "await faceapi.detectSingleFace(input).withFaceLandmarks().withFaceExpressions()"
+      },
+      {
+        "line": 370,
+        "text": "await faceapi.detectSingleFace(input).withFaceLandmarks().withFaceExpressions().withFaceDescriptor()"
+      },
+      {
+        "line": 372,
+        "text": "await faceapi.detectSingleFace(input).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptor()"
+      },
+      {
+        "line": 445,
+        "text": "Preparing the overlay canvas:"
+      },
+      {
+        "line": 454,
+        "text": "face-api.js predefines some highlevel drawing functions, which you can utilize:"
+      },
+      {
+        "line": 476,
+        "text": "/* Display face expression results */"
+      },
+      {
+        "line": 477,
+        "text": "const detectionsWithExpressions = await faceapi"
+      },
+      {
+        "line": 480,
+        "text": "  .withFaceExpressions()"
+      },
+      {
+        "line": 482,
+        "text": "const resizedResults = faceapi.resizeResults(detectionsWithExpressions, displaySize)"
+      },
+      {
+        "line": 485,
+        "text": "// draw a textbox displaying the face expressions with minimum probability into the canvas"
+      },
+      {
+        "line": 487,
+        "text": "faceapi.draw.drawFaceExpressions(canvas, resizedResults, minProbability)"
+      },
+      {
+        "line": 577,
+        "text": "  // but less precise in detecting smaller faces, must be divisible"
+      },
+      {
+        "line": 652,
+        "text": "### WithFaceExpressions"
+      },
+      {
+        "line": 655,
+        "text": "export type WithFaceExpressions<TSource> = TSource & {"
+      },
+      {
+        "line": 656,
+        "text": "  expressions: FaceExpressions"
+      },
+      {
+        "line": 801,
+        "text": "The face detector has been trained on a custom dataset of ~14K images labeled with bounding boxes. Furthermore the model has been trained to predict bounding boxes, which entirely cover facial feature points, thus it in general produces better results in combination with subsequent face landmark detection than SSD Mobilenet V1."
+      },
+      {
+        "line": 817,
+        "text": "The neural net is equivalent to the **FaceRecognizerNet** used in [face-recognition.js](https://github.com/justadudewhohacks/face-recognition.js) and the net used in the [dlib](https://github.com/davisking/dlib/blob/master/examples/dnn_face_recognition_ex.cpp) face recognition example. The weights have been trained by [davisking](https://github.com/davisking) and the model achieves a prediction accuracy of 99.38% on the LFW (Labeled Faces in the Wild) benchmark for face recognition."
+      },
+      {
+        "line": 821,
+        "text": "<a name=\"models-face-expression-recognition\"></a>"
+      },
+      {
+        "line": 823,
+        "text": "## Face Expression Recognition Model"
+      },
+      {
+        "line": 825,
+        "text": "The face expression recognition model is lightweight, fast and provides reasonable accuracy. The model has a size of roughly 310kb and it employs depthwise separable convolutions and densely connected blocks. It has been trained on a variety of images from publicly available datasets as well as images scraped from the web. Note, that wearing glasses might decrease the accuracy of the prediction results."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\fast-glob\\README.md",
+    "hits": [
+      {
+        "line": 37,
+        "text": "    * [suppressErrors](#suppresserrors)"
+      },
+      {
+        "line": 88,
+        "text": "> :warning: Always use forward-slashes in glob expressions (patterns and [`ignore`](#ignore) option). Use backslashes for escaping characters."
+      },
+      {
+        "line": 116,
+        "text": "* [Regex groups][regular_expressions_brackets] (`(a|b)`)."
+      },
+      {
+        "line": 212,
+        "text": "Returns the internal representation of patterns ([`Task`](./src/managers/tasks.ts) is a combining patterns by base directory)."
+      },
+      {
+        "line": 340,
+        "text": "But this package also has the `concurrency` option. This option allows you to control the number of concurrent accesses to the FS at the package level. By default, this package has a value equal to the number of cores available for the current Node process. This allows you to set a value smaller than the pool size (`concurrency: 1`) or, conversely, to prepare tasks for the pool queue more quickly (`concurrency: Number.POSITIVE_INFINITY`)."
+      },
+      {
+        "line": 428,
+        "text": "#### suppressErrors"
+      },
+      {
+        "line": 433,
+        "text": "By default this package suppress only `ENOENT` errors. Set to `true` to suppress any error."
+      },
+      {
+        "line": 492,
+        "text": "> :book: An object is an internal representation of entry, so getting it does not affect performance."
+      },
+      {
+        "line": 690,
+        "text": "Always use forward-slashes in glob expressions (patterns and [`ignore`](#ignore) option). Use backslashes for escaping characters. With the [`cwd`](#cwd) option use a convenient format."
+      },
+      {
+        "line": 825,
+        "text": "[regular_expressions_brackets]: https://www.regular-expressions.info/brackets.html"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\follow-redirects\\README.md",
+    "hits": [
+      {
+        "line": 145,
+        "text": " suite it is sometimes advantageous to set `DEBUG=*` to see output from the express server as well."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\form-data\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 12,
+        "text": "- [Tests] Switch to newer v8 prediction library; enable node 24 testing [`16e0076`](https://github.com/form-data/form-data/commit/16e00765342106876f98a1c9703314006c9e937a)"
+      },
+      {
+        "line": 21,
+        "text": "- [Tests] handle predict-v8-randomness failures in node &lt; 17 and node &gt; 23 [`1d11a76`](https://github.com/form-data/form-data/commit/1d11a76434d101f22fdb26b8aef8615f28b98402)"
+      },
+      {
+        "line": 44,
+        "text": "- [meta] fix scripts to use prepublishOnly [`c4bbb13`](https://github.com/form-data/form-data/commit/c4bbb13c0ef669916657bc129341301b1d331d75)"
+      },
+      {
+        "line": 69,
+        "text": "- [Dev Deps] update `@types/node`, `browserify`, `coveralls`, `cross-spawn`, `eslint`, `formidable`, `in-publish`, `pkgfiles`, `pre-commit`, `puppeteer`, `request`, `tape`, `typescript` [`8261fcb`](https://github.com/form-data/form-data/commit/8261fcb8bf5944d30ae3bd04b91b71d6a9932ef4)"
+      },
+      {
+        "line": 70,
+        "text": "- [Dev Deps] update `@types/node`, `browserify`, `coveralls`, `cross-spawn`, `eslint`, `formidable`, `in-publish`, `pkgfiles`, `pre-commit`, `puppeteer`, `request`, `tape`, `typescript` [`fb66cb7`](https://github.com/form-data/form-data/commit/fb66cb740e29fb170eee947d4be6fdf82d6659af)"
+      },
+      {
+        "line": 71,
+        "text": "- [Dev Deps] update `@types/node`, `browserify`, `coveralls`, `eslint`, `formidable`, `in-publish`, `phantomjs-prebuilt`, `pkgfiles`, `pre-commit`, `request`, `tape`, `typescript` [`819f6b7`](https://github.com/form-data/form-data/commit/819f6b7a543306a891fca37c3a06d0ff4a734422)"
+      },
+      {
+        "line": 118,
+        "text": "- [Tests] handle predict-v8-randomness failures in node &lt; 17 and node &gt; 23 [`e8c574c`](https://github.com/form-data/form-data/commit/e8c574cb07ff3a0de2ecc0912d783ef22e190c1f)"
+      },
+      {
+        "line": 126,
+        "text": "- [meta] fix scripts to use prepublishOnly [`11d9f73`](https://github.com/form-data/form-data/commit/11d9f7338f18a59b431832a3562b49baece0a432)"
+      },
+      {
+        "line": 142,
+        "text": "- [Dev Deps] update `@types/node`, `browserify`, `coveralls`, `cross-spawn`, `eslint`, `formidable`, `in-publish`, `pkgfiles`, `pre-commit`, `puppeteer`, `request`, `tape`, `typescript` [`8261fcb`](https://github.com/form-data/form-data/commit/8261fcb8bf5944d30ae3bd04b91b71d6a9932ef4)"
+      },
+      {
+        "line": 210,
+        "text": "- [Tests] handle predict-v8-randomness failures in node &lt; 17 and node &gt; 23 [`0e93122`](https://github.com/form-data/form-data/commit/0e93122358414942393d9c2dc434ae69e58be7c8)"
+      },
+      {
+        "line": 213,
+        "text": "- [Tests] Switch to newer v8 prediction library; enable node 24 testing [`c97cfbe`](https://github.com/form-data/form-data/commit/c97cfbed9eb6d2d4b5d53090f69ded4bf9fd8a21)"
+      },
+      {
+        "line": 217,
+        "text": "- [meta] fix scripts to use prepublishOnly [`e351a97`](https://github.com/form-data/form-data/commit/e351a97e9f6c57c74ffd01625e83b09de805d08a)"
+      },
+      {
+        "line": 235,
+        "text": "- [Dev Deps] update `@types/node`, `browserify`, `coveralls`, `eslint`, `formidable`, `in-publish`, `phantomjs-prebuilt`, `pkgfiles`, `pre-commit`, `request`, `tape`, `typescript` [`819f6b7`](https://github.com/form-data/form-data/commit/819f6b7a543306a891fca37c3a06d0ff4a734422)"
+      },
+      {
+        "line": 408,
+        "text": "- Pre-release house cleaning [`#247`](https://github.com/form-data/form-data/pull/247)"
+      },
+      {
+        "line": 431,
+        "text": "- Pre-release house cleaning [`440d72b`](https://github.com/form-data/form-data/commit/440d72b5fd44dd132f42598c3183d46e5f35ce71)"
+      },
+      {
+        "line": 440,
+        "text": "- Housecleaning, preparing for the release [`#144`](https://github.com/form-data/form-data/pull/144)"
+      },
+      {
+        "line": 473,
+        "text": "- House cleaning. Added `pre-commit`. [`#140`](https://github.com/form-data/form-data/pull/140)"
+      },
+      {
+        "line": 603,
+        "text": "- Allow custom headers and pre-known length in parts [`#17`](https://github.com/form-data/form-data/pull/17)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\form-data\\README.md",
+    "hits": [
+      {
+        "line": 112,
+        "text": "Or if you would prefer the `'Content-Length'` header to be set for you:"
+      },
+      {
+        "line": 120,
+        "text": "To use custom headers and pre-known length in parts:"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\fraction.js\\README.md",
+    "hits": [
+      {
+        "line": 6,
+        "text": "Do you find the limitations of floating-point arithmetic frustrating, especially when rational and irrational numbers like π or √2 are stored within the same finite precision? This can lead to avoidable inaccuracies such as:"
+      },
+      {
+        "line": 12,
+        "text": "For applications requiring higher precision or where working with fractions is preferable, consider incorporating *Fraction.js* into your project."
+      },
+      {
+        "line": 14,
+        "text": "The library effectively addresses precision issues, as demonstrated below:"
+      },
+      {
+        "line": 20,
+        "text": "*Fraction.js* uses a `BigInt` representation for both the numerator and denominator, ensuring minimal performance overhead while maximizing accuracy. Its design is optimized for precision, making it an ideal choice as a foundational library for other math tools, such as [Polynomial.js](https://github.com/rawify/Polynomial.js) and [Math.js](https://github.com/josdejong/mathjs)."
+      },
+      {
+        "line": 31,
+        "text": "This is particularly useful when you need precise fraction representations instead of dealing with the limitations of floating-point arithmetic. What if you allow some error tolerance?"
+      },
+      {
+        "line": 39,
+        "text": "## Precision"
+      },
+      {
+        "line": 41,
+        "text": "As native `BigInt` support in JavaScript becomes more common, libraries like *Fraction.js* use it to handle calculations with higher precision. This improves the speed and accuracy of math operations with large numbers, providing a better solution for tasks that need more precision than floating-point numbers can offer."
+      },
+      {
+        "line": 70,
+        "text": "While the result is reasonably close, it’s not as accurate as the fraction-based approach that *Fraction.js* provides, especially when dealing with repeating decimals or complex operations. This highlights the value of precision that the library brings."
+      },
+      {
+        "line": 98,
+        "text": "### Convert degrees/minutes/seconds to precise rational representation:"
+      },
+      {
+        "line": 115,
+        "text": "Then the following algorithm will generate the rational number besides the binary representation."
+      },
+      {
+        "line": 157,
+        "text": "Thus the approximation after 11 iterations of the bisection method is *483 / 2048* and the binary representation is 0.00111100011 (see [WolframAlpha](http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary))"
+      },
+      {
+        "line": 184,
+        "text": "fmod() imprecision circumvented"
+      },
+      {
+        "line": 219,
+        "text": "The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further observations. If you have problems with the approximation, in the file `examples/approx.js` is a different approximation algorithm, which might work better in some more specific use-cases."
+      },
+      {
+        "line": 226,
+        "text": "new Fraction(\"123/45\"); // A rational number represented as two decimals, separated by a slash"
+      },
+      {
+        "line": 227,
+        "text": "new Fraction(\"123:45\"); // A rational number represented as two decimals, separated by a colon"
+      },
+      {
+        "line": 228,
+        "text": "new Fraction(\"4 123/45\"); // A rational number represented as a whole number and a fraction"
+      },
+      {
+        "line": 257,
+        "text": "  var comma, pre, offset, pad, times, repeat;"
+      },
+      {
+        "line": 262,
+        "text": "  pre = str.substr(0, comma + 1);"
+      },
+      {
+        "line": 278,
+        "text": "        return pre + offset + \"(\" + pad + \")\";"
+      },
+      {
+        "line": 340,
+        "text": "Returns the modulus (rest of the division) of the actual object and n (this % n). It's a much more precise [fmod()](#fmod-impreciseness-circumvented) if you like. Please note that *mod()* is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see [here](#mathematical-correct-modulo)."
+      },
+      {
+        "line": 413,
+        "text": "Returns a decimal representation of the fraction"
+      },
+      {
+        "line": 417,
+        "text": "Generates an exact string representation of the given object. For repeating decimal places, digits within repeating cycles are enclosed in parentheses, e.g., `1/3 = \"0.(3)\"`. For other numbers, the string will include up to the specified `decimalPlaces` significant digits, including any trailing zeros if truncation occurs. For example, `1/2` will be represented as `\"0.5\"`, without additional trailing zeros."
+      },
+      {
+        "line": 419,
+        "text": "**Note:** Since both `valueOf()` and `toString()` are provided, `toString()` will only be invoked implicitly when the object is used in a string context. For instance, when using the plus operator like `\"123\" + new Fraction`, `valueOf()` will be called first, as JavaScript attempts to combine primitives before concatenating them, with the string type taking precedence. However, `alert(new Fraction)` or `String(new Fraction)` will behave as expected. To ensure specific behavior, explicitly call either `toString()` or `valueOf()`."
+      },
+      {
+        "line": 423,
+        "text": "Generates an exact LaTeX representation of the actual object. You can see a [live demo](https://raw.org/article/rational-numbers-in-javascript/) on my blog."
+      },
+      {
+        "line": 429,
+        "text": "Gets a string representation of the fraction"
+      },
+      {
+        "line": 435,
+        "text": "Gets an array of the fraction represented as a continued fraction. The first element always contains the whole part."
+      },
+      {
+        "line": 498,
+        "text": "As every library I publish, Fraction.js is also built to be as small as possible after compressing it with Google Closure Compiler in advanced mode. Thus the coding style orientates a little on maxing-out the compression rate. Please make sure you keep this style if you plan to extend the library."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\function-bind\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 96,
+        "text": "- Directly export a function expression instead of using a declaration, and relying on hoisting. [`5a33c5f`](https://github.com/ljharb/function-bind/commit/5a33c5f45642de180e0d207110bf7d1843ceb87c)"
+      },
+      {
+        "line": 106,
+        "text": "- Using a function expression instead of a function declaration. [`b5d3e4e`](https://github.com/ljharb/function-bind/commit/b5d3e4ea6aaffc63888953eeb1fbc7ff45f1fa14)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\get-intrinsic\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 124,
+        "text": "- [meta] use `prepublishOnly` script for npm 7+ [`95c285d`](https://github.com/ljharb/get-intrinsic/commit/95c285da810516057d3bbfa871176031af38f05d)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\glob-parent\\README.md",
+    "hits": [
+      {
+        "line": 83,
+        "text": "pre-process your input with [expand-braces] and/or [expand-brackets]."
+      },
+      {
+        "line": 103,
+        "text": "relative to `cwd`), prefix with `./` to avoid confusing glob-parent."
+      },
+      {
+        "line": 119,
+        "text": "<!-- prettier-ignore-start -->"
+      },
+      {
+        "line": 129,
+        "text": "<!-- prettier-ignore-end -->"
+      },
+      {
+        "line": 131,
+        "text": "<!-- prettier-ignore-start -->"
+      },
+      {
+        "line": 134,
+        "text": "<!-- prettier-ignore-end -->"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\glob-to-regexp\\README.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# Glob To Regular Expression"
+      },
+      {
+        "line": 5,
+        "text": "Turn a \\*-wildcard style glob (`\"*.min.js\"`) into a regular expression"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\has-symbols\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 38,
+        "text": "- [meta] use `prepublishOnly` script for npm 7+ [`093f72b`](https://github.com/inspect-js/has-symbols/commit/093f72bc2b0ed00c781f444922a5034257bf561d)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\hasown\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 16,
+        "text": "- [types] improve predicate type [`d340f85`](https://github.com/inspect-js/hasOwn/commit/d340f85ce02e286ef61096cbbb6697081d40a12b)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\hasown\\README.md",
+    "hits": [
+      {
+        "line": 10,
+        "text": "A robust, ES3 compatible, \"has own property\" predicate."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\is-core-module\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 64,
+        "text": "- [Fix] `test/reporters` now requires the `node:` prefix as of v20.2 [`12183d0`](https://github.com/inspect-js/is-core-module/commit/12183d0d8e4edf56b6ce18a1b3be54bfce10175b)"
+      },
+      {
+        "line": 115,
+        "text": "- [Tests] node ^14.18 supports `node:` prefixes for CJS [`43e2f17`](https://github.com/inspect-js/is-core-module/commit/43e2f177452cea2f0eaf34f61b5407217bbdb6f4)"
+      },
+      {
+        "line": 121,
+        "text": "- [New] node `v14.18` added `node:`-prefixed core modules to `require` [`6d943ab`](https://github.com/inspect-js/is-core-module/commit/6d943abe81382b9bbe344384d80fbfebe1cc0526)"
+      },
+      {
+        "line": 134,
+        "text": "- [Tests] include prereleases [`a4da7a6`](https://github.com/inspect-js/is-core-module/commit/a4da7a6abf7568e2aa4fd98e69452179f1850963)"
+      },
+      {
+        "line": 151,
+        "text": "- [meta] fix prepublish script [`697a01e`](https://github.com/inspect-js/is-core-module/commit/697a01e3c9c0be074066520954f30fb28532ec57)"
+      },
+      {
+        "line": 158,
+        "text": "- [New] add support for `node:` prefix, in node 16+ [`7341223`](https://github.com/inspect-js/is-core-module/commit/73412230a769f6e81c05eea50b6520cebf54ed2f)"
+      },
+      {
+        "line": 165,
+        "text": "- [meta] use `prepublishOnly` script for npm 7+ [`149e677`](https://github.com/inspect-js/is-core-module/commit/149e6771a5ede6d097e71785b467a9c4b4977cc7)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\js-tokens\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 67,
+        "text": "[v8-perf]: http://v8project.blogspot.se/2017/01/speeding-up-v8-regular-expressions.html"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\js-tokens\\README.md",
+    "hits": [
+      {
+        "line": 37,
+        "text": "The next match is always directly after the previous."
+      },
+      {
+        "line": 158,
+        "text": "expression dealing with division."
+      },
+      {
+        "line": 202,
+        "text": "  regex literal, but is valid in a division expression, then the regex literal"
+      },
+      {
+        "line": 209,
+        "text": "  could likely be part of such an expression."
+      },
+      {
+        "line": 211,
+        "text": "Please consult the regex source and the test cases for precise information on"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\loose-envify\\README.md",
+    "hits": [
+      {
+        "line": 10,
+        "text": "* Doesn't look inside embedded expressions in template strings."
+      },
+      {
+        "line": 15,
+        "text": "* Doesn't replace oddly-spaced or oddly-commented expressions."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\micromatch\\README.md",
+    "hits": [
+      {
+        "line": 45,
+        "text": "    + [POSIX bracket expressions](#posix-bracket-expressions)"
+      },
+      {
+        "line": 106,
+        "text": "* **[Advanced globbing](#extended-globbing)** - Supports [extglobs](#extglobs), [braces](#braces-1), and [POSIX brackets](#posix-bracket-expressions), and support for escaping special characters with `\\` or quotes."
+      },
+      {
+        "line": 118,
+        "text": "* [POSIX character classes](#posix-bracket-expressions) (`[[:alpha:][:digit:]]`)"
+      },
+      {
+        "line": 383,
+        "text": "Create a regular expression from the given glob `pattern`."
+      },
+      {
+        "line": 420,
+        "text": "Parse a glob pattern to create the source string for a regular expression."
+      },
+      {
+        "line": 465,
+        "text": "| `debug`               | `boolean`      | `undefined` | Debug regular expressions when an error is thrown. |"
+      },
+      {
+        "line": 481,
+        "text": "| `nodupes`             | `boolean`      | `true`      | Deprecated, use `nounique` instead. This option will be removed in a future major release. By default duplicates are removed. Disable uniquification by setting this option to false. |"
+      },
+      {
+        "line": 490,
+        "text": "| `posix`               | `boolean`      | `false`     | Support [POSIX character classes](#posix-bracket-expressions) (\"posix brackets\"). |"
+      },
+      {
+        "line": 492,
+        "text": "| `prepend`             | `string`       | `undefined` | String to prepend to the generated regex used for matching. |"
+      },
+      {
+        "line": 493,
+        "text": "| `regex`               | `boolean`      | `false`     | Use regular expression rules for `+` (instead of matching literal `+`), and for stars that follow closing parentheses or brackets (as in `)*` and `]*`). |"
+      },
+      {
+        "line": 496,
+        "text": "| `unescape`            | `boolean`      | `undefined` | Remove preceding backslashes from escaped glob characters before creating the regular expression to perform matches. |"
+      },
+      {
+        "line": 521,
+        "text": "Enabled by default, this option enforces bash-like behavior with stars immediately following a bracket expression. Bash bracket expressions are similar to regex character classes, but unlike regex, a star following a bracket expression **does not repeat the bracketed characters**. Instead, the star is treated the same as any other star."
+      },
+      {
+        "line": 721,
+        "text": "Remove backslashes from escaped glob characters before creating the regular expression to perform matches."
+      },
+      {
+        "line": 787,
+        "text": "Learn about [regex character classes](http://www.regular-expressions.info/charclass.html)."
+      },
+      {
+        "line": 797,
+        "text": "As with regex, parens can be nested, so patterns like `((a|b)|c)/b` will work. Although brace expansion might be friendlier to use, depending on preference."
+      },
+      {
+        "line": 799,
+        "text": "### POSIX bracket expressions"
+      },
+      {
+        "line": 824,
+        "text": "* Micromatch exclusively and explicitly reserves backslashes for escaping characters in a glob pattern, even on windows, which is consistent with bash behavior. _More importantly, unescaping globs can result in unsafe regular expressions_."
+      },
+      {
+        "line": 830,
+        "text": "* Glob patterns are not filepaths. They are a type of [regular language](https://en.wikipedia.org/wiki/Regular_language) that is converted to a JavaScript regular expression. Thus, when forward slashes are defined in a glob pattern, the resulting regular expression will match windows or POSIX path separators just fine."
+      },
+      {
+        "line": 914,
+        "text": "**Bug reports**"
+      },
+      {
+        "line": 921,
+        "text": "* if all else fails, since there is no real specification for globs we will probably need to discuss expected behavior and decide how to resolve it. which means any detail you can provide to help with this discussion would be greatly appreciated."
+      },
+      {
+        "line": 925,
+        "text": "It's important to us that micromatch work consistently on all platforms. If you encounter any platform-specific matching or path related issues, please let us know (pull requests are also greatly appreciated)."
+      },
+      {
+        "line": 967,
+        "text": "* [expand-brackets](https://www.npmjs.com/package/expand-brackets): Expand POSIX bracket expressions (character classes) in glob patterns. | [homepage](https://github.com/micromatch/expand-brackets \"Expand POSIX bracket expressions (character classes) in glob patterns.\")"
+      },
+      {
+        "line": 968,
+        "text": "* [extglob](https://www.npmjs.com/package/extglob): Extended glob support for JavaScript. Adds (almost) the expressive power of regular expressions to glob… [more](https://github.com/micromatch/extglob) | [homepage](https://github.com/micromatch/extglob \"Extended glob support for JavaScript. Adds (almost) the expressive power of regular expressions to glob patterns.\")"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\mime-db\\HISTORY.md",
+    "hits": [
+      {
+        "line": 13,
+        "text": "  * Mark `image/vnd.microsoft.icon` as compressible"
+      },
+      {
+        "line": 14,
+        "text": "  * Mark `image/vnd.ms-dds` as compressible"
+      },
+      {
+        "line": 19,
+        "text": "  * Add deprecated iWorks mime types and extensions"
+      },
+      {
+        "line": 33,
+        "text": "  * Mark `text/yaml` as compressible"
+      },
+      {
+        "line": 82,
+        "text": "  * Remove compressible from `multipart/mixed`"
+      },
+      {
+        "line": 89,
+        "text": "  * Mark `font/ttf` as compressible"
+      },
+      {
+        "line": 109,
+        "text": "  * Mark `text/less` as compressible"
+      },
+      {
+        "line": 138,
+        "text": "  * Mark all XML-derived types as compressible"
+      },
+      {
+        "line": 472,
+        "text": "  * Mark `application/x-www-form-urlencoded` as compressible."
+      },
+      {
+        "line": 491,
+        "text": "  * Mark all JSON-derived types as compressible"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\mime-db\\README.md",
+    "hits": [
+      {
+        "line": 55,
+        "text": "- `.compressible` - whether a file of this type can be gzipped."
+      },
+      {
+        "line": 68,
+        "text": "- `compressible` - leave out if you don't know, otherwise `true`/`false` to"
+      },
+      {
+        "line": 69,
+        "text": "  indicate whether the data represented by the type is typically compressible."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\mime-types\\HISTORY.md",
+    "hits": [
+      {
+        "line": 20,
+        "text": "    - Add deprecated iWorks mime types and extensions"
+      },
+      {
+        "line": 278,
+        "text": "  * Prefer `application/*` MIME types from the same source"
+      },
+      {
+        "line": 279,
+        "text": "  * Prefer any type over `application/octet-stream`"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\mime-types\\README.md",
+    "hits": [
+      {
+        "line": 18,
+        "text": "- Bug fixes for `.lookup(path)`"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\mz\\README.md",
+    "hits": [
+      {
+        "line": 23,
+        "text": "Then prefix the relevant `require()`s with `mz/`:"
+      },
+      {
+        "line": 47,
+        "text": "Any properties that are deprecated or aren't asynchronous will simply be proxied."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\next\\README.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "      <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png\">"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\node-fetch\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 74,
+        "text": "- Enhance: more comprehensive API docs"
+      },
+      {
+        "line": 106,
+        "text": "- Fix: HEAD request doesn't need decompression, as body is empty"
+      },
+      {
+        "line": 114,
+        "text": "- Fix: send DELETE request with content-length when body is present"
+      },
+      {
+        "line": 133,
+        "text": "- Fix: wrapping Request instance with FormData body again should preserve the body as-is"
+      },
+      {
+        "line": 166,
+        "text": "- Enhance: `Headers` now normalized `Number` value to `String`, prevent common mistakes"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\node-fetch\\README.md",
+    "hits": [
+      {
+        "line": 88,
+        "text": "// if you prefer to cache binary data in full, use buffer()"
+      },
+      {
+        "line": 182,
+        "text": "- `url` A string representing the URL for fetching"
+      },
+      {
+        "line": 206,
+        "text": "\tcompress: true,     // support gzip/deflate content encoding. false to disable"
+      },
+      {
+        "line": 218,
+        "text": "`Accept-Encoding` | `gzip,deflate` _(when `options.compress === true`)_"
+      },
+      {
+        "line": 220,
+        "text": "`Connection`      | `close` _(when no `options.agent` is present)_"
+      },
+      {
+        "line": 244,
+        "text": "- `compress`"
+      },
+      {
+        "line": 254,
+        "text": "- `input` A string representing a URL, or another `Request` (which will be cloned)"
+      },
+      {
+        "line": 287,
+        "text": "Convenience property representing if the request ended normally. Will evaluate to true if the response status was greater than or equal to 200 but smaller than 300."
+      },
+      {
+        "line": 298,
+        "text": "- `init` Optional argument to pre-fill the `Headers` object"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\node-releases\\README.md",
+    "hits": [
+      {
+        "line": 5,
+        "text": "`data/processed` contains `envs.json` with node.js releases data preprocessed to be used by [Browserslist](https://github.com/ai/browserslist) and other projects. Each version in this file contains only necessary info: version, release date, LTS flag/name, and security flag."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\object-assign\\readme.md",
+    "hits": [
+      {
+        "line": 46,
+        "text": "Assigns enumerable own properties of `source` objects to the `target` object and returns the `target` object. Additional `source` objects will overwrite previous ones."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\picomatch\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 28,
+        "text": "- `Deprecated` for soon-to-be removed features."
+      },
+      {
+        "line": 39,
+        "text": "* Fixes bug when a pattern containing an expression after the closing parenthesis (`/!(*.d).{ts,tsx}`) was incorrectly converted to regexp ([9f241ef](https://github.com/micromatch/picomatch/commit/9f241ef))."
+      },
+      {
+        "line": 77,
+        "text": "* Add prefer-const eslint rule ([5c7501c](https://github.com/micromatch/picomatch/commit/5c7501c))"
+      },
+      {
+        "line": 92,
+        "text": "* Run eslint during pretest, fix existing eslint findings ([0682367](https://github.com/micromatch/picomatch/commit/0682367))"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\picomatch\\README.md",
+    "hits": [
+      {
+        "line": 23,
+        "text": "<em>No dependencies and full support for standard and extended Bash glob features, including braces, extglobs, POSIX brackets, and regular expressions.</em>"
+      },
+      {
+        "line": 192,
+        "text": "Parse a glob pattern to create the source string for a regular expression."
+      },
+      {
+        "line": 225,
+        "text": "{ prefix: '!./',"
+      },
+      {
+        "line": 240,
+        "text": "Compile a regular expression from the `state` object returned by the"
+      },
+      {
+        "line": 253,
+        "text": "Create a regular expression from a parsed glob pattern."
+      },
+      {
+        "line": 259,
+        "text": "* `returnOutput` **{Boolean}**: Implementors may use this argument to return the compiled output, instead of a regular expression. This is not exposed on the options to prevent end-users from mutating the result."
+      },
+      {
+        "line": 260,
+        "text": "* `returnState` **{Boolean}**: Implementors may use this argument to return the state from the parsed glob with the returned regular expression."
+      },
+      {
+        "line": 276,
+        "text": "Create a regular expression from the given regex source string."
+      },
+      {
+        "line": 280,
+        "text": "* `source` **{String}**: Regular expression source string."
+      },
+      {
+        "line": 310,
+        "text": "| `debug`               | `boolean`      | `undefined` | Debug regular expressions when an error is thrown. |"
+      },
+      {
+        "line": 325,
+        "text": "| `nodupes`             | `boolean`      | `true`      | Deprecated, use `nounique` instead. This option will be removed in a future major release. By default duplicates are removed. Disable uniquification by setting this option to false. |"
+      },
+      {
+        "line": 336,
+        "text": "| `prepend`             | `boolean`      | `undefined` | String to prepend to the generated regex used for matching. |"
+      },
+      {
+        "line": 337,
+        "text": "| `regex`               | `boolean`      | `false`     | Use regular expression rules for `+` (instead of matching literal `+`), and for stars that follow closing parentheses or brackets (as in `)*` and `]*`). |"
+      },
+      {
+        "line": 340,
+        "text": "| `unescape`            | `boolean`      | `undefined` | Remove backslashes preceding escaped characters in the glob pattern. By default, backslashes are retained. |"
+      },
+      {
+        "line": 351,
+        "text": "| `tokens` | `boolean` | `false` | When `true`, the returned object will include an array of tokens (objects), representing each path \"segment\" in the scanned glob pattern |"
+      },
+      {
+        "line": 352,
+        "text": "| `parts` | `boolean` | `false` | When `true`, the returned object will include an array of strings representing each path \"segment\" in the scanned glob pattern. This is automatically enabled when `options.tokens` is true |"
+      },
+      {
+        "line": 361,
+        "text": "//   prefix: '!./',"
+      },
+      {
+        "line": 374,
+        "text": "//     { value: '!./', depth: 0, isGlob: false, negated: true, isPrefix: true },"
+      },
+      {
+        "line": 496,
+        "text": "* Bash greedily matches with negated extglobs. For example, Bash 4.3 says that `!(foo)*` should match `foo` and `foobar`, since the trailing `*` bracktracks to match the preceding pattern. This is very memory-inefficient, and IMHO, also incorrect. Picomatch would return `false` for both `foo` and `foobar`."
+      },
+      {
+        "line": 551,
+        "text": "The following named POSIX bracket expressions are supported:"
+      },
+      {
+        "line": 580,
+        "text": "Some characters that are used for matching in regular expressions are also regarded as valid file path characters on some platforms."
+      },
+      {
+        "line": 606,
+        "text": "| Regular expression syntax | - | ✔ | ✔ | ✔ | ✔ | - | ✔ |"
+      },
+      {
+        "line": 707,
+        "text": "Copyright © 2017-present, [Jon Schlinkert](https://github.com/jonschlinkert)."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\postcss\\README.md",
+    "hits": [
+      {
+        "line": 12,
+        "text": "and JetBrains. The [Autoprefixer] and [Stylelint] PostCSS plugins are some of the most popular CSS tools."
+      },
+      {
+        "line": 23,
+        "text": "[Autoprefixer]:         https://github.com/postcss/autoprefixer"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\postcss-import\\README.md",
+    "hits": [
+      {
+        "line": 36,
+        "text": "  statements must precede all other statements (besides `@charset`)."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\postcss-selector-parser\\API.md",
+    "hits": [
+      {
+        "line": 217,
+        "text": "A string representation of the selector type. It can be one of the following;"
+      },
+      {
+        "line": 238,
+        "text": "Returns a string representation of the node."
+      },
+      {
+        "line": 246,
+        "text": "### `node.next()` & `node.prev()`"
+      },
+      {
+        "line": 248,
+        "text": "Returns the next/previous child of the parent node."
+      },
+      {
+        "line": 317,
+        "text": "Additional whitespace is found in either the `node.spaces.before` and `node.spaces.after` depending on the presence of comments or other whitespace characters. If the actual whitespace does not start or end with a single space, the node's raw value is set to the actual space(s) found in the source."
+      },
+      {
+        "line": 520,
+        "text": "### `container.prepend(node)` & `container.append(node)`"
+      },
+      {
+        "line": 579,
+        "text": "A root node represents a comma separated list of selectors. Indeed, all"
+      },
+      {
+        "line": 590,
+        "text": "A selector node represents a single complex selector. For example, this"
+      },
+      {
+        "line": 591,
+        "text": "selector string `h1 h2 h3, [href] > p`, is represented as two selector nodes."
+      },
+      {
+        "line": 598,
+        "text": "`value` will always contain the colons preceding the pseudo identifier. This"
+      },
+      {
+        "line": 599,
+        "text": "is so that both `:before` and `::before` are properly represented in the AST."
+      },
+      {
+        "line": 713,
+        "text": "* `lossless` - When `true`, whitespace is preserved. Defaults to `true`."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\postcss-selector-parser\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 19,
+        "text": "- Fixed: Node#prev and Node#next type for the first/last node"
+      },
+      {
+        "line": 67,
+        "text": "- Fixed: replace node built-in \"util\" module with \"util-deprecate\""
+      },
+      {
+        "line": 190,
+        "text": "  selector's value, is unescaped. Escapes representing Non-ascii characters are unescaped into"
+      },
+      {
+        "line": 194,
+        "text": "  in `node.raws`. Where possible, deprecation warnings were added, but the nature"
+      },
+      {
+        "line": 264,
+        "text": "// passing quoteMark explicitly is required to avoid a deprecation warning."
+      },
+      {
+        "line": 280,
+        "text": "// deprecated assignment, no warning because there's no escapes"
+      },
+      {
+        "line": 285,
+        "text": "// deprecated assignment, "
+      },
+      {
+        "line": 287,
+        "text": "// > (node:27859) DeprecationWarning: Assigning an attribute a value containing characters that might need to be escaped is deprecated. Call attribute.setValue() instead."
+      },
+      {
+        "line": 302,
+        "text": "// preserves quote mark by default"
+      },
+      {
+        "line": 308,
+        "text": "// with no arguments, it preserves quote mark even when it's not a great idea"
+      },
+      {
+        "line": 312,
+        "text": "// smart preservation with a specified default"
+      },
+      {
+        "line": 313,
+        "text": "attr.setValue('a value \\n that should be quoted', {smart: true, preferCurrentQuoteMark: true, quoteMark: \"'\"});"
+      },
+      {
+        "line": 319,
+        "text": "attr.setValue('this should be quoted', {smart: true, preferCurrentQuoteMark: true, quoteMark: \"'\"});"
+      },
+      {
+        "line": 323,
+        "text": "attr.setValue('a \"double quoted\" value', {smart: true, preferCurrentQuoteMark: true, quoteMark: \"'\"});"
+      },
+      {
+        "line": 360,
+        "text": "  no longer uses regular expressions to parse attribute selectors."
+      },
+      {
+        "line": 433,
+        "text": "* Fixes misinterpretation of Sass interpolation (e.g. `#{foo}`) as an"
+      },
+      {
+        "line": 530,
+        "text": "* Adds `next` and `prev` to the node class."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\postcss-value-parser\\README.md",
+    "hits": [
+      {
+        "line": 148,
+        "text": "- **nodes**: More nodes representing the arguments to the function."
+      },
+      {
+        "line": 230,
+        "text": "Returning `false` in the `callback` will prevent traversal of descendent nodes (within functions)."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\prop-types\\README.md",
+    "hits": [
+      {
+        "line": 25,
+        "text": "If you prefer to exclude `prop-types` from your application and use it"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\proxy-from-env\\README.md",
+    "hits": [
+      {
+        "line": 71,
+        "text": "lowercase name having precedence over the uppercase variant. A variable that is"
+      },
+      {
+        "line": 107,
+        "text": "If present, `ALL_PROXY` is used as fallback if there is no other match."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\react-signature-canvas\\README.md",
+    "hits": [
+      {
+        "line": 10,
+        "text": "[![releases](https://img.shields.io/github/tag-pre/agilgur5/react-signature-canvas.svg)](https://github.com/agilgur5/react-signature-canvas/releases)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\readdirp\\README.md",
+    "hits": [
+      {
+        "line": 55,
+        "text": "- `on('warn', (error) => {})` non-fatal `Error` that prevents a file / dir from being processed. Example: inaccessible to the user."
+      },
+      {
+        "line": 102,
+        "text": "- 3.0 brings huge performance improvements and stream backpressure support."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\reusify\\README.md",
+    "hits": [
+      {
+        "line": 48,
+        "text": "// prefer set them to null"
+      },
+      {
+        "line": 122,
+        "text": "pressure on the garbage collector."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\run-parallel\\README.md",
+    "hits": [
+      {
+        "line": 26,
+        "text": "Run the `tasks` array of functions in parallel, without waiting until the previous"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\seedrandom\\README.md",
+    "hits": [
+      {
+        "line": 36,
+        "text": "console.log(Math.random());          // Reasonably unpredictable."
+      },
+      {
+        "line": 40,
+        "text": "console.log(Math.random());          // As unpredictable as added entropy."
+      },
+      {
+        "line": 116,
+        "text": "console.log(rng());                  // Reasonably unpredictable."
+      },
+      {
+        "line": 120,
+        "text": "console.log(rng());                  // As unpredictable as added entropy."
+      },
+      {
+        "line": 177,
+        "text": "document.write(Math.random());       // Pretty much unpredictable x."
+      },
+      {
+        "line": 180,
+        "text": "document.write(rng());               // Repeat the 'unpredictable' x."
+      },
+      {
+        "line": 230,
+        "text": "* Version 2.1 speeds seeding and uses window.crypto to autoseed if present."
+      },
+      {
+        "line": 251,
+        "text": "seed drawn from the browser crypto object if present.  If there is no"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\signature_pad\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "#### Bug Fixes"
+      },
+      {
+        "line": 8,
+        "text": "#### Bug Fixes"
+      },
+      {
+        "line": 12,
+        "text": "#### Bug Fixes"
+      },
+      {
+        "line": 19,
+        "text": "#### Bug Fixes"
+      },
+      {
+        "line": 24,
+        "text": "#### Bug Fixes"
+      },
+      {
+        "line": 45,
+        "text": "### 1.6.0 (deprecated in favor of 2.0.0)"
+      },
+      {
+        "line": 56,
+        "text": "- Prevent loading an empty string in `fromDataURL`. (#108) [Remo](https://github.com/Remo)"
+      },
+      {
+        "line": 60,
+        "text": "- Prevent duplicate events on tap in iOS Safari. [PerfectPixel](https://github.com/PerfectPixel)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\signature_pad\\README.md",
+    "hits": [
+      {
+        "line": 8,
+        "text": "## Demo"
+      },
+      {
+        "line": 9,
+        "text": "[Demo](http://szimek.github.io/signature_pad) works in desktop and mobile browsers. You can check out its [source code](https://github.com/szimek/signature_pad/blob/gh-pages/js/app.js) for some tips on how to handle window resize and high DPI screens. You can also find more about the latter in [HTML5 Rocks tutorial](http://www.html5rocks.com/en/tutorials/canvas/hidpi)."
+      },
+      {
+        "line": 52,
+        "text": "// NOTE: This method does not populate internal data structure that represents drawn signature. Thus, after using #fromDataURL, #toData won't work properly."
+      },
+      {
+        "line": 89,
+        "text": "<dd>(float) Weight used to modify new velocity based on the previous velocity. Defaults to <code>0.7</code>.</dd>"
+      },
+      {
+        "line": 171,
+        "text": "Demo: <https://jsfiddle.net/szimek/d6a78gwq/>"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\source-map-js\\README.md",
+    "hits": [
+      {
+        "line": 70,
+        "text": "    - [SourceNode.prototype.prepend(chunk)](#sourcenodeprototypeprependchunk)"
+      },
+      {
+        "line": 132,
+        "text": "  case 'BinaryExpression':"
+      },
+      {
+        "line": 201,
+        "text": "A SourceMapConsumer instance represents a parsed source map which we can query"
+      },
+      {
+        "line": 452,
+        "text": "An instance of the SourceMapGenerator represents a source map which is being"
+      },
+      {
+        "line": 566,
+        "text": "code. This is useful as the final intermediate representation a compiler might"
+      },
+      {
+        "line": 623,
+        "text": "#### SourceNode.prototype.prepend(chunk)"
+      },
+      {
+        "line": 625,
+        "text": "Prepend a chunk of generated JS to this source node."
+      },
+      {
+        "line": 631,
+        "text": "node.prepend(\"/** Build Id: f783haef86324gf **/\\n\\n\");"
+      },
+      {
+        "line": 727,
+        "text": "Return the string representation of this source node. Walks over the tree and"
+      },
+      {
+        "line": 746,
+        "text": "Returns the string representation of this tree of source nodes, plus a"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\styled-jsx\\license.md",
+    "hits": [
+      {
+        "line": 3,
+        "text": "Copyright (c) 2016-present Vercel, Inc."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\styled-jsx\\readme.md",
+    "hits": [
+      {
+        "line": 14,
+        "text": "  - [`vendorPrefixes`](#vendorprefixes)"
+      },
+      {
+        "line": 32,
+        "text": "- [CSS Preprocessing via Plugins](#css-preprocessing-via-plugins)"
+      },
+      {
+        "line": 109,
+        "text": "#### `vendorPrefixes`"
+      },
+      {
+        "line": 111,
+        "text": "Turn on/off automatic vendor prefixing (default: `true`)"
+      },
+      {
+        "line": 118,
+        "text": "- Built-in CSS vendor prefixing"
+      },
+      {
+        "line": 124,
+        "text": "- CSS Preprocessing via Plugins"
+      },
+      {
+        "line": 211,
+        "text": "      /* \"div\" will be prefixed, but \".react-select\" won't */"
+      },
+      {
+        "line": 223,
+        "text": "To make a component's visual representation customizable from the outside world there are three options."
+      },
+      {
+        "line": 416,
+        "text": "Your CSP policy must share the same nonce as well (the header nonce needs to match the html nonce and remain unpredictable)."
+      },
+      {
+        "line": 484,
+        "text": "If you use Prettier we recommend you to use the default `css` export syntax since the tool doesn't support named imports."
+      },
+      {
+        "line": 715,
+        "text": "## CSS Preprocessing via Plugins"
+      },
+      {
+        "line": 717,
+        "text": "Styles can be preprocessed via plugins."
+      },
+      {
+        "line": 727,
+        "text": "Plugins make it possible to use popular preprocessors like SASS, Less, Stylus, PostCSS or apply custom transformations to the styles at **compile time**."
+      },
+      {
+        "line": 753,
+        "text": "  \"presets\": ["
+      },
+      {
+        "line": 775,
+        "text": "N.B. when applying the plugins styled-jsx replaces template literals expressions with placeholders because otherwise CSS parsers would get invalid CSS E.g."
+      },
+      {
+        "line": 782,
+        "text": "**Plugins won't transform expressions** (eg. dynamic styles)."
+      },
+      {
+        "line": 831,
+        "text": "    vendorPrefixes: boolean,"
+      },
+      {
+        "line": 860,
+        "text": "If you're using a tool such as Enzyme, you might want to avoid compiling your styles in test renders. In general, styled-jsx artifacts like `jsx-123` classnames and vendor prefixing are not direct concerns of your component, and they generate a lot of snapshot noise."
+      },
+      {
+        "line": 936,
+        "text": "      /* \"div\" will be prefixed, but \".nested-element\" won't */"
+      },
+      {
+        "line": 1014,
+        "text": "Launch VS Code Quick Open (⌘+P), paste the following command, and press enter."
+      },
+      {
+        "line": 1028,
+        "text": "Launch VS Code Quick Open (⌘+P), paste the following command, and press enter."
+      },
+      {
+        "line": 1054,
+        "text": "> If you're using babel to transform styled-jsx code with TypeScript, you need to specify `\"jsx\": \"preserve\"` in your tsconfig.json to keep the original JSX and let babel parse and transform with styled-jsx babel plugin."
+      },
+      {
+        "line": 1058,
+        "text": "- **Pedram Emrouznejad** ([rijs](https://github.com/rijs/fullstack)) suggested attribute selectors over my initial class prefixing idea."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\sucrase\\README.md",
+    "hits": [
+      {
+        "line": 6,
+        "text": "[![MIT License](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](LICENSE)"
+      },
+      {
+        "line": 70,
+        "text": "  but may be preserved or transformed to `_jsx()` by setting the `jsxRuntime` option."
+      },
+      {
+        "line": 82,
+        "text": "  with `--esModuleInterop`. If `preserveDynamicImport` is specified in the Sucrase"
+      },
+      {
+        "line": 83,
+        "text": "  options, then dynamic `import` expressions are left alone, which is particularly"
+      },
+      {
+        "line": 84,
+        "text": "  useful in Node to load ESM-only libraries. If `preserveDynamicImport` is not"
+      },
+      {
+        "line": 85,
+        "text": "  specified, `import` expressions are transformed into a promise-wrapped call to"
+      },
+      {
+        "line": 113,
+        "text": "`disableESTransforms: true` so that Sucrase preserves the syntax rather than"
+      },
+      {
+        "line": 125,
+        "text": "* Decorators, private fields, `throw` expressions, generator arrow functions,"
+      },
+      {
+        "line": 126,
+        "text": "  and `do` expressions are all unsupported in browsers and Node (as of this"
+      },
+      {
+        "line": 128,
+        "text": "* Object rest/spread, async functions, and async iterators are all recent"
+      },
+      {
+        "line": 147,
+        "text": "  * `\"preserve\"`: Don't transform JSX, and instead emit it as-is in the output code."
+      },
+      {
+        "line": 272,
+        "text": "2. Scan through the tokens, computing preliminary information like all"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\supports-preserve-symlinks-flag\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 12,
+        "text": "- Tests [`e2f59ad`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/e2f59ad74e2ae0f5f4899fcde6a6f693ab7cc074)"
+      },
+      {
+        "line": 13,
+        "text": "- Initial commit [`dc222aa`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/dc222aad3c0b940d8d3af1ca9937d108bd2dc4b9)"
+      },
+      {
+        "line": 14,
+        "text": "- [meta] do not publish workflow files [`5ef77f7`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/5ef77f7cb6946d16ee38672be9ec0f1bbdf63262)"
+      },
+      {
+        "line": 15,
+        "text": "- npm init [`992b068`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/992b068503a461f7e8676f40ca2aab255fd8d6ff)"
+      },
+      {
+        "line": 16,
+        "text": "- read me [`6c9afa9`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/6c9afa9fabc8eaf0814aaed6dd01e6df0931b76d)"
+      },
+      {
+        "line": 17,
+        "text": "- Initial implementation [`2f98925`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/2f9892546396d4ab0ad9f1ff83e76c3f01234ae8)"
+      },
+      {
+        "line": 18,
+        "text": "- [meta] add `auto-changelog` [`6c476ae`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/6c476ae1ed7ce68b0480344f090ac2844f35509d)"
+      },
+      {
+        "line": 19,
+        "text": "- [Dev Deps] add `eslint`, `@ljharb/eslint-config` [`d0fffc8`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/d0fffc886d25fba119355520750a909d64da0087)"
+      },
+      {
+        "line": 20,
+        "text": "- Only apps should have lockfiles [`ab318ed`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/ab318ed7ae62f6c2c0e80a50398d40912afd8f69)"
+      },
+      {
+        "line": 21,
+        "text": "- [meta] add `safe-publish-latest` [`2bb23b3`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/2bb23b3ebab02dc4135c4cdf0217db82835b9fca)"
+      },
+      {
+        "line": 22,
+        "text": "- [meta] add `sideEffects` flag [`600223b`](https://github.com/inspect-js/node-supports-preserve-symlinks-flag/commit/600223ba24f30779f209d9097721eff35ed62741)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\supports-preserve-symlinks-flag\\README.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# node-supports-preserve-symlinks-flag <sup>[![Version Badge][npm-version-svg]][package-url]</sup>"
+      },
+      {
+        "line": 12,
+        "text": "Determine if the current node version supports the `--preserve-symlinks` flag."
+      },
+      {
+        "line": 17,
+        "text": "var supportsPreserveSymlinks = require('node-supports-preserve-symlinks-flag');"
+      },
+      {
+        "line": 20,
+        "text": "assert.equal(supportsPreserveSymlinks, null); // in a browser"
+      },
+      {
+        "line": 21,
+        "text": "assert.equal(supportsPreserveSymlinks, false); // in node < v6.2"
+      },
+      {
+        "line": 22,
+        "text": "assert.equal(supportsPreserveSymlinks, true); // in node v6.2+"
+      },
+      {
+        "line": 28,
+        "text": "[package-url]: https://npmjs.org/package/node-supports-preserve-symlinks-flag"
+      },
+      {
+        "line": 29,
+        "text": "[npm-version-svg]: https://versionbadg.es/inspect-js/node-supports-preserve-symlinks-flag.svg"
+      },
+      {
+        "line": 30,
+        "text": "[deps-svg]: https://david-dm.org/inspect-js/node-supports-preserve-symlinks-flag.svg"
+      },
+      {
+        "line": 31,
+        "text": "[deps-url]: https://david-dm.org/inspect-js/node-supports-preserve-symlinks-flag"
+      },
+      {
+        "line": 32,
+        "text": "[dev-deps-svg]: https://david-dm.org/inspect-js/node-supports-preserve-symlinks-flag/dev-status.svg"
+      },
+      {
+        "line": 33,
+        "text": "[dev-deps-url]: https://david-dm.org/inspect-js/node-supports-preserve-symlinks-flag#info=devDependencies"
+      },
+      {
+        "line": 34,
+        "text": "[npm-badge-png]: https://nodei.co/npm/node-supports-preserve-symlinks-flag.png?downloads=true&stars=true"
+      },
+      {
+        "line": 35,
+        "text": "[license-image]: https://img.shields.io/npm/l/node-supports-preserve-symlinks-flag.svg"
+      },
+      {
+        "line": 37,
+        "text": "[downloads-image]: https://img.shields.io/npm/dm/node-supports-preserve-symlinks-flag.svg"
+      },
+      {
+        "line": 38,
+        "text": "[downloads-url]: https://npm-stat.com/charts.html?package=node-supports-preserve-symlinks-flag"
+      },
+      {
+        "line": 39,
+        "text": "[codecov-image]: https://codecov.io/gh/inspect-js/node-supports-preserve-symlinks-flag/branch/main/graphs/badge.svg"
+      },
+      {
+        "line": 40,
+        "text": "[codecov-url]: https://app.codecov.io/gh/inspect-js/node-supports-preserve-symlinks-flag/"
+      },
+      {
+        "line": 41,
+        "text": "[actions-image]: https://img.shields.io/endpoint?url=https://github-actions-badge-u3jn4tfpocch.runkit.sh/inspect-js/node-supports-preserve-symlinks-flag"
+      },
+      {
+        "line": 42,
+        "text": "[actions-url]: https://github.com/inspect-js/node-supports-preserve-symlinks-flag/actions"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\tailwindcss\\README.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "      <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://raw.githubusercontent.com/tailwindlabs/tailwindcss/HEAD/.github/logo-dark.svg\">"
+      },
+      {
+        "line": 5,
+        "text": "      <source media=\"(prefers-color-scheme: light)\" srcset=\"https://raw.githubusercontent.com/tailwindlabs/tailwindcss/HEAD/.github/logo-light.svg\">"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\thenify\\README.md",
+    "hits": [
+      {
+        "line": 13,
+        "text": "- Preserves function names"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\tinyglobby\\README.md",
+    "hits": [
+      {
+        "line": 8,
+        "text": "Both globby and fast-glob present some behavior no other globbing lib has,"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\to-regex-range\\README.md",
+    "hits": [
+      {
+        "line": 42,
+        "text": "Creating regular expressions for matching numbers gets deceptively complicated pretty fast."
+      },
+      {
+        "line": 58,
+        "text": "If you're interested in learning more about [character classes](http://www.regular-expressions.info/charclass.html) and other regex features, I personally have always found [regular-expressions.info](http://www.regular-expressions.info/charclass.html) to be pretty useful."
+      },
+      {
+        "line": 68,
+        "text": "Generated regular expressions are optimized:"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\ts-interface-checker\\README.md",
+    "hits": [
+      {
+        "line": 127,
+        "text": "it this prevents backward compatibility: if you add new properties to an interface, then older"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\typescript\\LICENSE.txt",
+    "hits": [
+      {
+        "line": 19,
+        "text": "\"Source\" form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files."
+      },
+      {
+        "line": 25,
+        "text": "\"Derivative Works\" shall mean any work, whether in Source or Object form, that is based on (or derived from) the Work and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship. For the purposes of this License, Derivative Works shall not include works that remain separable from, or merely link (or bind by name) to the interfaces of, the Work and Derivative Works thereof."
+      },
+      {
+        "line": 27,
+        "text": "\"Contribution\" shall mean any work of authorship, including the original version of the Work and any modifications or additions to that Work or Derivative Works thereof, that is intentionally submitted to Licensor for inclusion in the Work by the copyright owner or by an individual or Legal Entity authorized to submit on behalf of the copyright owner. For the purposes of this definition, \"submitted\" means any form of electronic, verbal, or written communication sent to the Licensor or its representatives, including but not limited to communication on electronic mailing lists, source code control systems, and issue tracking systems that are managed by, or on behalf of, the Licensor for the purpose of discussing and improving the Work, but excluding communication that is conspicuously marked or otherwise designated in writing by the copyright owner as \"Not a Contribution.\""
+      },
+      {
+        "line": 31,
+        "text": "2. Grant of Copyright License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form."
+      },
+      {
+        "line": 49,
+        "text": "7. Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\typescript\\SECURITY.md",
+    "hits": [
+      {
+        "line": 15,
+        "text": "If you prefer to submit without logging in, send email to [secure@microsoft.com](mailto:secure@microsoft.com).  If possible, encrypt your message with our PGP key; please download it from the [Microsoft Security Response Center PGP Key page](https://aka.ms/security.md/msrc/pgp)."
+      },
+      {
+        "line": 31,
+        "text": "If you are reporting for a bug bounty, more complete reports can contribute to a higher bounty award. Please visit our [Microsoft Bug Bounty Program](https://aka.ms/security.md/msrc/bounty) page for more details about our active programs."
+      },
+      {
+        "line": 33,
+        "text": "## Preferred Languages"
+      },
+      {
+        "line": 35,
+        "text": "We prefer all communications to be in English."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\typescript\\ThirdPartyNoticeText.txt",
+    "hits": [
+      {
+        "line": 3,
+        "text": "The TypeScript software incorporates third party material from the projects listed below. The original copyright notice and the license under which Microsoft received such third party material are set forth below. Microsoft reserves all other rights not expressly granted, whether by implication, estoppel or otherwise."
+      },
+      {
+        "line": 10,
+        "text": "This file is based on or incorporates material from the projects listed below (collectively \"Third Party Code\"). Microsoft is not the original author of the Third Party Code. The original copyright notice and the license, under which Microsoft received such Third Party Code, are set forth below. Such licenses and notices are provided for informational purposes only. Microsoft, not the third party, licenses the Third Party Code to you under the terms set forth in the EULA for the Microsoft Product. Microsoft reserves all other rights not expressly granted under this agreement, whether by implication, estoppel or otherwise."
+      },
+      {
+        "line": 91,
+        "text": "* Any pre-existing intellectual property disclaimers, notices, or terms and conditions. If none exist, the W3C Software and Document Short Notice should be included."
+      },
+      {
+        "line": 109,
+        "text": "Creative Commons Attribution 4.0 International Public License By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution 4.0 International Public License (\"Public License\"). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions. Section 1 -- Definitions. a. Adapted Material means material subject to Copyright and Similar Rights that is derived from or based upon the Licensed Material and in which the Licensed Material is translated, altered, arranged, transformed, or otherwise modified in a manner requiring permission under the Copyright and Similar Rights held by the Licensor. For purposes of this Public License, where the Licensed Material is a musical work, performance, or sound recording, Adapted Material is always produced where the Licensed Material is synched in timed relation with a moving image. b. Adapter's License means the license You apply to Your Copyright and Similar Rights in Your contributions to Adapted Material in accordance with the terms and conditions of this Public License. c. Copyright and Similar Rights means copyright and/or similar rights closely related to copyright including, without limitation, performance, broadcast, sound recording, and Sui Generis Database Rights, without regard to how the rights are labeled or categorized. For purposes of this Public License, the rights specified in Section 2(b)(1)-(2) are not Copyright and Similar Rights. d. Effective Technological Measures means those measures that, in the absence of proper authority, may not be circumvented under laws fulfilling obligations under Article 11 of the WIPO Copyright Treaty adopted on December 20, 1996, and/or similar international agreements. e. Exceptions and Limitations means fair use, fair dealing, and/or any other exception or limitation to Copyright and Similar Rights that applies to Your use of the Licensed Material. f. Licensed Material means the artistic or literary work, database, or other material to which the Licensor applied this Public License. g. Licensed Rights means the rights granted to You subject to the terms and conditions of this Public License, which are limited to all Copyright and Similar Rights that apply to Your use of the Licensed Material and that the Licensor has authority to license. h. Licensor means the individual(s) or entity(ies) granting rights under this Public License. i. Share means to provide material to the public by any means or process that requires permission under the Licensed Rights, such as reproduction, public display, public performance, distribution, dissemination, communication, or importation, and to make material available to the public including in ways that members of the public may access the material from a place and at a time individually chosen by them. j. Sui Generis Database Rights means rights other than copyright resulting from Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, as amended and/or succeeded, as well as other essentially equivalent rights anywhere in the world. k. You means the individual or entity exercising the Licensed Rights under this Public License. Your has a corresponding meaning. Section 2 -- Scope. a. License grant. 1. Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to: a. reproduce and Share the Licensed Material, in whole or in part; and b. produce, reproduce, and Share Adapted Material. 2. Exceptions and Limitations. For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions. 3. Term. The term of this Public License is specified in Section 6(a). 4. Media and formats; technical modifications allowed. The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a) (4) never produces Adapted Material. 5. Downstream recipients. a. Offer from the Licensor -- Licensed Material. Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License. b. No downstream restrictions. You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material. 6. No endorsement. Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i). b. Other rights. 1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise. 2. Patent and trademark rights are not licensed under this Public License. 3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties. Section 3 -- License Conditions. Your exercise of the Licensed Rights is expressly made subject to the following conditions. a. Attribution. 1. If You Share the Licensed Material (including in modified form), You must: a. retain the following if it is supplied by the Licensor with the Licensed Material: i. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated); ii. a copyright notice; iii. a notice that refers to this Public License; iv. a notice that refers to the disclaimer of warranties; v. a URI or hyperlink to the Licensed Material to the extent reasonably practicable; b. indicate if You modified the Licensed Material and retain an indication of any previous modifications; and c. indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License. 2. You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information. 3. If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable. 4. If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License. Section 4 -- Sui Generis Database Rights. Where the Licensed Rights include Sui Generis Database Rights that apply to Your use of the Licensed Material: a. for the avoidance of doubt, Section 2(a)(1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database; b. if You include all or a substantial portion of the database contents in a database in which You have Sui Generis Database Rights, then the database in which You have Sui Generis Database Rights (but not its individual contents) is Adapted Material; and c. You must comply with the conditions in Section 3(a) if You Share all or a substantial portion of the contents of the database. For the avoidance of doubt, this Section 4 supplements and does not replace Your obligations under this Public License where the Licensed Rights include other Copyright and Similar Rights. Section 5 -- Disclaimer of Warranties and Limitation of Liability. a. UNLESS OTHERWISE SEPARATELY UNDERTAKEN BY THE LICENSOR, TO THE EXTENT POSSIBLE, THE LICENSOR OFFERS THE LICENSED MATERIAL AS-IS AND AS-AVAILABLE, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE LICENSED MATERIAL, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHER. THIS INCLUDES, WITHOUT LIMITATION, WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT KNOWN OR DISCOVERABLE. WHERE DISCLAIMERS OF WARRANTIES ARE NOT ALLOWED IN FULL OR IN PART, THIS DISCLAIMER MAY NOT APPLY TO YOU. b. TO THE EXTENT POSSIBLE, IN NO EVENT WILL THE LICENSOR BE LIABLE TO YOU ON ANY LEGAL THEORY (INCLUDING, WITHOUT LIMITATION, NEGLIGENCE) OR OTHERWISE FOR ANY DIRECT, SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, PUNITIVE, EXEMPLARY, OR OTHER LOSSES, COSTS, EXPENSES, OR DAMAGES ARISING OUT OF THIS PUBLIC LICENSE OR USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR IN PART, THIS LIMITATION MAY NOT APPLY TO YOU. c. The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability. Section 6 -- Term and Termination. a. This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically. b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates: 1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or 2. upon express reinstatement by the Licensor. For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License. c. For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License. d. Sections 1, 5, 6, 7, and 8 survive termination of this Public License. Section 7 -- Other Terms and Conditions. a. The Licensor shall not be bound by any additional or different terms or conditions communicated by You unless expressly agreed. b. Any arrangements, understandings, or agreements regarding the Licensed Material not stated herein are separate from and independent of the terms and conditions of this Public License. Section 8 -- Interpretation. a. For the avoidance of doubt, this Public License does not, and shall not be interpreted to, reduce, limit, restrict, or impose conditions on any use of the Licensed Material that could lawfully be made without permission under this Public License. b. To the extent possible, if any provision of this Public License is deemed unenforceable, it shall be automatically reformed to the minimum extent necessary to make it enforceable. If the provision cannot be reformed, it shall be severed from this Public License without affecting the enforceability of the remaining terms and conditions. c. No term or condition of this Public License will be waived and no failure to comply consented to unless expressly agreed to by the Licensor. d. Nothing in this Public License constitutes or may be interpreted as a limitation upon, or waiver of, any privileges and immunities that apply to the Licensor or You, including from the legal processes of any jurisdiction or authority. ======================================================================= Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the \"Licensor.\" Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at creativecommons.org/policies, Creative Commons does not authorize the use of the trademark \"Creative Commons\" or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses. Creative Commons may be contacted at creativecommons.org."
+      },
+      {
+        "line": 125,
+        "text": "2.1. Copyright Grant. I grant to you a perpetual (for the duration of the applicable copyright), worldwide, non-exclusive, no-charge, royalty-free, copyright license, without any obligation for accounting to me, to reproduce, prepare derivative works of, publicly display, publicly perform, sublicense, distribute, and implement the Specification to the full extent of my copyright interest in the Specification. "
+      },
+      {
+        "line": 130,
+        "text": "4. No Other Rights. Except as specifically set forth in this Agreement, no other express or implied patent, trademark, copyright, or other property rights are granted under this Agreement, including by implication, waiver, or estoppel."
+      },
+      {
+        "line": 139,
+        "text": "9. Representations, Warranties and Disclaimers. I represent and warrant that I am legally entitled to grant the rights and promises set forth in this Agreement. IN ALL OTHER RESPECTS THE SPECIFICATION IS PROVIDED “AS IS.” The entire risk as to implementing or otherwise using the Specification is assumed by the implementer and user. Except as stated herein, I expressly disclaim any warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to the Specification. IN NO EVENT WILL ANY PARTY BE LIABLE TO ANY OTHER PARTY FOR LOST PROFITS OR ANY FORM OF INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER FROM ANY CAUSES OF ACTION OF ANY KIND WITH RESPECT TO THIS AGREEMENT, WHETHER BASED ON BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, AND WHETHER OR NOT THE OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. All of my obligations under Section 3 regarding the transfer, successors in interest, or assignment of Granted Claims will be satisfied if I notify the transferee or assignee of any patent that I know contains Granted Claims of the obligations under Section 3. Nothing in this Agreement requires me to undertake a patent search."
+      },
+      {
+        "line": 143,
+        "text": "10.3. Essential Claims. “Essential Claims” shall mean all claims in any patent or patent application in any jurisdiction in the world that would necessarily be infringed by implementation of the Specification. A claim is necessarily infringed hereunder only when it is not possible to avoid infringing it because there is no non-infringing alternative for implementing the normative portions of the Specification. Existence of a non-infringing alternative shall be judged based on the state of the art at the time of the publication of the Specification. The following are expressly excluded from and shall not be deemed to constitute Essential Claims: "
+      },
+      {
+        "line": 147,
+        "text": "enabling technologies that may be necessary to make or use any product or portion thereof that complies with the Specification and are not themselves expressly set forth in the Specification (e.g., semiconductor manufacturing technology, compiler technology, object-oriented technology, basic operating system technology, and the like); or"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\util-deprecate\\History.md",
+    "hits": [
+      {
+        "line": 10,
+        "text": "  * browser: use `console.warn()` for deprecation calls"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\util-deprecate\\README.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "util-deprecate"
+      },
+      {
+        "line": 3,
+        "text": "### The Node.js `util.deprecate()` function with browser support"
+      },
+      {
+        "line": 5,
+        "text": "In Node.js, this module simply re-exports the `util.deprecate()` function."
+      },
+      {
+        "line": 8,
+        "text": "of the `util.deprecate()` function is used."
+      },
+      {
+        "line": 13,
+        "text": "A `deprecate()` function is the only thing exposed by this module."
+      },
+      {
+        "line": 17,
+        "text": "exports.foo = deprecate(foo, 'foo() is deprecated, use bar() instead');"
+      },
+      {
+        "line": 22,
+        "text": "// foo() is deprecated, use bar() instead"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\watchpack\\README.md",
+    "hits": [
+      {
+        "line": 38,
+        "text": "\t// poll defaults to undefined, which prefer native watching methods"
+      },
+      {
+        "line": 51,
+        "text": "\t// ignored: /regexp/ - a regular expression for files or folders that should not be watched"
+      },
+      {
+        "line": 130,
+        "text": "// (deprecated)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\tinyglobby\\node_modules\\fdir\\README.md",
+    "hits": [
+      {
+        "line": 19,
+        "text": "💡 **Stupidly Easy:** `fdir` uses expressive Builder pattern to build the crawler increasing code readability."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\tinyglobby\\node_modules\\picomatch\\README.md",
+    "hits": [
+      {
+        "line": 23,
+        "text": "<em>No dependencies and full support for standard and extended Bash glob features, including braces, extglobs, POSIX brackets, and regular expressions.</em>"
+      },
+      {
+        "line": 209,
+        "text": "Parse a glob pattern to create the source string for a regular expression."
+      },
+      {
+        "line": 242,
+        "text": "{ prefix: '!./',"
+      },
+      {
+        "line": 257,
+        "text": "Compile a regular expression from the `state` object returned by the"
+      },
+      {
+        "line": 270,
+        "text": "Create a regular expression from a parsed glob pattern."
+      },
+      {
+        "line": 276,
+        "text": "* `returnOutput` **{Boolean}**: Implementors may use this argument to return the compiled output, instead of a regular expression. This is not exposed on the options to prevent end-users from mutating the result."
+      },
+      {
+        "line": 277,
+        "text": "* `returnState` **{Boolean}**: Implementors may use this argument to return the state from the parsed glob with the returned regular expression."
+      },
+      {
+        "line": 293,
+        "text": "Create a regular expression from the given regex source string."
+      },
+      {
+        "line": 297,
+        "text": "* `source` **{String}**: Regular expression source string."
+      },
+      {
+        "line": 327,
+        "text": "| `debug`               | `boolean`      | `undefined` | Debug regular expressions when an error is thrown. |"
+      },
+      {
+        "line": 342,
+        "text": "| `nodupes`             | `boolean`      | `true`      | Deprecated, use `nounique` instead. This option will be removed in a future major release. By default duplicates are removed. Disable uniquification by setting this option to false. |"
+      },
+      {
+        "line": 353,
+        "text": "| `prepend`             | `boolean`      | `undefined` | String to prepend to the generated regex used for matching. |"
+      },
+      {
+        "line": 354,
+        "text": "| `regex`               | `boolean`      | `false`     | Use regular expression rules for `+` (instead of matching literal `+`), and for stars that follow closing parentheses or brackets (as in `)*` and `]*`). |"
+      },
+      {
+        "line": 357,
+        "text": "| `unescape`            | `boolean`      | `undefined` | Remove backslashes preceding escaped characters in the glob pattern. By default, backslashes are retained. |"
+      },
+      {
+        "line": 367,
+        "text": "| `tokens` | `boolean` | `false` | When `true`, the returned object will include an array of tokens (objects), representing each path \"segment\" in the scanned glob pattern |"
+      },
+      {
+        "line": 368,
+        "text": "| `parts` | `boolean` | `false` | When `true`, the returned object will include an array of strings representing each path \"segment\" in the scanned glob pattern. This is automatically enabled when `options.tokens` is true |"
+      },
+      {
+        "line": 377,
+        "text": "//   prefix: '!./',"
+      },
+      {
+        "line": 390,
+        "text": "//     { value: '!./', depth: 0, isGlob: false, negated: true, isPrefix: true },"
+      },
+      {
+        "line": 512,
+        "text": "* Bash greedily matches with negated extglobs. For example, Bash 4.3 says that `!(foo)*` should match `foo` and `foobar`, since the trailing `*` bracktracks to match the preceding pattern. This is very memory-inefficient, and IMHO, also incorrect. Picomatch would return `false` for both `foo` and `foobar`."
+      },
+      {
+        "line": 567,
+        "text": "The following named POSIX bracket expressions are supported:"
+      },
+      {
+        "line": 596,
+        "text": "Some characters that are used for matching in regular expressions are also regarded as valid file path characters on some platforms."
+      },
+      {
+        "line": 622,
+        "text": "| Regular expression syntax | - | ✔ | ✔ | ✔ | ✔ | - | ✔ |"
+      },
+      {
+        "line": 737,
+        "text": "Copyright © 2017-present, [Jon Schlinkert](https://github.com/jonschlinkert)."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\tailwindcss\\src\\postcss-plugins\\nesting\\README.md",
+    "hits": [
+      {
+        "line": 14,
+        "text": "    require('autoprefixer'),"
+      },
+      {
+        "line": 36,
+        "text": "    require('autoprefixer'),"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\tailwindcss\\lib\\postcss-plugins\\nesting\\README.md",
+    "hits": [
+      {
+        "line": 14,
+        "text": "    require('autoprefixer'),"
+      },
+      {
+        "line": 36,
+        "text": "    require('autoprefixer'),"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\seedrandom\\test\\out\\dieharder-report.txt",
+    "hits": [
+      {
+        "line": 118,
+        "text": "Preparing to run test 207.  ntuple = 0"
+      },
+      {
+        "line": 121,
+        "text": "Preparing to run test 208.  ntuple = 0"
+      },
+      {
+        "line": 124,
+        "text": "Preparing to run test 209.  ntuple = 0"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\resolve\\.github\\INCIDENT_RESPONSE_PROCESS.md",
+    "hits": [
+      {
+        "line": 26,
+        "text": "- Confirm the issue is not present in test files (in other words, only via the official entry points in `exports`)"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\resolve\\.github\\THREAT_MODEL.md",
+    "hits": [
+      {
+        "line": 31,
+        "text": "- **Confidentiality of configuration:** Prevent sensitive path information from being leaked."
+      },
+      {
+        "line": 32,
+        "text": "- **Availability/performance for host application:** Prevent crashes or resource exhaustion."
+      },
+      {
+        "line": 33,
+        "text": "- **Security of host application:** Prevent path traversal or unintended filesystem access."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\next\\node_modules\\postcss\\README.md",
+    "hits": [
+      {
+        "line": 12,
+        "text": "and JetBrains. The [Autoprefixer] and [Stylelint] PostCSS plugins is one of the most popular CSS tools."
+      },
+      {
+        "line": 22,
+        "text": "[Autoprefixer]:         https://github.com/postcss/autoprefixer"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\next\\dist\\compiled\\regenerator-runtime\\README.md",
+    "hits": [
+      {
+        "line": 28,
+        "text": "following expression:"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\fast-glob\\node_modules\\glob-parent\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 11,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 55,
+        "text": "* pre-process braces/brackets sections ([9ef8a87](https://github.com/gulpjs/glob-parent/commit/9ef8a87f66b1a43d0591e7a8e4fc5a18415ee388))"
+      },
+      {
+        "line": 56,
+        "text": "* preserve escaped brace/bracket at end of string ([8cfb0ba](https://github.com/gulpjs/glob-parent/commit/8cfb0ba84202d51571340dcbaf61b79d16a26c76))"
+      },
+      {
+        "line": 59,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 71,
+        "text": "### Bug Fixes"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\fast-glob\\node_modules\\glob-parent\\README.md",
+    "hits": [
+      {
+        "line": 82,
+        "text": "pre-process your input with [expand-braces] and/or [expand-brackets]."
+      },
+      {
+        "line": 101,
+        "text": "relative to `cwd`), prefix with `./` to avoid confusing glob-parent."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\chokidar\\node_modules\\glob-parent\\CHANGELOG.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 11,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 55,
+        "text": "* pre-process braces/brackets sections ([9ef8a87](https://github.com/gulpjs/glob-parent/commit/9ef8a87f66b1a43d0591e7a8e4fc5a18415ee388))"
+      },
+      {
+        "line": 56,
+        "text": "* preserve escaped brace/bracket at end of string ([8cfb0ba](https://github.com/gulpjs/glob-parent/commit/8cfb0ba84202d51571340dcbaf61b79d16a26c76))"
+      },
+      {
+        "line": 59,
+        "text": "### Bug Fixes"
+      },
+      {
+        "line": 71,
+        "text": "### Bug Fixes"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\chokidar\\node_modules\\glob-parent\\README.md",
+    "hits": [
+      {
+        "line": 82,
+        "text": "pre-process your input with [expand-braces] and/or [expand-brackets]."
+      },
+      {
+        "line": 101,
+        "text": "relative to `cwd`), prefix with `./` to avoid confusing glob-parent."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@swc\\helpers\\node_modules\\tslib\\SECURITY.md",
+    "hits": [
+      {
+        "line": 15,
+        "text": "If you prefer to submit without logging in, send email to [secure@microsoft.com](mailto:secure@microsoft.com).  If possible, encrypt your message with our PGP key; please download it from the [Microsoft Security Response Center PGP Key page](https://aka.ms/opensource/security/pgpkey)."
+      },
+      {
+        "line": 31,
+        "text": "If you are reporting for a bug bounty, more complete reports can contribute to a higher bounty award. Please visit our [Microsoft Bug Bounty Program](https://aka.ms/opensource/security/bounty) page for more details about our active programs."
+      },
+      {
+        "line": 33,
+        "text": "## Preferred Languages"
+      },
+      {
+        "line": 35,
+        "text": "We prefer all communications to be in English."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@nodelib\\fs.scandir\\README.md",
+    "hits": [
+      {
+        "line": 64,
+        "text": "> :book: When you pass a plain object, an instance of the `Settings` class will be created automatically. If you plan to call the method frequently, use a pre-created instance of the `Settings` class."
+      },
+      {
+        "line": 161,
+        "text": "In the modern mode, reading the directory (`fs.readdir` with the `withFileTypes` option) is combined with obtaining information about its entries. An additional call for symbolic links (`fs.stat`) is still present."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@nodelib\\fs.stat\\README.md",
+    "hits": [
+      {
+        "line": 63,
+        "text": "> :book: When you pass a plain object, an instance of the `Settings` class will be created automatically. If you plan to call the method frequently, use a pre-created instance of the `Settings` class."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@nodelib\\fs.walk\\README.md",
+    "hits": [
+      {
+        "line": 75,
+        "text": "> :book: When you pass a plain object, an instance of the `Settings` class will be created automatically. If you plan to call the method frequently, use a pre-created instance of the `Settings` class."
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@jridgewell\\gen-mapping\\README.md",
+    "hits": [
+      {
+        "line": 171,
+        "text": "preact.js.map"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@jridgewell\\sourcemap-codec\\README.md",
+    "hits": [
+      {
+        "line": 145,
+        "text": "preact.js.map - 1992 segments"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@jridgewell\\trace-mapping\\README.md",
+    "hits": [
+      {
+        "line": 222,
+        "text": "preact.js.map - 1992 segments"
+      }
+    ]
+  },
+  {
+    "file": "frontend\\node_modules\\@alloc\\quick-lru\\readme.md",
+    "hits": [
+      {
+        "line": 105,
+        "text": "Update the `maxSize`, discarding items as necessary. Insertion order is mostly preserved, though this is not a strong guarantee."
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\课后作业统计.md",
+    "hits": [
+      {
+        "line": 6,
+        "text": "# 第二次作业"
+      },
+      {
+        "line": 7,
+        "text": "1. 5W2H"
+      },
+      {
+        "line": 16,
+        "text": "# 第三次作业"
+      },
+      {
+        "line": 18,
+        "text": "\t1. **Lecture 02b (第 9-10 页)**：这是“收集需求（Collect Requirements）”过程的关键输出 。它是一个网格/表格，用于将需求与业务/项目目标联系起来，在整个项目生命周期中跟踪需求，并管理变更 。它可以将高层需求映射到具体的系统子系统、层级或测试策略上 。"
+      },
+      {
+        "line": 19,
+        "text": "2. WBS任选两种结构"
+      },
+      {
+        "line": 20,
+        "text": "\t1. **Lecture 02b (第 19-20 页)**：WBS（工作分解结构）可以有不同的表现形式。课件中提到了两种主要的格式：图形树格式（Graphical Tree format）和轮廓/文本列表格式（Outline format，带有小数编号的系统） "
+      },
+      {
+        "line": 21,
+        "text": "    2. **基于产品 (Product WBS)**：以实体为导向（Entity-oriented），例如按前端页面、后端接口、数据库等物理模块来划分 。"
+      },
+      {
+        "line": 22,
+        "text": "    3. **基于过程/阶段 (Process WBS)**：以活动为导向（Activity-oriented），按项目生命周期阶段来划分，例如需求分析、设计、开发、测试等 。"
+      },
+      {
+        "line": 24,
+        "text": "\t1. **Lecture 02b (第 30-31 页)**：WBS 词典用于详细描述 WBS 中包含的元素（即工作包）的详细内容 。简单的词典描述了该元素**包含什么**，以及**不包含什么** 。复杂的还可以包括负责组织、质量要求、时间表等 。"
+      },
+      {
+        "line": 26,
+        "text": "# 第四次作业"
+      },
+      {
+        "line": 31,
+        "text": "- **情景脚本数量 (Number of scenario scripts)**：情景脚本是关于用户与应用程序交互的详细步骤序列 。情景脚本的数量与应用程序的规模以及测试用例的数量直接相关。"
+      },
+      {
+        "line": 45,
+        "text": "- **比例关系**：用例的数量与应用程序的代码行数 (LOC) 规模成正比 ，同时也与将要设计的测试用例数量成正比 。"
+      },
+      {
+        "line": 70,
+        "text": "# 第五次作业"
+      },
+      {
+        "line": 71,
+        "text": "领歌"
+      },
+      {
+        "line": 73,
+        "text": "# 第六次作业"
+      },
+      {
+        "line": 104,
+        "text": "# 第七次作业"
+      },
+      {
+        "line": 129,
+        "text": "# 第八次作业"
+      },
+      {
+        "line": 144,
+        "text": "\t\t- 需求一致性、设计正确性、实现规范性、可测试性、文档完整性。"
+      },
+      {
+        "line": 153,
+        "text": "# 第九次作业"
+      },
+      {
+        "line": 157,
+        "text": "\t- **审查重点**：如果选择三级，需要能够展示团队在过程定义、执行与持续改进（continuous improvement）方面的真实材料，而不是只写结论。"
+      },
+      {
+        "line": 165,
+        "text": "\t1. SCM 实践需要严格按照既定流程执行，并建议使用表格清晰列出每一个配置项。"
+      },
+      {
+        "line": 166,
+        "text": "\t- **配置项说明**：对每个配置项，都需要简要描述其对应的 test plan、test procedure 与 test cases 等内容，保证配置管理与测试活动是关联的。"
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\behavior-addiction.md",
+    "hits": [
+      {
+        "line": 20,
+        "text": "  - IAT 的**条目版权与官方授权**在不同数据库/再发布渠道中可能不同，若要前端公开展示条目，建议确认授权或改用开放许可量表。"
+      },
+      {
+        "line": 47,
+        "text": "  - 阈值与样本（青少年/成人、文化）强相关；不少国家本土化后阈值会变化，产品里最好把阈值当“可配置”。"
+      },
+      {
+        "line": 96,
+        "text": "  - 近年研究提示传统 cut-off 在一般人群可能**假阳性偏高**；研究/产品场景建议把阈值与解释语作为可配置并提示“仅筛查”。"
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\csq.md",
+    "hits": [
+      {
+        "line": 29,
+        "text": "- Xie YN. Preliminary study to the reliability and validity of the Simple Coping Style Scale. *Chinese Journal of Clinical Psychology*. 1998;6:114–115."
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\eat_26.md",
+    "hits": [
+      {
+        "line": 16,
+        "text": "- **暴食与食物关注（Bulimia and Food Preoccupation）**"
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\gds.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# GDS（Geriatric Depression Scale）研究卡片"
+      },
+      {
+        "line": 8,
+        "text": "- **全称**：Geriatric Depression Scale（老年抑郁量表）"
+      },
+      {
+        "line": 32,
+        "text": "- Yesavage JA, Brink TL, Rose TL, et al. Development and validation of a geriatric depression screening scale: A preliminary report. *Journal of Psychiatric Research*. 1982–1983."
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\index.md",
+    "hits": [
+      {
+        "line": 21,
+        "text": "- `gds.md`：GDS（Geriatric Depression Scale）"
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\mbi_gs.md",
+    "hits": [
+      {
+        "line": 31,
+        "text": "- Schaufeli W, Leiter M, Maslach C, Jackson S. Maslach Burnout Inventory–General Survey. In: Maslach C, Jackson SE, Leiter MP (Eds.). *The Maslach Burnout Inventory Test Manual.* Consulting Psychologists Press; 1996."
+      }
+    ]
+  },
+  {
+    "file": "docs\\research-cards\\pass.md",
+    "hits": [
+      {
+        "line": 29,
+        "text": "- Solomon LJ, Rothblum ED. Procrastination Assessment Scale—Students (PASS). In: Fischer J, Corcoran K (Eds.). *Measures for Clinical Practice*. The Free Press; 1984:446–452."
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class7&8\\EVA计算表.md",
+    "hits": [
+      {
+        "line": 2,
+        "text": "> 更新时间：2026-04-12（补充 SV、TCPI，与汇报 7.4 页一致）  "
+      },
+      {
+        "line": 4,
+        "text": "# 第七次作业附件：EVA 计算表（与汇报网页一致）"
+      },
+      {
+        "line": 10,
+        "text": "| 团队规模 | 5 人（PM、前端、后端、AI/算法、测试） |"
+      },
+      {
+        "line": 15,
+        "text": "## 2. 分解口径（WBS A · 面向交付）"
+      },
+      {
+        "line": 19,
+        "text": "**AC** = **任务集人力分摊** + **分项费用** + **各 WBS 均摊**（运营 300 + 工具授权均摊）。"
+      },
+      {
+        "line": 25,
+        "text": "### 2.2 各 WBS 均摊（每条均有）"
+      },
+      {
+        "line": 33,
+        "text": "### 2.3 分项加总（按 WBS）"
+      },
+      {
+        "line": 35,
+        "text": "| WBS | 人力基线 | 分项加项 | 模型调用（20 周×1,000） | AC 合计 |"
+      },
+      {
+        "line": 39,
+        "text": "| 1.3 | 63,000 | AI 全栈构建 10,000 + 测试 AI 用量 1,000 + 量表一次性授权 8,300 + 均摊 1,700 | 20,000 | **104,000** |"
+      },
+      {
+        "line": 46,
+        "text": "## 3. 分 WBS 挣值（元）"
+      },
+      {
+        "line": 48,
+        "text": "| WBS | 权重 | PV | 完成率 | EV | AC |"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class7&8\\FTR评审报告.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# 第八次作业附件：FTR 评审报告"
+      },
+      {
+        "line": 23,
+        "text": "1. **智能倾诉与危机守护**：`POST /api/chat`、危机关键词检测、热线卡片展示、`EmergencyHelpButton` 全局入口"
+      },
+      {
+        "line": 25,
+        "text": "3. **绘画投射分析**：`POST /api/canvas/analyze`、`DrawingCanvas` 组件、AI 解读展示"
+      },
+      {
+        "line": 47,
+        "text": "| 主持人（测试负责人）     | 王议茉     | 会议节奏控制、问题记录确认      | 门禁通过情况、手工冒烟覆盖率                   |"
+      },
+      {
+        "line": 48,
+        "text": "| 记录人（产品负责人）     | 黄俞菲     | 问题归档、整改追踪          | 文档口径一致性、用户故事验收条件覆盖               |"
+      },
+      {
+        "line": 50,
+        "text": "| 评审人（后端负责人）     | 吴嘉伟     | 技术判定               | API 契约、数据模型、异常处理                 |"
+      },
+      {
+        "line": 52,
+        "text": "| 作者代表（PM）       | 游翔宇     | 介绍评审对象、回应问题、确认整改计划 | 需求范围、里程碑、整改优先级                   |"
+      },
+      {
+        "line": 53,
+        "text": "| 作者成员（前端负责人）    | 邢天舒     | 回答前端实现细节并承接整改项     | UI 交互、移动端适配、隐私文案呈现               |"
+      },
+      {
+        "line": 54,
+        "text": "| 作者成员（后端负责人）    | 赵彦青     | 回答后端实现细节并承接整改项     | API 契约、数据模型、异常处理与导出逻辑            |"
+      },
+      {
+        "line": 55,
+        "text": "| 作者成员（AI 工程负责人） | 吴宇桐     | 回答 AI 相关实现并承接整改项   | 提示词工程、量表推荐准确性、降级策略               |"
+      },
+      {
+        "line": 56,
+        "text": "| 作者成员（视觉工程负责人）  | 郭锦伟     | 视觉工程的可用性与兼容性       | 面部情绪识别，ai画板识别                    |"
+      },
+      {
+        "line": 63,
+        "text": "评审会议前 24 小时，以下材料已分发给全体参会人员："
+      },
+      {
+        "line": 86,
+        "text": "| CK-03 | 全局紧急求助入口可用 | 验证 `EmergencyHelpButton` 在所有页面可见且点击展示热线         | 通过  | `/api/safety/hotlines` 返回热线数据正常            |"
+      },
+      {
+        "line": 87,
+        "text": "| CK-04 | 会话历史恢复与反馈  | 登录后验证 `GET /api/conversations` 返回历史，👍/👎 反馈可提交 | 通过  | 反馈写入 `MessageFeedback` 表正常                 |"
+      },
+      {
+        "line": 95,
+        "text": "| CK-05 | 量表库浏览与分类展示   | 验证 `/scales` 分类展示，量表数据完整                                                                         | 通过    | 量表数据由 `seed.py` 导入，JSON 源完整                                                             |"
+      },
+      {
+        "line": 115,
+        "text": "| CK-11 | 统计看板展示与隐私声明 | 访问统计页面，验证概览/人群画像/词云数据展示及隐私说明                       | 有条件通过 | 数据可展示，但多个页面的隐私边界说明不够完善（见 FTR-I01）                                         |"
+      },
+      {
+        "line": 152,
+        "text": "| FTR-I03 | 一般   | CK-14 | **移动端响应式适配不足**：①量表作答页 `/scale/[id]` 选项在 375px 宽度下文字溢出容器；②绘画画板 `/canvas` 的 `DrawingCanvas` 组件在窄屏下未自适应缩放，画布超出可视区域；③报告详情页 `/report/[id]` 的评分表格横向溢出无法完整查看。不符合 `US-10.1`\"375px-1440px 正常展示\"的验收条件                                              | 量表作答、绘画、报告页面    | 前端         | 2026-04-02 | 待整改 |"
+      },
+      {
+        "line": 153,
+        "text": "| FTR-I04 | 一般   | CK-15 | `**acceptance-checklist.md` 待创建**：`architecture-overview.md` 中提及 `docs/acceptance-checklist.md` 但该文件尚未创建，文档引用存在悬空链接                                                                                                                      | 文档              | 产品/测试      | 2026-04-03 | 待整改 |"
+      },
+      {
+        "line": 154,
+        "text": "| FTR-I05 | 建议   | CK-16 | **自动门禁覆盖面可扩展**：当前 `smoke_api_baseline.py` 已覆盖核心 API 端点且全部通过，但未包含量表推荐准确性的自动化断言，建议后续补充 prompt 输出格式校验的冒烟用例                                                                                                                                  | 自动门禁            | 测试         | 后续迭代       | 待评估 |"
+      },
+      {
+        "line": 179,
+        "text": "  2. **应完成项**：`FTR-I02`（推荐准确性）在最终交付前优化 triage prompt 并测试覆盖主要情绪场景；`FTR-I03`（移动端适配）修复关键页面布局问题"
+      },
+      {
+        "line": 202,
+        "text": "| 主持人（测试负责人）     | 王议茉     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 203,
+        "text": "| 记录人（产品负责人）     | 黄俞菲     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 205,
+        "text": "| 评审人（后端负责人）     | 吴嘉伟     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 207,
+        "text": "| 作者代表（PM）       | 游翔宇     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 208,
+        "text": "| 作者成员（前端负责人）    | 邢天舒     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 209,
+        "text": "| 作者成员（后端负责人）    | 赵彦青     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 210,
+        "text": "| 作者成员（AI 工程负责人） | 吴宇桐     | ________________ | 2026-03-31 |"
+      },
+      {
+        "line": 211,
+        "text": "| 作者成员（视觉工程负责人）  | 郭锦伟     | ________________ | 2026-03-31 |"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class7&8\\RIS风险信息表.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# 第八次作业附件：RIS 风险信息表"
+      },
+      {
+        "line": 6,
+        "text": "本表对 RMMM 中 **RE ≥ 4.0** 的 2 条高风险，以及 **已触发且需在收口阶段重点跟踪** 的隐私（R-03）、移动端（R-09）做展开，与汇报网页 **8.2** 四张 RIS 卡一致。"
+      },
+      {
+        "line": 17,
+        "text": "| 触发信号 | 健康检查失败；核心接口连续超时；用户集中反馈「页面空白/接口 502」 |"
+      },
+      {
+        "line": 52,
+        "text": "| **Monitoring** | 每周用户与评审反馈 |"
+      },
+      {
+        "line": 68,
+        "text": "| **Monitoring** | 每周用户反馈与小屏截图 |"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class7&8\\RMMM总表.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# 第八次作业附件：RMMM 总表"
+      },
+      {
+        "line": 10,
+        "text": "- 风险暴露值 **RE = P × I**（本表与汇报网页一致：**RE ≥ 4.0** 标为高风险）"
+      },
+      {
+        "line": 20,
+        "text": "| R-03 | 隐私文案不完善 | 0.3 | 8 | **2.4** | **已触发** | 搜集隐私文案处理方式 | 每周确认用户反馈 | 暂时停用隐私相关功能 |"
+      },
+      {
+        "line": 21,
+        "text": "| R-04 | 三服务（8003/8004/8005）任一不可用导致链路断裂 | 0.5 | 10 | **5.0** | **已触发** | 日后使用 Docker 部署 | 版本部署后立即测试 | 回退旧版本 |"
+      },
+      {
+        "line": 25,
+        "text": "| R-08 | 缺乏自动化测试 | 0.5 | 3 | **1.5** | 待评估 | 准备充分的冒烟测试 | 记录出现的 bug | 将未覆盖接口/功能记入测试用例 backlog |"
+      },
+      {
+        "line": 26,
+        "text": "| R-09 | 移动端适配不足 | 0.4 | 2 | **0.8** | **已触发** | 充分测试窗口宽度小于 375px 的场景 | 每周确认用户反馈 | 宽度 &lt;375px 时屏蔽非关键实体，仅保留关键聊天窗口 |"
+      },
+      {
+        "line": 42,
+        "text": "| 6 | R-08 | 1.5 | 待评估 | 自动化测试 |"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class7&8\\任务集-TaskSet.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# 第七次作业附件：任务集（Task Set）"
+      },
+      {
+        "line": 8,
+        "text": "本任务集在 **`docs/product-backlog.md`（史诗 / 用户故事）** 与 **领歌看板导出表 `docs/领歌/里程碑1backlog.xlsx`～`里程碑4backlog.xlsx`** 之间建立可追溯映射；里程碑阶段命名与汇报网页 **「MVP 基础能力 → 专业能力深化 → 产品化体验增强 → 可持续迭代与生态拓展」** 一致。"
+      },
+      {
+        "line": 10,
+        "text": "| 阶段 | 汇报 / 规划口径 | 领歌文件 | `product-backlog.md` 对应 |"
+      },
+      {
+        "line": 15,
+        "text": "| M4 | 可持续迭代与生态拓展 | `里程碑4backlog.xlsx` | 史诗 10、**历史成长闭环**、**数据洞察 / 过程管理**（稳定、可观测、反馈回灌） |"
+      },
+      {
+        "line": 19,
+        "text": "## 1. 领歌侧 Epic 一览（按里程碑）"
+      },
+      {
+        "line": 23,
+        "text": "| Epic（领歌「卡片名称」） | 要义 |"
+      },
+      {
+        "line": 26,
+        "text": "| 基础报告生成 | 测评结果结构化展示、身份显示正确、可回看与管理 |"
+      },
+      {
+        "line": 28,
+        "text": "| 账号与身份体系 | 登录态展示、历史记录、基础资料、报告与账号一致 |"
+      },
+      {
+        "line": 35,
+        "text": "| 安全守护与危机提醒 | 词库与阈值、聊天链路接入、求助资源展示、范围纳入正式定义 |"
+      },
+      {
+        "line": 55,
+        "text": "| 数据洞察与持续迭代 | 反馈沉淀、匿名统计衍生洞察、**领歌与 GitHub 过程记录**、课程反馈回灌路线图 |"
+      },
+      {
+        "line": 61,
+        "text": "任务划分以 **可交付、可验收** 为粒度；「对应领歌」列便于在领歌中按 Epic / 卡片复查。"
+      },
+      {
+        "line": 65,
+        "text": "| **TS-01** | 项目范围冻结与双源对齐（Backlog + 领歌） | M1 准备 | PM / 产品 / 测试 | 无 | 0.5 周 | 范围说明（`architecture-overview.md` Scope）；路线图与领歌四里程碑一致；关键名词表（倾诉 / 测评 / 报告 / 危机 / 统计） | 范围与非目标书面确认；`product-backlog.md` 与领歌 Epic **无冲突表述**；里程碑 M1–M4 分工明确 |"
+      },
+      {
+        "line": 66,
+        "text": "| **TS-02** | 智能倾诉主链路与全局安全入口 | 史诗 1、3 / **M1 智能倾诉 Epic** | 前端 + 后端 | TS-01 | 2 周 | `ChatWindow`、`POST /api/chat`、会话与反馈；`EmergencyHelpButton`、危机卡片、`/api/safety/hotlines` | 多轮对话可用；危机关键词触发热线卡片且**不可轻率关闭**（符合 US-3.x）；全局紧急入口可用 |"
+      },
+      {
+        "line": 67,
+        "text": "| **TS-03** | 身份识别与会话—报告身份一致 | 史诗 2 / **M1 账号与身份 Epic** | 前端 + 后端 | TS-01 | 1.5 周 | `/auth`、注册登录 session；导航登录态；报告/测评侧「非匿名」展示一致 | US-2.1/2.2；**登录后报告不再出现「匿名用户」**（对齐领歌 M1 报告类卡片） |"
+      },
+      {
+        "line": 71,
+        "text": "| **TS-07** | 可持续运行与成长 / 数据闭环（稳定 · 历史 · 洞察 · 过程资产） | 史诗 10 + **M4 各 Epic** | 全栈 + 测试 | TS-04、TS-06 | 2 周 | 响应式与关键路径可用性；错误兜底与弱网提示；历史报告列表与回看、可选趋势；`run_baseline_gate.py`；领歌–GitHub–文档交叉索引说明 | US-10.x；核心页 **375px–1440px** 可接受；门禁通过；历史与统计控制权说明清晰；**过程可追溯**（含领歌卡片与提交哈希或等价说明） |"
+      },
+      {
+        "line": 72,
+        "text": "| **TS-08** | 质量门禁、FTR 关闭与课程交付包 | M3–M4 收口 | 测试 + 全员 | TS-02～TS-07 | 1.5 周 | 门禁报告、冒烟记录、FTR 复审结论；作业包（EVA、RMMM、RIS、FTR、本任务集） | 自动门禁全通过；**FTR 主要级问题关闭**；交付物含创建/更新时间 |"
+      },
+      {
+        "line": 74,
+        "text": "> **工期说明**：TS-05、TS-07 含 M2/M4 **面宽**，工期为合并工作包估算；领歌中「待梳理 / 开发中 / 已完成」状态应在冲刺内同步，避免口头完成。"
+      },
+      {
+        "line": 109,
+        "text": "## 4. 风险控制点（与 RMMM / 领歌联动）"
+      },
+      {
+        "line": 113,
+        "text": "| 量表 triage 与规则长期拉扯 | TS-04、TS-05 | 对应 R-02；**time-box** + `SCALE_KEYWORD_RULES` 兜底（领歌 M2「专业评测体系」下各卡） |"
+      },
+      {
+        "line": 117,
+        "text": "| 过程可追溯性不足 | TS-07、TS-08 | 领歌 M4「领歌与 GitHub 过程记录闭环」— 需求、分支、PR、看板状态应 **可互查** |"
+      },
+      {
+        "line": 125,
+        "text": "| 双源一致 | 任一工作包状态变更时，**同步** `product-backlog.md` 附录映射或领歌卡片评论（至少一处留痕） |"
+      },
+      {
+        "line": 136,
+        "text": "| 2026-04-12 | **按 `docs/领歌` 四里程碑 xlsx 重构**：补充 Epic 摘要、扩充 TS-01～TS-08 字段、更新关键路径与风险 |"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class7&8\\第七八次作业-可提交示例.md",
+    "hits": [
+      {
+        "line": 13,
+        "text": "| 智能倾诉  | AI 共情对话、会话历史、反馈机制   | DeepSeek API + Flask                     |"
+      },
+      {
+        "line": 28,
+        "text": "与汇报网页 `课后作业web/index.html` 封面一致："
+      },
+      {
+        "line": 32,
+        "text": "| 团队配置     | 5 人（PM、前端、后端、AI/算法、测试） |"
+      },
+      {
+        "line": 40,
+        "text": "## 2. 第七次作业"
+      },
+      {
+        "line": 80,
+        "text": "按 WBS **1.1–1.5** 分解，**PV = BAC × 权重**，**EV = PV × 完成率**；**AC** = 任务集人力分摊 + 云/域名/课程/授权/模型调用等分项 + 各 WBS 均摊（运营 300、工具授权 5 个月×1,400 均摊）。**明细与脚注以附件 `EVA计算表.md` 及汇报网页 7.3 为准。**"
+      },
+      {
+        "line": 88,
+        "text": "| EV 合计 | 199,500 元 | 按各 WBS 完成率计算 |"
+      },
+      {
+        "line": 117,
+        "text": "## 3. 第八次作业"
+      },
+      {
+        "line": 124,
+        "text": "- `**RIS风险信息表.md`**：对 **R-04、R-02**（高 RE）及 **R-03、R-09**（已触发重点项）逐条建档（与汇报 8.2 一致）。"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class9\\CMM三级认证与证据清单.md",
+    "hits": [
+      {
+        "line": 41,
+        "text": "4. 有风险管理与配置管理。"
+      },
+      {
+        "line": 66,
+        "text": "| EV-06 | 测试覆盖 | 有具体测试用例 | `backend/scripts/smoke_api_baseline.py` | 覆盖健康检查、认证、聊天、危机提示、量表、报告、统计等主链路 |"
+      },
+      {
+        "line": 67,
+        "text": "| EV-07 | 项目计划 | 有任务定义和关键路径 | `docs/pre/class7&8/任务集-TaskSet.md` | 说明项目不是随意推进，而是经过任务拆分、依赖关系与风险控制设计 |"
+      },
+      {
+        "line": 68,
+        "text": "| EV-08 | 风险管理 | 风险识别与应对明确 | `docs/pre/class7&8/RMMM总表.md` | 已定义风险概率、影响、RE 值、缓解与应急措施 |"
+      },
+      {
+        "line": 69,
+        "text": "| EV-09 | 风险跟踪 | 对重点风险有记录 | `docs/pre/class7&8/RIS风险信息表.md` | 说明风险不是只做总表，还能对重点项单独追踪 |"
+      },
+      {
+        "line": 70,
+        "text": "| EV-10 | 正式评审 | 具备评审机制 | `docs/pre/class7&8/FTR评审报告.md` | 已形成正式评审对象、范围、问题清单、整改人与复审计划 |"
+      },
+      {
+        "line": 71,
+        "text": "| EV-11 | 配置管理 | SCM 与版本控制联动 | Git 分支、提交历史、PR merge 记录 | 可追溯 change、branch、merge，而不是只在本地改文件 |"
+      },
+      {
+        "line": 128,
+        "text": "| `36167e2` | 2026-04-09 | `fix: 调整聊天模式按钮展示` | 交互改进 |"
+      },
+      {
+        "line": 145,
+        "text": "它们为后续的修复、测试和版本说明提供了依据，说明团队确实在围绕问题持续改进。"
+      },
+      {
+        "line": 166,
+        "text": "课堂展示时，建议不要说“我们已经是最高成熟度”。  "
+      },
+      {
+        "line": 169,
+        "text": "> 我们选择 CMM 三级。原因是团队已经建立了较清晰的过程文档、任务分解、风险管理、评审机制、配置管理和质量门禁，并能提供真实执行证据；但我们暂时不宣称四级，因为还没有形成长期稳定的量化过程控制体系。"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class9\\SCM配置管理计划.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# 附件 C：SCM 配置管理计划"
+      },
+      {
+        "line": 11,
+        "text": "2. 每个配置项都要能说清 test plan、procedure 和 test cases。"
+      },
+      {
+        "line": 14,
+        "text": "因此，本文件不仅列配置项，还把配置项、测试、Git 历史和版本演进放在一起说明。"
+      },
+      {
+        "line": 22,
+        "text": "1. **配置项先识别，再开发与测试**  "
+      },
+      {
+        "line": 25,
+        "text": "2. **所有配置项变更必须进入版本控制**  "
+      },
+      {
+        "line": 36,
+        "text": "## 3. 配置项台账"
+      },
+      {
+        "line": 38,
+        "text": "| CI编号 | 配置项 | 主要路径 | 版本控制方式 | Test Plan | Procedure | Test Cases | 最近变更证据 |"
+      },
+      {
+        "line": 41,
+        "text": "| CI-02 | 聊天与 Agent 联动 | `frontend/features/chat`、`backend/api/routes/chat_routes.py`、`agent/*` | Git 分支 + 提交 + merge | 保证匿名聊天、危机提示、推荐链路可用 | 调用 `POST /api/chat` 进行普通消息与危机消息测试 | `test_04_chat_anonymous`、`test_05_chat_crisis` | `982a96a`、`c23d8af` |"
+      },
+      {
+        "line": 46,
+        "text": "| CI-07 | 风险与评审资产 | `docs/pre/class7&8/RMMM总表.md`、`RIS风险信息表.md`、`FTR评审报告.md` | Git 提交 + 课程作业归档 | 保证项目风险、评审与整改信息可追溯 | 文档审查、复审计划、与提交记录交叉对照 | RMMM / RIS / FTR 复核 | 2026-03-31 至 2026-04-12 持续更新 |"
+      },
+      {
+        "line": 57,
+        "text": "2. **识别影响配置项**  "
+      },
+      {
+        "line": 64,
+        "text": "   至少需要执行对应配置项的 test plan；关键链路进入 `run_baseline_gate.py`。"
+      },
+      {
+        "line": 109,
+        "text": "当前仓库没有完整的 tag 体系，因此本作业采用**配置管理台账口径**来回答版本演进问题。"
+      },
+      {
+        "line": 124,
+        "text": "| v1.3 | `36167e2` | 2026-04-09 | `fix: 调整聊天模式按钮展示` | 前端交互修复，属于 patch 升级 |"
+      },
+      {
+        "line": 141,
+        "text": "## 7. 配置审计与状态记录"
+      },
+      {
+        "line": 145,
+        "text": "当前项目可以通过以下方式记录配置状态："
+      },
+      {
+        "line": 171,
+        "text": "2. 为关键配置项增加更细粒度的自动化测试映射。"
+      },
+      {
+        "line": 172,
+        "text": "3. 将 build warning、deprecation warning 纳入整改台账。"
+      },
+      {
+        "line": 173,
+        "text": "4. 把“配置项负责人”和“变更审批人”进一步固定下来。"
+      },
+      {
+        "line": 181,
+        "text": "1. **可识别配置项**"
+      },
+      {
+        "line": 186,
+        "text": "它不是一套脱离实际开发的文档，而是已经和 Git、测试、构建与交付过程结合起来的工程管理活动。"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class9\\可靠性-可用性-CMT计算.md",
+    "hits": [
+      {
+        "line": 29,
+        "text": "2026-04-13 运行 `run_baseline_gate.py` 时，后端 baseline smoke 共执行 9 个测试："
+      },
+      {
+        "line": 43,
+        "text": "- 总测试数 = 9"
+      },
+      {
+        "line": 44,
+        "text": "- 失败测试数 = 0"
+      },
+      {
+        "line": 45,
+        "text": "- 通过测试数 = 9"
+      },
+      {
+        "line": 52,
+        "text": "Reliability = 成功测试数 / 总测试数"
+      },
+      {
+        "line": 102,
+        "text": "该 403 是 `test_08_report_forbidden_for_non_owner` 的**故意设计的权限校验测试**，其业务语义是“系统正确地拒绝了不该访问的人”，因此它不等于真正的服务宕机。"
+      },
+      {
+        "line": 164,
+        "text": "| v1.3 | `36167e2` | 2026-04-09 15:01 | 聊天模式按钮展示调整 |"
+      },
+      {
+        "line": 178,
+        "text": "| v1.1 -> v1.2 | 1.29 小时 |"
+      },
+      {
+        "line": 179,
+        "text": "| v1.2 -> v1.3 | 50.61 小时 |"
+      },
+      {
+        "line": 180,
+        "text": "| v1.3 -> v1.4 | 0.14 小时 |"
+      },
+      {
+        "line": 181,
+        "text": "| v1.4 -> v1.5 | 19.22 小时 |"
+      },
+      {
+        "line": 186,
+        "text": "    = 17.81 小时/次变更"
+      },
+      {
+        "line": 193,
+        "text": "> **CMT = 17.81 小时/次变更**"
+      },
+      {
+        "line": 209,
+        "text": "| Reliability | 成功测试数 / 总测试数 | 9 / 9 | **100%** | 本次 baseline smoke 全部通过 |"
+      },
+      {
+        "line": 212,
+        "text": "| CMT | 相邻版本时间差平均值 | 71.26 / 4 | **17.81 小时/次变更** | 反映近期版本迭代的平均变更响应速度 |"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class9\\第九次作业-可提交示例.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# PsySight 第九次作业"
+      },
+      {
+        "line": 12,
+        "text": "3. 说明 SCM（Software Configuration Management）如何与 Version Control 结合，并给出配置项、测试计划与版本演进依据。"
+      },
+      {
+        "line": 18,
+        "text": "| 1 | `第九次作业-可提交示例.md` | 主文档 | 本次作业的总说明、结论与附件索引 |"
+      },
+      {
+        "line": 21,
+        "text": "| 4 | `SCM配置管理计划.md` | 附件 C | 配置项台账、版本控制、变更流程与版本演进说明 |"
+      },
+      {
+        "line": 41,
+        "text": "3. **配置管理与版本控制已经形成联动**  "
+      },
+      {
+        "line": 69,
+        "text": "| 项目计划 | `docs/pre/class7&8/任务集-TaskSet.md` | 已进行任务集、关键路径、并行机会、风险控制点规划 |"
+      },
+      {
+        "line": 70,
+        "text": "| 风险管理 | `docs/pre/class7&8/RMMM总表.md`、`RIS风险信息表.md` | 已定义风险识别、监控与应急方案 |"
+      },
+      {
+        "line": 71,
+        "text": "| 评审闭环 | `docs/pre/class7&8/FTR评审报告.md` | 已形成正式评审、问题清单、复审计划与整改要求 |"
+      },
+      {
+        "line": 87,
+        "text": "| CMT | **17.81 小时/次变更** | 基于最近 4 次版本迭代时间差近似计算 |"
+      },
+      {
+        "line": 92,
+        "text": "2. 但本次 `403` 来自**故意设计的非 owner 访问测试**，不属于真正的服务故障。"
+      },
+      {
+        "line": 101,
+        "text": "本项目的 SCM 已经不仅仅是“把代码放进 Git”，而是开始具备配置识别、版本记录、变更追踪和质量验证四个要素："
+      },
+      {
+        "line": 103,
+        "text": "1. **配置项已可识别**  "
+      },
+      {
+        "line": 104,
+        "text": "   前端页面与组件、聊天与 Agent、量表与报告服务、统计与可用率接口、质量门禁脚本、过程文档等都可以作为独立配置项管理。"
+      },
+      {
+        "line": 109,
+        "text": "3. **变更不再脱离测试**  "
+      },
+      {
+        "line": 110,
+        "text": "   变更完成后可以通过 `run_baseline_gate.py` 进行统一验证，这满足了老师强调的“SCM 必须和测试、版本控制结合”的要求。"
+      },
+      {
+        "line": 115,
+        "text": "详细说明见附件 C：`SCM配置管理计划.md`。"
+      },
+      {
+        "line": 132,
+        "text": "为了让后续展示更稳，建议继续补强以下内容："
+      },
+      {
+        "line": 136,
+        "text": "3. 如果后续还想冲击“更高成熟度”表述，需要补充长期量化数据，而不是只展示单次构建与单次冒烟结果。"
+      },
+      {
+        "line": 142,
+        "text": "建议课堂提交时按以下顺序展示："
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\class9\\第九次作业说明.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# 第九次作业说明"
+      },
+      {
+        "line": 21,
+        "text": "- 建议用表格整理每个配置项。"
+      },
+      {
+        "line": 22,
+        "text": "- 每个配置项需要说明对应的 test plan、test procedure 和 test cases。"
+      },
+      {
+        "line": 31,
+        "text": "- SCM 配置项表格"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\第一次\\WBS表格.md",
+    "hits": [
+      {
+        "line": 4,
+        "text": "# PsySight WBS Dictionary"
+      },
+      {
+        "line": 6,
+        "text": "This document provides a structured WBS Dictionary for the **PsySight Intelligent Psychological Support System**, based on:"
+      },
+      {
+        "line": 7,
+        "text": "- The **Deliverable-Oriented WBS** (product/subsystem view)."
+      },
+      {
+        "line": 8,
+        "text": "- The **Process-Oriented WBS** (lifecycle/phase view)."
+      },
+      {
+        "line": 10,
+        "text": "Each level-3 WBS element includes the following fields:"
+      },
+      {
+        "line": 23,
+        "text": "## Section A. Deliverable-Oriented WBS Dictionary"
+      },
+      {
+        "line": 59,
+        "text": "  Allow logged-in users to view and update key personal information (nickname, gender, age, region, preferences) to enable more contextual assessments and anonymized statistics while preserving privacy.  "
+      },
+      {
+        "line": 63,
+        "text": "  - Store user demographic fields and display preferences in the `User` model.  "
+      },
+      {
+        "line": 71,
+        "text": "  - Updated user records reflecting demographic and preference changes.  "
+      },
+      {
+        "line": 90,
+        "text": "  - Store anonymity flags and stats-visibility preferences alongside assessment records.  "
+      },
+      {
+        "line": 154,
+        "text": "  - Context-aware AI replies that reflect previous user messages within the session.  "
+      },
+      {
+        "line": 155,
+        "text": "  - UI that shows previous messages and sessions clearly to users.  "
+      },
+      {
+        "line": 160,
+        "text": "  - Returning to a past session shows previously stored messages correctly.  "
+      },
+      {
+        "line": 194,
+        "text": "  Detect crisis-related expressions in user messages and surface immediate, non-intrusive rescue information such as hotlines and emergency guidance.  "
+      },
+      {
+        "line": 255,
+        "text": "  - Validate answers and prevent accidental submissions (anti-misclick measures).  "
+      },
+      {
+        "line": 328,
+        "text": "### 1.4 Creative Expression Subsystem"
+      },
+      {
+        "line": 334,
+        "text": "  Provide a playful, low-pressure drawing canvas for students to express themselves visually as part of projective assessment.  "
+      },
+      {
+        "line": 359,
+        "text": "  Extract human-understandable metadata from the drawing session (e.g., color usage, completion hints, presence of typical elements) to provide structured context for AI interpretation.  "
+      },
+      {
+        "line": 367,
+        "text": "  - Domain assumptions about what metadata is meaningful yet privacy-preserving.  "
+      },
+      {
+        "line": 383,
+        "text": "  Use an AI model to interpret drawing metadata and reflection text to generate gentle, projective feedback that helps students reflect on their emotional state.  "
+      },
+      {
+        "line": 385,
+        "text": "  - Call DeepSeek (or compatible) API with `meta_summary` and reflection text to request interpretive feedback.  "
+      },
+      {
+        "line": 394,
+        "text": "  - On-screen projective interpretation visible to users.  "
+      },
+      {
+        "line": 398,
+        "text": "  - Submitting a drawing reliably returns an AI interpretation within acceptable time.  "
+      },
+      {
+        "line": 435,
+        "text": "  Present anonymous group-level emotional and assessment statistics on a visual dashboard to give users and instructors an overview of current trends.  "
+      },
+      {
+        "line": 450,
+        "text": "  - Layout and colors remain readable for classroom presentation.  "
+      },
+      {
+        "line": 480,
+        "text": "## Section B. Process-Oriented WBS Dictionary"
+      },
+      {
+        "line": 490,
+        "text": "  - Articulate project purpose across chat, assessments, and creative expression.  "
+      },
+      {
+        "line": 516,
+        "text": "  - Initial scope baseline and user stories (e.g., from “lingge” narratives).  "
+      },
+      {
+        "line": 523,
+        "text": "  - Backlog items cover all major WBS deliverables.  "
+      },
+      {
+        "line": 528,
+        "text": "#### 1.1.3 Develop Requirements Traceability Matrix (RTM)"
+      },
+      {
+        "line": 530,
+        "text": "- **Name**: Develop Requirements Traceability Matrix (RTM)  "
+      },
+      {
+        "line": 532,
+        "text": "  Map user stories and requirements to specific system components, WBS items, and acceptance tests to ensure coverage and avoid gaps.  "
+      },
+      {
+        "line": 534,
+        "text": "  - Define a mapping structure between user stories, WBS IDs, and modules (frontend, backend, docs).  "
+      },
+      {
+        "line": 538,
+        "text": "  - User stories (e.g., from “lingge” documents).  "
+      },
+      {
+        "line": 539,
+        "text": "  - WBS structure (Deliverable- and Process-Oriented).  "
+      },
+      {
+        "line": 542,
+        "text": "  - RTM document or table linking requirements to implementation and test artifacts.  "
+      },
+      {
+        "line": 546,
+        "text": "  - Each core requirement can be traced to at least one WBS item and implemented module.  "
+      },
+      {
+        "line": 661,
+        "text": "  - Reports include score interpretation and gentle advice, with disclaimers.  "
+      },
+      {
+        "line": 693,
+        "text": "  Formalize and implement a lexicon-based engine that detects high-risk expressions and routes them to proper crisis handling flows.  "
+      },
+      {
+        "line": 767,
+        "text": "  - DeepSeek API for interpretation.  "
+      },
+      {
+        "line": 773,
+        "text": "  - Students can draw, submit, and receive interpretation within a single session.  "
+      },
+      {
+        "line": 877,
+        "text": "  - Prepare manual smoke test checklist for front-to-back flows.  "
+      },
+      {
+        "line": 890,
+        "text": "#### 1.6.2 Course Project UAT (User Acceptance Testing) Acceptance"
+      },
+      {
+        "line": 892,
+        "text": "- **Name**: Course Project UAT (User Acceptance Testing) Acceptance  "
+      },
+      {
+        "line": 898,
+        "text": "  - Record and track UAT issues and resolutions.  "
+      },
+      {
+        "line": 901,
+        "text": "  - Backlog and RTM (where available).  "
+      },
+      {
+        "line": 903,
+        "text": "  - UAT feedback notes and a simple sign-off indicating readiness for defense.  "
+      },
+      {
+        "line": 911,
+        "text": "#### 1.6.3 Prepare Course Defense Demo (Presentation)"
+      },
+      {
+        "line": 913,
+        "text": "- **Name**: Prepare Course Defense Demo (Presentation)  "
+      },
+      {
+        "line": 915,
+        "text": "  Create a coherent and time-bounded demo plan and presentation that clearly communicates PsySight’s goals, architecture, and key features.  "
+      },
+      {
+        "line": 918,
+        "text": "  - Prepare slides summarizing problem, solution, architecture, and highlights.  "
+      },
+      {
+        "line": 922,
+        "text": "  - Architecture and WBS documentation (including this dictionary).  "
+      },
+      {
+        "line": 927,
+        "text": "  - Product Owner, Presenting Team Members.  "
+      },
+      {
+        "line": 929,
+        "text": "  - Demo can be executed without major hiccups in a typical classroom environment.  "
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\第一次\\第一次课程展示总规划.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# PsySight 第一次课程展示总规划"
+      },
+      {
+        "line": 6,
+        "text": "## 1. 汇报目标"
+      },
+      {
+        "line": 8,
+        "text": "本次第一次课程展示的目标，不是单纯介绍 `PsySight` 做了哪些功能，而是要在 `15` 分钟内，让老师清楚看到以下四件事："
+      },
+      {
+        "line": 13,
+        "text": "- 我们能用 `GitHub`、`领歌` 和 `Demo` 为每一个得分点提供证据。"
+      },
+      {
+        "line": 15,
+        "text": "因此整场汇报采用一条主线："
+      },
+      {
+        "line": 25,
+        "text": "| 评分项 | 汇报中必须说出的结论 | 最佳承载方式 | 建议负责人 |"
+      },
+      {
+        "line": 27,
+        "text": "| 项目定义 | 这是面向大学生的心理支持系统，不是单点聊天网站 | 口头 + PPT 首页 | 第 1 人 |"
+      },
+      {
+        "line": 28,
+        "text": "| Scope Statement | 必须说清 `justification`、主要交付物、里程碑、排除项、约束、假设、验收标准 | 口头 + `docs/architecture-overview.md` + `docs/product-backlog.md` | 第 1 人 |"
+      },
+      {
+        "line": 29,
+        "text": "| 5W2H | `Why/What/When/Who/Where/How/How much` 要形成完整项目说明，而不是一句带过 | 口头 + PPT 表格 | 第 2 人 |"
+      },
+      {
+        "line": 30,
+        "text": "| RTM | 需求不是停留在文字层，而是能追踪到页面、接口、验收条件 | 口头 + GitHub 文档截图/表格 | 第 2 人 |"
+      },
+      {
+        "line": 31,
+        "text": "| WBS 两种结构 | 要同时体现按产品拆解和按过程拆解的思路 | 口头 + PPT 图示 | 第 2 人 |"
+      },
+      {
+        "line": 32,
+        "text": "| WBS Dictionary | 至少举一个工作包说明“包含什么、不包含什么、验收标准是什么” | 口头 + 领歌任务卡/文档截图 | 第 3 人 |"
+      },
+      {
+        "line": 33,
+        "text": "| 领歌 | 证明项目按敏捷方式推进，有阶段、优先级、状态和验收逻辑 | 现场展示领歌 | 第 3 人 |"
+      },
+      {
+        "line": 34,
+        "text": "| GitHub | 证明项目有真实交付物、架构文档、工程化收口和可追踪仓库 | 现场展示 GitHub 仓库 | 第 5 人 |"
+      },
+      {
+        "line": 35,
+        "text": "| Demo | 证明需求已经落地为可运行系统，且是端到端主链路 | Demo 录屏 | 第 4 人 |"
+      },
+      {
+        "line": 36,
+        "text": "| 软件度量 | 要说明我们如何衡量规模、质量、复杂度和完成度 | 口头 + PPT 结论页 | 第 5 人 |"
+      },
+      {
+        "line": 37,
+        "text": "| FP vs LOC | 明确说明为什么本项目更适合用 `FP` 而不是 `LOC` | 口头 + PPT | 第 5 人 |"
+      },
+      {
+        "line": 38,
+        "text": "| COCOMO II | 说明 `Object Points -> NOP -> PROD -> E` 的估算逻辑和结论 | 口头 + PPT | 第 5 人 |"
+      },
+      {
+        "line": 39,
+        "text": "| 决策树 | 说明如何比较不同方案成本，并选择最优路径 | 口头 + PPT | 第 5 人 |"
+      },
+      {
+        "line": 45,
+        "text": "| `0:00 - 2:20` | 第 1 人 | 项目背景与 Scope Statement | 建立项目价值、范围与边界 |"
+      },
+      {
+        "line": 46,
+        "text": "| `2:20 - 4:50` | 第 2 人 | 5W2H + RTM + WBS | 证明需求管理与范围管理成体系 |"
+      },
+      {
+        "line": 47,
+        "text": "| `4:50 - 7:20` | 第 3 人 | WBS Dictionary + 领歌 + Scrum 推进 | 证明项目管理过程可见 |"
+      },
+      {
+        "line": 48,
+        "text": "| `7:20 - 11:10` | 第 4 人 | Demo 主链路讲解 | 证明系统已端到端落地 |"
+      },
+      {
+        "line": 49,
+        "text": "| `11:10 - 14:40` | 第 5 人 | GitHub + 软件度量 + 估算与决策 | 证明工程化与管理分析能力 |"
+      },
+      {
+        "line": 50,
+        "text": "| `14:40 - 15:00` | 第 5 人收口 | 总结 | 留出 20 秒机动缓冲 |"
+      },
+      {
+        "line": 54,
+        "text": "### 第 1 人：项目背景、目标、Scope Statement"
+      },
+      {
+        "line": 60,
+        "text": "- 主要交付物：前后端系统、量表功能、报告功能、项目文档、GitHub 仓库、领歌项目记录、Demo。"
+      },
+      {
+        "line": 68,
+        "text": "- PPT 封面页"
+      },
+      {
+        "line": 71,
+        "text": "### 第 2 人：5W2H、RTM、WBS、优先级管理"
+      },
+      {
+        "line": 75,
+        "text": "- `5W2H` 七个问题的项目化回答。"
+      },
+      {
+        "line": 77,
+        "text": "- `RTM` 的意义：把需求追踪到目标、页面/API、验收条件。"
+      },
+      {
+        "line": 78,
+        "text": "- 两种 `WBS`："
+      },
+      {
+        "line": 80,
+        "text": "  - 按过程拆：需求分析、设计、开发、测试、演示准备。"
+      },
+      {
+        "line": 84,
+        "text": "- PPT 中的 `5W2H` 总表"
+      },
+      {
+        "line": 87,
+        "text": "### 第 3 人：WBS Dictionary、领歌展示、敏捷推进方式"
+      },
+      {
+        "line": 91,
+        "text": "- 举一个工作包做 `WBS Dictionary` 示例，讲清“包含什么、不包含什么、验收标准”。"
+      },
+      {
+        "line": 93,
+        "text": "- 用领歌证明项目管理过程真实存在：阶段划分、任务状态、优先级、验收条件、推进节奏。"
+      },
+      {
+        "line": 97,
+        "text": "- 领歌 `Backlog` 或迭代总览页"
+      },
+      {
+        "line": 100,
+        "text": "### 第 4 人：Demo 主链路"
+      },
+      {
+        "line": 114,
+        "text": "- Demo 录屏"
+      },
+      {
+        "line": 116,
+        "text": "### 第 5 人：GitHub、软件度量、FP、COCOMO II、决策树、总结"
+      },
+      {
+        "line": 134,
+        "text": "- PPT 结论页"
+      },
+      {
+        "line": 136,
+        "text": "## 6. GitHub、领歌、Demo 的嵌入方式"
+      },
+      {
+        "line": 140,
+        "text": "GitHub 主要承担“交付物证据”的角色，建议重点展示："
+      },
+      {
+        "line": 147,
+        "text": "### 领歌承担什么"
+      },
+      {
+        "line": 149,
+        "text": "领歌主要承担“项目管理过程证据”的角色，建议重点展示："
+      },
+      {
+        "line": 156,
+        "text": "### Demo 承担什么"
+      },
+      {
+        "line": 158,
+        "text": "Demo 主要承担“需求已落地”的角色，建议只保留一条最强链路，不再分散展示所有功能。"
+      },
+      {
+        "line": 164,
+        "text": "3. 进入量表页，展示进度条、预计时间、暂停继续、可选情绪感知。"
+      },
+      {
+        "line": 165,
+        "text": "4. 提交后进入鼓励页，再进入报告页，展示总分、分级、AI 报告和免责声明。"
+      },
+      {
+        "line": 170,
+        "text": "建议汇报开始前，把以下内容全部提前打开："
+      },
+      {
+        "line": 172,
+        "text": "1. PPT"
+      },
+      {
+        "line": 177,
+        "text": "6. 领歌项目页"
+      },
+      {
+        "line": 178,
+        "text": "7. Demo 录屏播放器"
+      },
+      {
+        "line": 182,
+        "text": "1. `PPT` 开场"
+      },
+      {
+        "line": 183,
+        "text": "2. `PPT` 的 5W2H / RTM / WBS 页"
+      },
+      {
+        "line": 184,
+        "text": "3. `领歌`"
+      },
+      {
+        "line": 185,
+        "text": "4. `Demo 录屏`"
+      },
+      {
+        "line": 187,
+        "text": "6. 回到 `PPT` 的总结页"
+      },
+      {
+        "line": 194,
+        "text": "- 所有表格只展示“结论”和“作用”，不展开过细理论。"
+      },
+      {
+        "line": 195,
+        "text": "- Demo 只讲一条主链路，不把时间花在所有页面切换上。"
+      },
+      {
+        "line": 196,
+        "text": "- GitHub 和 领歌 要讲“为什么展示它”，而不是机械翻页面。"
+      },
+      {
+        "line": 202,
+        "text": "- 只展示文档或工具截图，不解释它们在项目管理中的作用。"
+      },
+      {
+        "line": 203,
+        "text": "- 五个人内容重复，尤其是项目目标和 Demo 重复介绍。"
+      },
+      {
+        "line": 204,
+        "text": "- 领歌只展示卡片数量，不展示优先级、状态、验收逻辑。"
+      },
+      {
+        "line": 205,
+        "text": "- GitHub 只展示提交记录，不展示高价值文档和工程化证据。"
+      }
+    ]
+  },
+  {
+    "file": "docs\\pre\\第一次\\第一次课程展示演讲成稿.md",
+    "hits": [
+      {
+        "line": 1,
+        "text": "# PsySight 第一次课程展示演讲成稿"
+      },
+      {
+        "line": 13,
+        "text": "## 第 1 人：项目背景、项目定义、Scope Statement"
+      },
+      {
+        "line": 15,
+        "text": "**建议界面**: `[PPT 封面 -> 项目说明书摘要页]`"
+      },
+      {
+        "line": 17,
+        "text": "大家好，我们是 `PsySight` 小组。我们这次展示的项目，是一个面向大学生的智能心理支持系统。之所以做这个项目，是因为大学生群体中普遍存在焦虑、失眠、情绪低落、压力积累等问题，但现实中常见的方案往往有两个割裂的极端：要么只是聊天陪伴，缺少客观评估；要么只是做量表，缺少情绪支持和后续建议。  "
+      },
+      {
+        "line": 21,
+        "text": "从项目定义上看，`PsySight` 的目标用户是大学生；项目目标是在课程周期内交付一个可运行的 Web 系统，让用户能够完成 AI 倾诉、量表评测、AI 报告查看，以及匿名统计共鸣等核心流程。我们的主要交付物包括前后端系统本身、量表库与报告链路、项目文档、GitHub 仓库、领歌中的过程记录，以及最终的演示成果。"
+      },
+      {
+        "line": 27,
+        "text": "同时，这个项目也有明确约束和假设。约束包括课程时间有限、团队规模只有五人、系统实现需要兼顾隐私和可用性；假设则包括用户愿意匿名或登录使用、外部 AI 服务可用、课程展示阶段以 Web 主链路为主要交付形式。我们的验收标准也比较明确：核心链路必须能跑通，危机提醒必须能触发，报告必须能生成，项目过程必须能在 GitHub 和领歌中被追踪。"
+      },
+      {
+        "line": 29,
+        "text": "接下来，第 2 位成员会继续从项目管理的角度，说明我们如何用 `5W2H`、`RTM` 和 `WBS` 把这个项目从想法真正落成一个可执行的软件工程计划。"
+      },
+      {
+        "line": 31,
+        "text": "## 第 2 人：5W2H、RTM、WBS、优先级管理"
+      },
+      {
+        "line": 33,
+        "text": "在项目定义之后，我们进一步用 `5W2H` 来让范围和执行方式更具体。"
+      },
+      {
+        "line": 39,
+        "text": "地点上，团队成员每天给我汇报，主要通过图书馆和线上交流。"
+      },
+      {
+        "line": 43,
+        "text": "范围和执行方式确认之后，我们分析了我们的需求。这个矩阵列出了我们的五大需求。我们需要使用RTM，追踪、验证这些需求。"
+      },
+      {
+        "line": 45,
+        "text": "第一个RTM列出了需求是如何对应WBS交付物和产品设计的。第二个RTM列出了需求如何对应产品开发和测试项目。然后我们对第三个需求进一步分解，展示不同的需求点是如何联系前端设计和后端接口。"
+      },
+      {
+        "line": 47,
+        "text": "在工作分解上，我们采用了两种 `WBS`，第一种是按产品拆解，也就是把系统分成用户管理，聊天系统，报告分析，多模态系统和数据可视化五个部分。"
+      },
+      {
+        "line": 50,
+        "text": "针对这两种WBS，我们构建了交付物字典。我们将每个需求都拆解，定义。每个需求都包含以上元素，如右图所示。"
+      },
+      {
+        "line": 52,
+        "text": "接下来，第 3 位成员会继续说明我们如何用 `WBS Dictionary` 和 `领歌` 把这些拆解真正变成可执行、可追踪的任务体系。"
+      },
+      {
+        "line": 54,
+        "text": "## 第 3 人：WBS Dictionary、领歌展示、Scrum 推进逻辑"
+      },
+      {
+        "line": 57,
+        "text": "**建议界面**: `[切到领歌 Backlog / 迭代页 -> 打开一个典型任务卡]`"
+      },
+      {
+        "line": 59,
+        "text": "前面已经讲到，我们不仅做了工作分解，还进一步补了 `WBS Dictionary`，也就是对工作包做更清楚的边界说明。这里我们以“专业评测模块”为例。这个工作包包含量表库浏览、题目加载、作答进度、提交评分、报告生成等内容；不包含复杂的量表后台编辑和发布工作流；它的验收标准则是用户能够顺利进入量表、完成作答、生成结果，并且看到分级和建议。通过这种方式，工作包不再只是一个标题，而是有了清楚的边界、责任和完成标准。"
+      },
+      {
+        "line": 61,
+        "text": "接下来我们展示 `领歌`。这里请老师重点看三个层次。第一层是需求池和迭代划分，我们把项目按 `M1` 到 `M4` 分阶段推进，不同阶段关注的目标不同。第二层是任务优先级和状态流转，可以看到哪些任务属于核心必须项，哪些是增强项，以及它们如何从待办进入进行中再到完成。第三层是任务卡本身，里面会有用户故事、描述、验收条件等信息，这说明我们的项目管理不是“想到什么做什么”，而是围绕可验收的任务推进。"
+      },
+      {
+        "line": 63,
+        "text": "从方法上说，我们采用的是 `Scrum Model` 风格的敏捷开发模式。也就是说，我们先建立产品待办列表，再按阶段选择最关键的故事进入当前迭代，然后围绕验收条件完成开发、测试和演示准备。对于课程项目来说，这种方式比一次性把所有功能摊开更适合，因为它能帮助团队在有限时间里先保证高优先级功能稳定落地。"
+      },
+      {
+        "line": 65,
+        "text": "领歌在这里承担的作用，不是代替系统本身，而是证明这个项目有真实的项目管理过程：有计划、有拆解、有优先级、有推进节奏，也有验收依据。这一点和前面的 `RTM`、`WBS` 一起，构成了我们范围管理和过程管理的核心证据。"
+      },
+      {
+        "line": 67,
+        "text": "接下来，第 4 位成员会通过一条完整的 `Demo` 主链路，展示这些需求和计划是如何真正落到系统中的。"
+      },
+      {
+        "line": 69,
+        "text": "## 第 4 人：Demo 主链路讲解"
+      },
+      {
+        "line": 72,
+        "text": "**建议界面**: `[播放 Demo 录屏]`"
+      },
+      {
+        "line": 74,
+        "text": "接下来我用一条最核心的主链路，来展示 `PsySight` 已经如何从需求走向落地。这里我们不打算把所有功能都演一遍，而是集中展示最能覆盖评分点的闭环。"
+      },
+      {
+        "line": 82,
+        "text": "提交量表之后，系统会先给出一个鼓励性的过渡界面，再进入报告页。报告中会展示总分、严重程度分级、AI 生成的解释与建议，以及免责声明。如果分数达到高风险区间，系统还会优先提示专业求助建议。也就是说，报告页不仅告诉用户“结果是什么”，还会告诉用户“这意味着什么、下一步可以做什么”。"
+      },
+      {
+        "line": 86,
+        "text": "如果时间允许，我们还可以补充展示绘画投射功能，说明系统除了文本交互和量表评测之外，还为不善言辞的用户提供了非语言表达路径。但在本次汇报中，我们把主时间留给最核心的端到端闭环，也就是 `聊天 -> 推荐 -> 测评 -> 报告 -> 统计联动`。"
+      },
+      {
+        "line": 90,
+        "text": "## 第 5 人：GitHub、软件度量、FP、COCOMO II、决策树、总结"
+      },
+      {
+        "line": 93,
+        "text": "**建议界面**: `[切到 GitHub 仓库首页 -> docs/architecture-overview.md -> docs/product-backlog.md -> docs/refactor-baseline-gate.md -> 回 PPT 总结页]`"
+      },
+      {
+        "line": 95,
+        "text": "最后，我从工程化和软件工程分析的角度做总结。首先看 `GitHub`。我们展示 GitHub，不是为了证明“我们写了很多代码”，而是为了证明这个项目有清晰的交付物和可追踪的工程资产。比如在仓库里可以看到架构总览文档、产品 backlog、启动与收口说明、重构基线门禁等内容。这说明我们的项目不是临时拼接的 Demo，而是有范围说明、过程文档、技术结构和质量门禁的完整工程项目。"
+      },
+      {
+        "line": 107,
+        "text": "最后，我们想用一句话总结这次展示：`PsySight` 不只是一个可以运行的课程作品，而是一个有明确问题定义、有范围和需求管理、有敏捷推进过程、有端到端落地结果，也有工程化文档和度量估算支撑的软件工程项目。谢谢老师和同学们。"
+      },
+      {
+        "line": 113,
+        "text": "我们后续会继续完善测试覆盖、性能优化和更多量表能力，但在当前阶段，我们已经优先完成了课程最核心的项目闭环与管理证据。"
+      }
+    ]
+  },
+  {
+    "file": ".cursor\\plans\\psysight重构方案_36caa8e5.plan.md",
+    "hits": [
+      {
+        "line": 75,
+        "text": "- 输出首个稳定标签（如 `pre-refactor-baseline`），作为全局回滚锚点。"
+      }
+    ]
+  },
+  {
+    "file": ".cursor\\plans\\课程展示演讲规划_14babd5c.plan.md",
+    "hits": [
+      {
+        "line": 2,
+        "text": "name: 课程展示演讲规划"
+      },
+      {
+        "line": 3,
+        "text": "overview: 基于课程评分点、现有项目文档与代码素材，设计一套 15 分钟内、5 人分工的第一次课程展示方案，并规划输出完整讲稿与展示辅助文档到 `docs/pre`。"
+      },
+      {
+        "line": 6,
+        "text": "    content: 按课程要求提炼必须讲到的评分点，并重组为适合 15 分钟展示的五段结构"
+      },
+      {
+        "line": 9,
+        "text": "    content: 把仓库中的项目文档、GitHub 素材、领歌素材和 Demo 链路映射到各个评分点"
+      },
+      {
+        "line": 12,
+        "text": "    content: 撰写展示总规划文档，明确时间分配、五人分工、切屏顺序和展示动作"
+      },
+      {
+        "line": 15,
+        "text": "    content: 撰写五位成员可直接使用的完整演讲成稿，确保术语统一且覆盖评分项"
+      },
+      {
+        "line": 17,
+        "text": "  - id: draft-presentation-tips"
+      },
+      {
+        "line": 18,
+        "text": "    content: 补充现场展示建议、常见扣分风险和答辩时可补充的高分表达"
+      },
+      {
+        "line": 23,
+        "text": "# PsySight 第一次课程展示规划"
+      },
+      {
+        "line": 27,
+        "text": "围绕老师的得分点，为 `PsySight` 设计一套 `15` 分钟内、`5` 人分段负责的课程展示方案，做到“每个评分项都被提及且有证据承接”，同时兼顾可讲性与节奏控制。"
+      },
+      {
+        "line": 29,
+        "text": "## 已确认的展示约束"
+      },
+      {
+        "line": 31,
+        "text": "- 展示必须覆盖课程要求中的核心评分项：项目定义、`Scope Statement`、`5W2H`、`RTM`、`WBS`、`WBS Dictionary`、软件度量、`FP/LOC` 选择、`COCOMO II`、决策树、`领歌`。"
+      },
+      {
+        "line": 32,
+        "text": "- 展示中还必须包含 `GitHub` 展示、`领歌` 展示、项目 `Demo` 录屏。"
+      },
+      {
+        "line": 35,
+        "text": "- 输出文档需要放到 [D:/100-code/110-Project/PsySight/docs/pre](D:/100-code/110-Project/PsySight/docs/pre)，并按你的规则标注创建时间或更新时间。"
+      },
+      {
+        "line": 45,
+        "text": "    Part3 --> Part4[系统落地与Demo闭环]"
+      },
+      {
+        "line": 51,
+        "text": "这样可以把高分理论点自然嵌入产品展示，避免只讲文档或只讲功能。"
+      },
+      {
+        "line": 57,
+        "text": "- 一份“展示总规划”文档：给出整场 `15` 分钟的时间分配、五人分工、每段展示目标、切换顺序、GitHub/领歌/Demo 的插入位置。"
+      },
+      {
+        "line": 58,
+        "text": "- 一份“完整演讲成稿”文档：按 `5` 个部分写出每个人可以直接讲的内容，保证口径统一，并明确哪些地方要切到 GitHub、领歌或 Demo。"
+      },
+      {
+        "line": 59,
+        "text": "- 如有必要，再补一份“展示提示清单”或“答辩注意事项”文档，专门列高频加分表达、常见扣分风险和现场操作建议。"
+      },
+      {
+        "line": 67,
+        "text": "- 课程作业/评分点汇总：[D:/100-code/110-Project/PsySight/docs/pre/课后作业统计.md](D:/100-code/110-Project/PsySight/docs/pre/课后作业统计.md)"
+      },
+      {
+        "line": 73,
+        "text": "2. 再从现有仓库中挑选最能支撑这些得分点的项目素材，把 `GitHub`、`领歌`、`Demo` 变成“证据位”，而不是独立插播。"
+      },
+      {
+        "line": 75,
+        "text": "4. 按每人约 `2.5-3` 分钟的上限撰写成稿，给出每段的开场句、核心点、展示动作和收尾衔接句，避免多人重复或断层。"
+      },
+      {
+        "line": 76,
+        "text": "5. 在成稿之外补充现场建议，包括：哪些内容适合截图而不是现场点开、Demo 最短路径怎么走、老师追问时可补充哪些管理术语与工程证据。"
+      },
+      {
+        "line": 80,
+        "text": "- [D:/100-code/110-Project/PsySight/docs/pre/第一次课程展示总规划.md](D:/100-code/110-Project/PsySight/docs/pre/第一次课程展示总规划.md)"
+      },
+      {
+        "line": 81,
+        "text": "- [D:/100-code/110-Project/PsySight/docs/pre/第一次课程展示演讲成稿.md](D:/100-code/110-Project/PsySight/docs/pre/第一次课程展示演讲成稿.md)"
+      },
+      {
+        "line": 82,
+        "text": "- 可选补充：[D:/100-code/110-Project/PsySight/docs/pre/第一次课程展示答辩提示.md](D:/100-code/110-Project/PsySight/docs/pre/第一次课程展示答辩提示.md)"
+      },
+      {
+        "line": 87,
+        "text": "- 避免只展示表格或工具界面，不解释其管理意义。"
+      }
+    ]
+  },
+  {
+    "file": ".cursor\\plans\\课程展示规划_fd8707a4.plan.md",
+    "hits": [
+      {
+        "line": 2,
+        "text": "name: 课程展示规划"
+      },
+      {
+        "line": 3,
+        "text": "overview: 基于课程课件、作业统计要求和 PsySight 现有仓库材料，产出一套严格对齐得分点的 15 分钟首次课程展示方案，并按 5 人分工拆成可直接照讲的成稿。方案将同时覆盖老师评分点、GitHub 展示、领歌展示和 Demo 录屏节奏。"
+      },
+      {
+        "line": 9,
+        "text": "    content: 设计 15 分钟总流程，将 GitHub、领歌、Demo 作为评分证据嵌入主线"
+      },
+      {
+        "line": 12,
+        "text": "    content: 按 5 人拆分展示模块，确保每人时长均衡且过渡自然"
+      },
+      {
+        "line": 17,
+        "text": "  - id: prepare-doc-outputs"
+      },
+      {
+        "line": 18,
+        "text": "    content: 规划输出到 docs/pre 的文档结构，并注明创建时间或更新时间"
+      },
+      {
+        "line": 23,
+        "text": "# PsySight 第一次课程展示规划"
+      },
+      {
+        "line": 27,
+        "text": "围绕老师在 `[D:/100-code/110-Project/PsySight/docs/pre/课后作业统计.md](D:/100-code/110-Project/PsySight/docs/pre/课后作业统计.md)` 中对应的全部得分点，结合课程课件 `docs/class` 与项目现有真实材料，整理一套："
+      },
+      {
+        "line": 29,
+        "text": "- 15 分钟以内的展示总流程"
+      },
+      {
+        "line": 31,
+        "text": "- 每一部分的核心得分点、展示证据、避坑提醒"
+      },
+      {
+        "line": 33,
+        "text": "- 输出到 `docs/pre`，并按你的规则补上创建/更新时间"
+      },
+      {
+        "line": 39,
+        "text": "- `GitHub`、`领歌`、`Demo录屏` 不单独割裂展示，而是嵌入总流程中承担不同评分点。"
+      },
+      {
+        "line": 41,
+        "text": "- 领歌部分按“现有页面尽量贴合”设计，不虚构你们没有的成员协作细节。"
+      },
+      {
+        "line": 45,
+        "text": "- 评分要求主依据：`[D:/100-code/110-Project/PsySight/docs/pre/课后作业统计.md](D:/100-code/110-Project/PsySight/docs/pre/课后作业统计.md)`"
+      },
+      {
+        "line": 49,
+        "text": "- 工程化门禁与测试证据：`[D:/100-code/110-Project/PsySight/docs/refactor-baseline-gate.md](D:/100-code/110-Project/PsySight/docs/refactor-baseline-gate.md)`"
+      },
+      {
+        "line": 50,
+        "text": "- 关键展示主链路：聊天 -> 量表推荐 -> 作答 -> 报告 -> 统计看板 -> 紧急求助/隐私控制"
+      },
+      {
+        "line": 59,
+        "text": "- 5W2H"
+      },
+      {
+        "line": 60,
+        "text": "- RTM、WBS 两种结构、WBS dictionary"
+      },
+      {
+        "line": 62,
+        "text": "- 领歌"
+      },
+      {
+        "line": 67,
+        "text": "用时间切片组织整场展示，优先保证高分项先讲、低风险素材先展示："
+      },
+      {
+        "line": 71,
+        "text": "opening[项目定位与目标] --> scope5w2h[项目说明书+5W2H]"
+      },
+      {
+        "line": 72,
+        "text": "scope5w2h --> management[RTM+WBS+领歌]"
+      },
+      {
+        "line": 73,
+        "text": "management --> demoFlow[Demo主链路]"
+      },
+      {
+        "line": 85,
+        "text": "- 第 1 人：项目背景、项目定义、Scope Statement、5W2H 的 Why/What"
+      },
+      {
+        "line": 86,
+        "text": "- 第 2 人：5W2H 的 When/Who/How/How much，接 RTM 与 WBS"
+      },
+      {
+        "line": 87,
+        "text": "- 第 3 人：WBS dictionary、领歌展示、敏捷推进逻辑"
+      },
+      {
+        "line": 88,
+        "text": "- 第 4 人：Demo 录屏主链路，负责把功能证据讲成“需求落地”"
+      },
+      {
+        "line": 89,
+        "text": "- 第 5 人：GitHub 工程化证据、软件度量、FP/COCOMO/决策树、总结"
+      },
+      {
+        "line": 95,
+        "text": "- 建议展示的页面/截图/录屏点位"
+      },
+      {
+        "line": 100,
+        "text": "在 `docs/pre` 下整理最终文档，计划包含："
+      },
+      {
+        "line": 102,
+        "text": "- 一份总规划：展示顺序、时间分配、得分点映射、各环节展示素材"
+      },
+      {
+        "line": 108,
+        "text": "- 领歌部分不编造“已有成员分工”，而是强调阶段划分、用户故事、优先级、验收条件与推进逻辑。"
+      },
+      {
+        "line": 109,
+        "text": "- Demo 只保留最能覆盖评分点的一条主链路，不追求展示所有功能。"
+      },
+      {
+        "line": 110,
+        "text": "- GitHub 展示重点放在文档体系、分层架构、基线门禁与冒烟验证，不把希望压在提交记录上。"
+      }
+    ]
+  }
+]

@@ -3,7 +3,7 @@
 import AppHeader from '@/components/AppHeader';
 import ChatWindow from '@/components/ChatWindow';
 import OnboardingGuide from '@/components/OnboardingGuide';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 const ONBOARDING_SEEN_KEY = 'psysight_onboarding_seen_v1';
 
@@ -36,7 +36,9 @@ export default function ChatPage() {
         <AppHeader />
         <main className="flex-1 px-3 pb-3 pt-2 sm:px-4 sm:pb-4 sm:pt-3">
           <div className="mist-panel mx-auto flex min-h-[calc(100svh-5.75rem)] h-[calc(100dvh-5.75rem)] max-w-6xl overflow-hidden rounded-[1.6rem] sm:rounded-[1.85rem] md:min-h-[calc(100vh-6.5rem)] md:h-[calc(100vh-6.5rem)] md:rounded-[2rem]">
-            <ChatWindow />
+            <Suspense fallback={null}>
+              <ChatWindow />
+            </Suspense>
           </div>
         </main>
       </div>
