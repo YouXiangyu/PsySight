@@ -15,6 +15,7 @@ from api.routes.scale_routes import create_scale_blueprint
 from api.routes.internal_routes import create_internal_blueprint
 from api.routes.stats_admin_routes import create_stats_admin_blueprint
 from api.routes.system_routes import create_system_blueprint
+from api.routes.vision_routes import create_vision_blueprint
 from config import Config
 from models import db
 
@@ -109,5 +110,6 @@ def create_app() -> Flask:
     app.register_blueprint(create_canvas_blueprint())
     app.register_blueprint(create_stats_admin_blueprint())
     app.register_blueprint(create_internal_blueprint())
+    app.register_blueprint(create_vision_blueprint())
 
     return app
