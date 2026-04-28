@@ -7,3 +7,6 @@ pillow
 python-dotenv
 cryptography
 requests
+ultralytics
+opencv-python
+numpy

@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import * as faceapi from 'face-api.js';
+
+import { analyzeEmotionFrame } from '@/shared/api';
 
 interface FaceMonitorProps {
   enabled: boolean;
@@ -10,20 +11,35 @@ interface FaceMonitorProps {
 
 export default function FaceMonitor({ enabled, onEmotionUpdate }: FaceMonitorProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const intervalRef = useRef<number>();
-  const modelsLoadedRef = useRef(false);
-  const [dominantEmotion, setDominantEmotion] = React.useState<string>('wait...');
+  const intervalRef = useRef<number | null>(null);
+  const inFlightRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const sessionRef = useRef(0);
+  const [dominantEmotion, setDominantEmotion] = React.useState<string>('off');
 
   useEffect(() => {
     const stopAll = () => {
-      if (intervalRef.current) {
+      sessionRef.current += 1;
+
+      if (intervalRef.current !== null) {
         window.clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
       }
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((track) => track.stop());
         streamRef.current = null;
       }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+
+      inFlightRef.current = false;
       setDominantEmotion('off');
     };
 
@@ -32,17 +48,25 @@ export default function FaceMonitor({ enabled, onEmotionUpdate }: FaceMonitorPro
       return;
     }
 
-    const loadModelsAndStart = async () => {
-      const MODEL_URL = 'https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights';
+    const startCamera = async () => {
+      const currentSession = sessionRef.current + 1;
+      sessionRef.current = currentSession;
+
       try {
-        if (!modelsLoadedRef.current) {
-          await Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-            faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-          ]);
-          modelsLoadedRef.current = true;
+        setDominantEmotion('no face');
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 320 },
+            height: { ideal: 240 },
+            facingMode: 'user',
+          },
+        });
+
+        if (sessionRef.current !== currentSession) {
+          stream.getTracks().forEach((track) => track.stop());
+          return;
         }
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
         streamRef.current = stream;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -53,7 +77,7 @@ export default function FaceMonitor({ enabled, onEmotionUpdate }: FaceMonitorPro
       }
     };
 
-    loadModelsAndStart();
+    startCamera();
 
     return () => {
       stopAll();
@@ -61,46 +85,100 @@ export default function FaceMonitor({ enabled, onEmotionUpdate }: FaceMonitorPro
   }, [enabled]);
 
   const handleVideoPlay = () => {
-    if (!enabled) return;
-    intervalRef.current = window.setInterval(async () => {
-      if (videoRef.current) {
-        if (videoRef.current.readyState === 4) {
-          const detections = await faceapi
-            .detectSingleFace(
-            videoRef.current,
-            new faceapi.TinyFaceDetectorOptions()
-            )
-            .withFaceExpressions();
+    if (!enabled || intervalRef.current !== null) {
+      return;
+    }
 
-          if (detections) {
-            const exps = detections.expressions as unknown as Record<string, number>;
-            onEmotionUpdate(exps);
-            
-            const maxEmotion = Object.entries(exps).reduce((a, b) => a[1] > b[1] ? a : b);
-            setDominantEmotion(`${maxEmotion[0]} ${(maxEmotion[1] * 100).toFixed(0)}%`);
-          }
-        }
+    const currentSession = sessionRef.current;
+    if (!canvasRef.current) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 320;
+      canvas.height = 240;
+      canvasRef.current = canvas;
+    }
+
+    intervalRef.current = window.setInterval(async () => {
+      if (!videoRef.current || videoRef.current.readyState !== 4 || inFlightRef.current || sessionRef.current !== currentSession) {
+        return;
       }
-    }, 500);
+
+      const canvas = canvasRef.current;
+      const context = canvas?.getContext('2d', { willReadFrequently: true });
+      if (!canvas || !context) {
+        setDominantEmotion('error');
+        return;
+      }
+
+      context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      const imageBase64 = dataUrl.split(',')[1];
+
+      if (!imageBase64) {
+        setDominantEmotion('error');
+        return;
+      }
+
+      inFlightRef.current = true;
+      const abortController = new AbortController();
+      abortControllerRef.current = abortController;
+
+      try {
+        const result = await analyzeEmotionFrame(
+          {
+            image_base64: imageBase64,
+            mime_type: 'image/jpeg',
+            capture_width: canvas.width,
+            capture_height: canvas.height,
+          },
+          abortController.signal
+        );
+
+        if (sessionRef.current !== currentSession) {
+          return;
+        }
+
+        if (!result.face_found) {
+          setDominantEmotion('no face');
+          return;
+        }
+
+        onEmotionUpdate(result.emotions);
+        if (result.dominant_emotion && typeof result.dominant_score === 'number') {
+          setDominantEmotion(`${result.dominant_emotion} ${(result.dominant_score * 100).toFixed(0)}%`);
+          return;
+        }
+
+        setDominantEmotion('error');
+      } catch (error) {
+        if (abortController.signal.aborted || sessionRef.current !== currentSession) {
+          return;
+        }
+        console.error('Emotion inference failed:', error);
+        setDominantEmotion('error');
+      } finally {
+        if (abortControllerRef.current === abortController) {
+          abortControllerRef.current = null;
+        }
+        inFlightRef.current = false;
+      }
+    }, 700);
   };
 
   return (
-    <div className={`relative h-20 w-28 overflow-hidden rounded-2xl border-2 shadow-lg sm:h-24 sm:w-32 ${enabled ? 'border-indigo-500/30 bg-black' : 'border-slate-200 bg-slate-100'}`}>
+    <div className={`relative w-32 h-24 rounded-lg overflow-hidden border-2 shadow-lg ${enabled ? 'bg-black border-indigo-500/30' : 'bg-slate-100 border-slate-200'}`}>
       <video
         ref={videoRef}
         autoPlay
         muted
         playsInline
         onPlay={handleVideoPlay}
-        className={`absolute inset-0 h-full w-full object-cover grayscale opacity-80 ${enabled ? '' : 'hidden'}`}
+        className={`absolute inset-0 w-full h-full object-cover grayscale opacity-80 ${enabled ? '' : 'hidden'}`}
       />
       <div className="absolute bottom-1 right-1 flex items-center gap-1">
-        <span className={`rounded px-1 text-[10px] font-mono ${enabled ? 'bg-black/50 text-white' : 'bg-white/80 text-slate-600'}`}>
-          {dominantEmotion}
-        </span>
-        <div className={`h-2 w-2 rounded-full ${enabled ? 'animate-pulse bg-red-500' : 'bg-slate-300'}`} />
+         <span className={`text-[10px] font-mono px-1 rounded ${enabled ? 'text-white bg-black/50' : 'text-slate-600 bg-white/80'}`}>{dominantEmotion}</span>
+        <div className={`w-2 h-2 rounded-full ${enabled ? 'bg-red-500 animate-pulse' : 'bg-slate-300'}`} />
       </div>
-      <p className={`absolute left-1 top-1 text-[7px] font-bold uppercase tracking-wider sm:text-[8px] ${enabled ? 'text-white/70' : 'text-slate-500'}`}>
+      <p className={`absolute top-1 left-1 text-[8px] uppercase font-bold tracking-wider ${enabled ? 'text-white/70' : 'text-slate-500'}`}>
         {enabled ? 'AI Emotion' : 'Emotion Off'}
       </p>
     </div>

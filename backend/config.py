@@ -1,7 +1,20 @@
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+def _resolve_path(value: str, fallback: Path) -> str:
+    if not value:
+        return str(fallback)
+    raw_path = Path(value)
+    if raw_path.is_absolute():
+        return str(raw_path)
+    return str((BASE_DIR / raw_path).resolve())
 
 
 class Config:
@@ -26,3 +39,17 @@ class Config:
 
     # Frontend origin (for CORS)
     FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:8003")
+
+    # Vision inference / model distribution
+    VISION_MODEL_DIR = _resolve_path(os.getenv("VISION_MODEL_DIR", ""), BASE_DIR / "assets" / "models-cache")
+    VISION_MODEL_DOWNLOAD_TIMEOUT_SECONDS = int(os.getenv("VISION_MODEL_DOWNLOAD_TIMEOUT_SECONDS", "180"))
+    VISION_AUTO_DOWNLOAD_ENABLED = os.getenv("VISION_AUTO_DOWNLOAD_ENABLED", "true").lower() in {"1", "true", "yes", "on"}
+    VISION_RELEASE_BASE_URL = os.getenv(
+        "VISION_RELEASE_BASE_URL",
+        "https://github.com/YouXiangyu/PsySight/releases/download/models-v1",
+    )
+    VISION_FACE_MODEL_URL = os.getenv("VISION_FACE_MODEL_URL", "")
+    VISION_EXPR_MODEL_URL = os.getenv("VISION_EXPR_MODEL_URL", "")
+    VISION_FACE_MODEL_SHA256 = os.getenv("VISION_FACE_MODEL_SHA256", "")
+    VISION_EXPR_MODEL_SHA256 = os.getenv("VISION_EXPR_MODEL_SHA256", "")
+    VISION_MAX_IMAGE_BYTES = int(os.getenv("VISION_MAX_IMAGE_BYTES", "1048576"))
